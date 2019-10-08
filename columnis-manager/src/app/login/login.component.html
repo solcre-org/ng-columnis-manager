@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+            <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+                <input type="text" class="form-control" id="email" formControlName="email" placeholder="Usuario@dominio.com" name="email"><br>
+                <input type="password" class="form-control" id="password" formControlName="password" name="password" placeholder="Contraseña"><br>
+                <button class="btn btn-primary" type="submit" [disabled]="!signinForm.valid">ENTRAR</button>
+            </form>         
+        </div>   
+    </div>
+</div>
