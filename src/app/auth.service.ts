@@ -1,12 +1,14 @@
+import { LocalStorageService } from 'angular-2-local-storage';
 
 export class AuthService {
-    loggedIn = false;
+    public localStorage:any;
+    constructor (private localStorageService: LocalStorageService) {}
 
     isAuthenticated() {
         const promise = new Promise(
             (resolve, reject) => {
                 setTimeout(() => {
-                    resolve(this.loggedIn);
+                    resolve(this.localStorageService.get('loggedIn'));
                 }, 800);
             }
         )
@@ -14,11 +16,11 @@ export class AuthService {
     }
 
     login() {
-        this.loggedIn = true;
+        this.localStorageService.set('loggedIn', true);
     }
    
     logout() {
-        this.loggedIn = false;
+        this.localStorage = this.localStorageService.set('loggedIn', false);
     }
 
 }

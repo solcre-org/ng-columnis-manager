@@ -5,7 +5,7 @@ import { AuthService } from '../auth.service';
 
 export class LoggingService {
     constructor(private authService: AuthService,private httpClient: HttpClient, private router: Router) {}
-
+    
     logStatusChange( status: string) {
         console.log('A server status changed: ' + status );
     }

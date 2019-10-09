@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth-guard-service';
 import { PlatformComponent } from './platform/platform.component';
+import { LocalStorageModule } from 'angular-2-local-storage';
 
 
 @NgModule({
@@ -23,6 +24,10 @@ import { PlatformComponent } from './platform/platform.component';
     PlatformComponent
   ],
   imports: [
+    LocalStorageModule.forRoot({
+      prefix: 'columnis-manager',
+      storageType: 'localStorage'
+  }),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
