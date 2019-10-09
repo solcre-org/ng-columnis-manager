@@ -1,4 +1,3 @@
-// import { resolve } from 'dns';
 
 export class AuthService {
     loggedIn = false;
@@ -17,6 +16,7 @@ export class AuthService {
     login() {
         this.loggedIn = true;
     }
+   
     logout() {
         this.loggedIn = false;
     }

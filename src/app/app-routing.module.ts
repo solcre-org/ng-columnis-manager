@@ -7,7 +7,7 @@ import { AuthGuard } from './auth-guard-service';
 const routes: Routes = [
   { path: 'oauth', component: LoginComponent },
   { path: '', canActivate: [AuthGuard], component: HeaderComponent },
-  { path: 'platform', component: HeaderComponent } 
+  { path: 'platform', canActivate: [AuthGuard], component: HeaderComponent } 
 
 ];
 @NgModule({

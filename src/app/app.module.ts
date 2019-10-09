@@ -11,6 +11,7 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth-guard-service';
+import { PlatformComponent } from './platform/platform.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AuthGuard } from './auth-guard-service';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    LoginComponent
+    LoginComponent,
+    PlatformComponent
   ],
   imports: [
     BrowserModule,

@@ -1,9 +1,10 @@
 import { HttpClientModule, HttpClient} from  '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from './../environments/environment';
+import { environment } from '../../environments/environment';
+import { AuthService } from '../auth.service';
 
 export class LoggingService {
-    constructor(private httpClient: HttpClient, private router: Router) {}
+    constructor(private authService: AuthService,private httpClient: HttpClient, private router: Router) {}
 
     logStatusChange( status: string) {
         console.log('A server status changed: ' + status );
@@ -19,6 +20,7 @@ export class LoggingService {
             "password": password
         }).subscribe(
             data  => {
+                this.authService.login();
                 console.log("Logged in");
                 this.router.navigate(['/platform']);
 
@@ -27,5 +29,13 @@ export class LoggingService {
                 console.log("Logged failed");
             }
         );
+    }
+
+    logout(){
+        this.authService.logout();
+        console.log("Logged out");
+        this.router.navigate(['/oauth']);
+
+
     }
 }
