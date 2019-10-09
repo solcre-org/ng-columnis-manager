@@ -21,7 +21,7 @@ export class LoggingService {
         }).subscribe(
             data  => {
                 this.authService.login();
-                console.log("Logged in");
+                console.log("Logged in", data);
                 this.router.navigate(['/platform']);
 
             },

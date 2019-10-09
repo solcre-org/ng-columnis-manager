@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { LoggingService } from '../_services/logging.service';
+import { LoggingService } from '../../_services/logging.service';
 
 @Component({
   selector: 'app-login',

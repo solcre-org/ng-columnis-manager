@@ -8,11 +8,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth-guard-service';
 import { PlatformComponent } from './platform/platform.component';
 import { LocalStorageModule } from 'angular-2-local-storage';
+import { AuthModule } from './auth/auth.module';
 
 
 @NgModule({
@@ -20,7 +20,6 @@ import { LocalStorageModule } from 'angular-2-local-storage';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    LoginComponent,
     PlatformComponent
   ],
   imports: [
@@ -32,7 +31,8 @@ import { LocalStorageModule } from 'angular-2-local-storage';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AuthModule
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
