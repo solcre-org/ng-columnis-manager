@@ -1,26 +1,30 @@
+import { LocalStorageService } from 'angular-2-local-storage';
 import { HttpClientModule, HttpClient} from  '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { AuthService } from '../auth.service';
 
-export class LoggingService {
-    constructor(private authService: AuthService,private httpClient: HttpClient, private router: Router) {}
-    
-    logStatusChange( status: string) {
-        console.log('A server status changed: ' + status );
+export class AuthService {
+    public localStorage:any;
+    constructor (private router: Router, private httpClient: HttpClient, private localStorageService: LocalStorageService) {}
+
+    isAuthenticated() {
+        const currentUser = this.localStorageService.get('access_token');
+        if (currentUser) {
+            return true;
+        }
+        return false;
     }
-
 
     signIn(email: string, password: string) {
         let username = email.split("@");
-        this.httpClient.post(environment.apiUrl, {
+        this.httpClient.post(environment.url + environment.oauth, {
             "client_id":  "columnis_manager",
             "grant_type":  "password",
             "username": username[0],
             "password": password
         }).subscribe(
             data  => {
-                this.authService.login();
+                this.localStorageService.set('access_token', data['access_token']);
                 console.log("Logged in", data);
                 this.router.navigate(['/platform']);
 
@@ -32,10 +36,9 @@ export class LoggingService {
     }
 
     logout(){
-        this.authService.logout();
+        this.localStorageService.clearAll();
         console.log("Logged out");
         this.router.navigate(['/oauth']);
-
-
     }
+
 }

@@ -13,10 +13,7 @@ import { LocalStorageModule } from 'angular-2-local-storage';
         LoginComponent
     ], 
     imports: [
-        LocalStorageModule.forRoot({
-            prefix: 'columnis-manager',
-            storageType: 'localStorage'
-        }),
+        LocalStorageModule,
         BrowserModule,
         AppRoutingModule,
         FormsModule,
