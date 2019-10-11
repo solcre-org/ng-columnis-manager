@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
 export class AuthService {
-    public localStorage:any;
+
     constructor (private router: Router, private httpClient: HttpClient, private localStorageService: LocalStorageService) {}
 
     isAuthenticated() {
@@ -17,7 +17,7 @@ export class AuthService {
 
     signIn(email: string, password: string) {
         let username = email.split("@");
-        this.httpClient.post(environment.url + environment.oauth, {
+        this.httpClient.post(environment.apiURL + environment.oauthURI, {
             "client_id":  "columnis_manager",
             "grant_type":  "password",
             "username": username[0],
@@ -26,7 +26,7 @@ export class AuthService {
             data  => {
                 this.localStorageService.set('access_token', data['access_token']);
                 console.log("Logged in", data);
-                this.router.navigate(['/platform']);
+                this.router.navigate(['/user_groups']);
 
             },
             error  => {
@@ -39,6 +39,10 @@ export class AuthService {
         this.localStorageService.clearAll();
         console.log("Logged out");
         this.router.navigate(['/oauth']);
+    }
+
+    getToken() {
+        return this.localStorageService.get('access_token');
     }
 
 }

@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  url: "https://api.columnis.com/",
-  oauth: '004/oauth',
-  user_groups: 'columnis/user_groups'
+  apiURL: "https://api.columnis.com/004",
+  oauthURI: '/oauth',
+  user_groupsURI: '/columnis/user_groups'
 };
 
 /*

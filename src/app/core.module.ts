@@ -1,9 +1,20 @@
 import { NgModule } from '@angular/core';
-import { AuthGuard } from './auth-guard-service';
-import { AuthService } from './auth/auth.service';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
-    providers: [AuthService, AuthGuard],
+    declarations: [
+        HeaderComponent,
+        FooterComponent,
+        NavbarComponent
+    ],
+    exports: [
+        HeaderComponent,
+        FooterComponent,
+        NavbarComponent
+    ]
+
 })
 export class CoreModule {
 

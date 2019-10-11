@@ -5,23 +5,17 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { PlatformComponent } from './platform/platform.component';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core.module';
-import { NavbarComponent } from './navbar/navbar.component';
 import { UserGroupComponent } from './user/user-group/user-group.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth-guard-service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    PlatformComponent,
-    NavbarComponent,
     UserGroupComponent
   ],
   imports: [
@@ -37,6 +31,7 @@ import { UserGroupComponent } from './user/user-group/user-group.component';
     AuthModule,
     CoreModule
   ],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

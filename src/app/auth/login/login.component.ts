@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   signinForm: FormGroup;
   
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
 
   ngOnInit() {
     this.signinForm = this.formBuilder.group({      
