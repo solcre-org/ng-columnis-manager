@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AuthModule } from './auth/auth.module';
-import { CoreModule } from './core.module';
+import { CoreModule } from './core/core.module';
 import { UserGroupComponent } from './user/user-group/user-group.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth-guard-service';

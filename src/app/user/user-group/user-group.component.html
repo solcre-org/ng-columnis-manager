@@ -1,6 +1,28 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
-<p>Lista de grupos de usuarios</p>
-<li *ngFor="let user_group of user_groups">
+ 
+<h2>Lista de grupos de usuarios</h2>
+<form [formGroup]="newGroupForm" (ngSubmit)="onAddGroup()">
+   <div>
+      <input type="text" class="form-control" id="newGroup" formControlName="newGroup" placeholder="Agregar nuevo grupo" name="newGroup"><br>
+   </div>
+   <button class="btn btn-primary" type="submit" [disabled]="!newGroupForm.valid">Agregar grupo</button>
+</form>   
+<hr>
+<hr>
+<li *ngFor="let user_group of user_groups_names">
+<!-- <li *ngFor="let user_group of user_groups | keyvalue"> -->
+   <!-- {{ user_group.key }} -->
    {{ user_group }}
-</li>
+   <form [formGroup]="updateGroupForm" (ngSubmit)="onUpdateGroup(user_group)">
+      <div>
+         <input type="text" class="form-control" id="updateGroup" formControlName="updateGroup" placeholder="Modificar grupo" name="updateGroup"><br>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!updateGroupForm.valid">Guardar</button>
+   </form>      
+
+   <div class="btn-group mr-2">
+      <button class="btn btn-primary" (click)="onDeleteGroup(user_group)">Eliminar</button>
+   </div>
+   <hr>
+</li>  
