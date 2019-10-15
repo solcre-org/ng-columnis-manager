@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UserGroup } from './user-group.model';
 
 @Component({
   selector: 'app-user-group',
@@ -10,8 +11,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
   styleUrls: ['./user-group.component.css']
 })
 export class UserGroupComponent implements OnInit {
-  user_groups = {};
-  user_groups_names = [];
+  user_groups: UserGroup[] = [];
 
   newGroupForm: FormGroup;
   updateGroupForm: FormGroup;
@@ -25,7 +25,7 @@ export class UserGroupComponent implements OnInit {
 
   ngOnInit() {
     this.getUserGroups();
-    console.log(this.authService.getToken());
+    console.log(this.authService.getAccessToken());
     this.newGroupForm = this.formBuilder.group({
       'newGroup' : this.formBuilder.control(null, [Validators.required])
     });
@@ -41,7 +41,7 @@ export class UserGroupComponent implements OnInit {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'text/html; charset=UTF-8',
-        'Authorization': 'Bearer ' + this.authService.getToken()
+        'Authorization': 'Bearer ' + this.authService.getAccessToken()
       })
     };
 
@@ -49,34 +49,35 @@ export class UserGroupComponent implements OnInit {
       console.log(data);
       for (let user_group in data['_embedded']['user_groups']) {
 
-        const id = data["_embedded"]['user_groups'][user_group]['id'];
-        const name = data["_embedded"]['user_groups'][user_group]['grupo'];
-        this.user_groups[name] = id;
-
-        this.user_groups_names.push(name);
-        
+        let id = data["_embedded"]['user_groups'][user_group]['id'];
+        let name = data["_embedded"]['user_groups'][user_group]['grupo'];        
+        let temp : UserGroup = {id, name};
+        this.user_groups.push(temp);
 
       }
       console.log(this.user_groups);
 
       // console.log(data["_embedded"]['user_groups']); 
 
-    }), (error: HttpErrorResponse)  => {console.log(error)};;
+    }), (error: HttpErrorResponse)  => {
+      console.log(error)
+    };;
   }
 
   onAddGroup(){
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json;charset=UTF-8',
-        'Authorization': 'Bearer ' + this.authService.getToken(),
+        'Authorization': 'Bearer ' + this.authService.getAccessToken(),
       })
     };
     this.httpClient.post(environment.apiURL + environment.user_groupsURI, {'grupo': this.newGroupForm.value.newGroup} ,  httpOptions ).subscribe((data: any) => {
       console.log(data);
       const name = data['grupo'];
       const id = data['id'];
-      this.user_groups[name] = id;  
-      this.user_groups_names.push(name);
+
+      let temp : UserGroup = {id, name};
+      this.user_groups.push(temp);
 
     }, 
     (error: HttpErrorResponse) => {
@@ -85,21 +86,18 @@ export class UserGroupComponent implements OnInit {
     this.newGroupForm.reset();
   }
 
-  onDeleteGroup(group){
+  onDeleteGroup(group: UserGroup){
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'Authorization': 'Bearer ' + this.authService.getToken(),
+        'Authorization': 'Bearer ' + this.authService.getAccessToken(),
       })
     };
-    this.httpClient.delete(environment.apiURL + environment.user_groupsURI + '/' + this.user_groups[group] + '?' ,  httpOptions ).subscribe((data:any) => {
+      this.httpClient.delete(environment.apiURL + environment.user_groupsURI + '/' + group.id + '?' ,  httpOptions ).subscribe((data:any) => {
       console.log(data);
+      const index = this.user_groups.indexOf(group);
+      console.log(this.user_groups.splice(index, 1));
 
-      this.user_groups[this.updateGroupForm.value.updateGroup] = this.user_groups[group];
-      delete this.user_groups[group];
-      const index = this.user_groups_names.indexOf(group);
-
-      this.user_groups_names.splice(index, 1);
     }, 
     (error: HttpErrorResponse) => {
       console.log(error['error']);
@@ -107,25 +105,24 @@ export class UserGroupComponent implements OnInit {
     )
   }
 
-  onUpdateGroup(group) {
+  onUpdateGroup(group: UserGroup) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'Authorization': 'Bearer ' + this.authService.getToken(),
+        'Authorization': 'Bearer ' + this.authService.getAccessToken(),
       })
     };
-    this.httpClient.put(environment.apiURL + environment.user_groupsURI + '/' + this.user_groups[group] + '?' , {"grupo": this.updateGroupForm.value.updateGroup} ,httpOptions ).subscribe((data:any) => {
+    this.httpClient.put(environment.apiURL + environment.user_groupsURI + '/' + group.id + '?' , {"grupo": this.updateGroupForm.value.updateGroup} ,httpOptions ).subscribe((data:any) => {
       console.log(data);
 
-      this.user_groups[this.updateGroupForm.value.updateGroup] = this.user_groups[group];
-      delete this.user_groups[group];
-      const index = this.user_groups_names.indexOf(group);
-      this.user_groups_names[index] = this.updateGroupForm.value.updateGroup;
+      const index = this.user_groups.indexOf(group);
+      this.user_groups[index].name = this.updateGroupForm.value.updateGroup;
+      this.updateGroupForm.reset();
+
     }, 
     (error: HttpErrorResponse) => {
       console.log(error['error']);
     })
-    // this.updateGroupForm.reset();
 
   }
 

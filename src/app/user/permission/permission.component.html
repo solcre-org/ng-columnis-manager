@@ -1,0 +1,16 @@
+<app-navbar></app-navbar>
+<app-header></app-header>
+ 
+<h2>Lista de permisos de usuarios</h2>
+<form [formGroup]="newPermissionForm" (ngSubmit)="onAddPermission()">
+   <div>
+      <input type="text" class="form-control" id="newPermission" formControlName="newPermission" placeholder="Agregar nuevo permiso" name="newPermission"><br>
+   </div>
+   <button class="btn btn-primary" type="submit" [disabled]="!newPermissionForm.valid">Agregar permiso</button>
+</form>   
+<hr>
+<hr>
+<li *ngFor="let permission of permissions">
+    {{ permission.name }} 
+   <hr>
+</li>  

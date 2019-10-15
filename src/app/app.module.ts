@@ -11,12 +11,14 @@ import { CoreModule } from './core/core.module';
 import { UserGroupComponent } from './user/user-group/user-group.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth-guard-service';
+import { PermissionComponent } from './user/permission/permission.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserGroupComponent
+    UserGroupComponent,
+    PermissionComponent
   ],
   imports: [
     LocalStorageModule.forRoot({

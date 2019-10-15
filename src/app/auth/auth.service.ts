@@ -41,7 +41,7 @@ export class AuthService {
         this.router.navigate(['/oauth']);
     }
 
-    getToken() {
+    getAccessToken(): string {
         return this.localStorageService.get('access_token');
     }
 

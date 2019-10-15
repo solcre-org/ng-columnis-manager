@@ -11,9 +11,8 @@
 <hr>
 <hr>
 <li *ngFor="let user_group of user_groups_names">
-<!-- <li *ngFor="let user_group of user_groups | keyvalue"> -->
-   <!-- {{ user_group.key }} -->
-   {{ user_group }}
+<li *ngFor="let user_group of user_groups">
+    {{ user_group.name }} 
    <form [formGroup]="updateGroupForm" (ngSubmit)="onUpdateGroup(user_group)">
       <div>
          <input type="text" class="form-control" id="updateGroup" formControlName="updateGroup" placeholder="Modificar grupo" name="updateGroup"><br>
