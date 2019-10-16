@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserGroup } from './user-group.model';
+import { ApiService } from 'src/app/share/apiService/api.service';
 
 @Component({
   selector: 'app-user-group',
@@ -15,114 +16,87 @@ export class UserGroupComponent implements OnInit {
 
   newGroupForm: FormGroup;
   updateGroupForm: FormGroup;
-
+  filteredStatus = '';
   constructor(
-    private httpClient: HttpClient, 
     private authService: AuthService,
-    private formBuilder: FormBuilder
-    ){ }
+    private formBuilder: FormBuilder,
+    private apiService: ApiService
+
+  ) { }
 
 
   ngOnInit() {
-    this.getUserGroups();
+    this.getUserGroups(1);
     console.log(this.authService.getAccessToken());
     this.newGroupForm = this.formBuilder.group({
-      'newGroup' : this.formBuilder.control(null, [Validators.required])
+      'newGroup': this.formBuilder.control(null, [Validators.required])
     });
     this.updateGroupForm = this.formBuilder.group({
-      'updateGroup' : this.formBuilder.control(null, [Validators.required])
+      'updateGroup': this.formBuilder.control(null, [Validators.required])
     })
   }
 
- 
 
-  getUserGroups() {
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'text/html; charset=UTF-8',
-        'Authorization': 'Bearer ' + this.authService.getAccessToken()
-      })
-    };
-
-    this.httpClient.get(environment.apiURL + environment.user_groupsURI, httpOptions).subscribe((data: any) => {
+  getUserGroups(current_page) {
+    this.apiService.fetchData(environment.user_groupsURI + '?page=' + current_page).subscribe((data: any) => {
+      const array_data = data['data'];
       console.log(data);
-      for (let user_group in data['_embedded']['user_groups']) {
-
-        let id = data["_embedded"]['user_groups'][user_group]['id'];
-        let name = data["_embedded"]['user_groups'][user_group]['grupo'];        
-        let temp : UserGroup = {id, name};
-        this.user_groups.push(temp);
-
+      for (let user_group in array_data) {
+        const id = array_data[user_group]['id'];
+        const grupo = array_data[user_group]['grupo'];
+        const groupToAdd: UserGroup = { id, grupo };
+        this.user_groups.push(groupToAdd);
       }
-      console.log(this.user_groups);
-
-      // console.log(data["_embedded"]['user_groups']); 
-
-    }), (error: HttpErrorResponse)  => {
-      console.log(error)
-    };;
+    },
+      (error: HttpErrorResponse) => {
+        console.log(error['error']);
+      })
   }
 
-  onAddGroup(){
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json;charset=UTF-8',
-        'Authorization': 'Bearer ' + this.authService.getAccessToken(),
+  onAddGroup() {
+    const grupo: string = this.newGroupForm.value.newGroup;
+    const groupToAdd: any = { grupo };
+    console.log(groupToAdd);
+    this.apiService.createObj(environment.user_groupsURI, groupToAdd).subscribe((data: any) => {
+      const grupo = data['data']['grupo'];
+      const id = data['data']['id'];
+      const groupToAdd: UserGroup = { id, grupo };
+      this.user_groups.push(groupToAdd);
+    },
+      (error: HttpErrorResponse) => {
+        console.log(error['error']);
       })
-    };
-    this.httpClient.post(environment.apiURL + environment.user_groupsURI, {'grupo': this.newGroupForm.value.newGroup} ,  httpOptions ).subscribe((data: any) => {
-      console.log(data);
-      const name = data['grupo'];
-      const id = data['id'];
-
-      let temp : UserGroup = {id, name};
-      this.user_groups.push(temp);
-
-    }, 
-    (error: HttpErrorResponse) => {
-      console.log(error['error']);
-    })
     this.newGroupForm.reset();
   }
 
-  onDeleteGroup(group: UserGroup){
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization': 'Bearer ' + this.authService.getAccessToken(),
-      })
-    };
-      this.httpClient.delete(environment.apiURL + environment.user_groupsURI + '/' + group.id + '?' ,  httpOptions ).subscribe((data:any) => {
-      console.log(data);
-      const index = this.user_groups.indexOf(group);
-      console.log(this.user_groups.splice(index, 1));
+  onDeleteGroup(group: UserGroup) {
 
-    }, 
-    (error: HttpErrorResponse) => {
-      console.log(error['error']);
-    }
+    this.apiService.deleteObj(environment.user_groupsURI, group.id).subscribe((data: any) => {
+      const index = this.user_groups.indexOf(group);
+      this.user_groups.splice(index, 1);
+
+    },
+      (error: HttpErrorResponse) => {
+        console.log(error['error']);
+      }
     )
   }
 
   onUpdateGroup(group: UserGroup) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization': 'Bearer ' + this.authService.getAccessToken(),
-      })
-    };
-    this.httpClient.put(environment.apiURL + environment.user_groupsURI + '/' + group.id + '?' , {"grupo": this.updateGroupForm.value.updateGroup} ,httpOptions ).subscribe((data:any) => {
-      console.log(data);
-
+    const id = group.id;
+    const grupo = this.updateGroupForm.value.updateGroup;
+    const groupToUpdate: any = { id, grupo };
+    console.log(groupToUpdate);
+    this.apiService.updateObj(environment.user_groupsURI, groupToUpdate).subscribe((data: any) => {
       const index = this.user_groups.indexOf(group);
-      this.user_groups[index].name = this.updateGroupForm.value.updateGroup;
-      this.updateGroupForm.reset();
+      this.user_groups[index].grupo = grupo;
+      // this.updateGroupForm.reset();
 
-    }, 
-    (error: HttpErrorResponse) => {
-      console.log(error['error']);
-    })
+    },
+      (error: HttpErrorResponse) => {
+        console.log(error['error']);
+      })
 
   }
 

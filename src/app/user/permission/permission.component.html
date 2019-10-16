@@ -1,16 +1,41 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
- 
 <h2>Lista de permisos de usuarios</h2>
+<div>
+   <input type="text" placeholder="Filtre por nombre" [(ngModel)]="filteredStatus"><br>
+   <hr>
+</div>
 <form [formGroup]="newPermissionForm" (ngSubmit)="onAddPermission()">
    <div>
-      <input type="text" class="form-control" id="newPermission" formControlName="newPermission" placeholder="Agregar nuevo permiso" name="newPermission"><br>
+      <input type="text" class="form-control" id="newPermissionName" formControlName="newPermissionName"
+         placeholder="Agregar nuevo permiso" name="newPermissionName"><br>
+   </div>
+   <div>
+      <input type="text" class="form-control" id="newPermissionDescription" formControlName="newPermissionDescription"
+         placeholder="Descripción" name="newPermissionDescription"><br>
    </div>
    <button class="btn btn-primary" type="submit" [disabled]="!newPermissionForm.valid">Agregar permiso</button>
-</form>   
+</form>
 <hr>
 <hr>
-<li *ngFor="let permission of permissions">
-    {{ permission.name }} 
+<li *ngFor="let permission of permissions | filter:filteredStatus:'nombre'">
+   {{ permission.nombre }}
+   <form [formGroup]="updatePermissionForm" (ngSubmit)="onUpdatePermission(permission)">
+      <div>
+         <input type="text" class="form-control" id="updatePermissionName" formControlName="updatePermissionName"
+            placeholder="Modificar nombre" name="updatePermissionName"><br>
+      </div>
+      <div>
+         <input type="text" class="form-control" id="updatePermissionDescription"
+            formControlName="updatePermissionDescription" value="{{permission.descripcion}}"
+            name="updatePermissionDescription"><br>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!updatePermissionForm.valid">Guardar</button>
+   </form>
+   <div class="btn-group mr-2">
+      <button class="btn btn-primary" (click)="onDeletePermission(permission)">Eliminar</button>
+   </div>
    <hr>
-</li>  
+</li>
+<!-- <app-pager [ApiHalPagerModel]="apiHalPagerModel"></app-pager> -->
+

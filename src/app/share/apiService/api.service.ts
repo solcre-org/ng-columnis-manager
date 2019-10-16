@@ -251,35 +251,33 @@ export class ApiService {
 				return this.parseSingleResponse(response);
 			});
 	}
+		*/
+
 					
 	//Update an object using PUT
-	public updateObj(uri: string, obj): Observable<ApiResponseModel>{
+	public updateObj(uri: string, obj: any): Observable<ApiResponseModel>{
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
-				'Authorization': 'Bearer ' + this.authService.getAccessToken().token
+				'Content-Type':  'application/json',
+				'Authorization': 'Bearer ' + this.getAccessToken()
 			})
 		};
-​
+
 		//Url
-		const url: string = this.environmentService.getApiUrl() + uri + '/' + obj.id;
-​
-		//check form data
-		if(FormUtility.needFormData(obj)){
-			obj = FormUtility.jsonToFormData(obj);
-		}
+		const url: string = environment.apiURL + uri + '/' + obj.id;
 ​
 		//Do request
 		return this.httpClient
 			.put(url, obj, httpOptions)
-			//.retry(this.environmentService.getHttpRetryTimes())
-			.map((response: any) => {
+			.pipe(
+				map((response: any) => {
 				//Return api response model
-				return this.parseSingleResponse(response);
-			});
+					return this.parseSingleResponse(response);
+			}));
 	}
 ​
-	
+	/*
 ​
 	public partialUpdateList(uri: string, data: any[]): Observable<ApiResponseModel>{
 		//Post options

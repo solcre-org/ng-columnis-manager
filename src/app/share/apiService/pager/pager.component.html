@@ -1,0 +1,26 @@
+<nav class="pagination" *ngIf="range.length > 1">
+	<a 
+		class="pagination-previous"
+		[class.disabled]="(first === current)"
+		(click)="onPrev()">Anterior</a>
+
+	<a 
+		class="pagination-next"
+		[class.disabled]="last === current"
+		(click)="onNext()">Siguiente</a>
+
+	<ul class="pagination-list">
+	  <li *ngFor="let r of range">
+		<a 
+			*ngIf="r && (r !== current)"
+			(click)="onPage(r)"
+			class="pagination-link">{{ r }}</a>
+		<a 
+			*ngIf="r === current"
+			class="pagination-link is-current">{{ r }}</a>
+		<span
+			*ngIf="!r" 
+			class="pagination-ellipsis">&hellip;</span>
+	  </li>
+	</ul>
+  </nav>

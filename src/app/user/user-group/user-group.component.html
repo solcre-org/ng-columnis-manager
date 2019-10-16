@@ -2,6 +2,9 @@
 <app-header></app-header>
  
 <h2>Lista de grupos de usuarios</h2>
+<div>
+   <input type="text" placeholder="Filtre por nombre"  [(ngModel)]="filteredStatus"><br><hr>
+</div>
 <form [formGroup]="newGroupForm" (ngSubmit)="onAddGroup()">
    <div>
       <input type="text" class="form-control" id="newGroup" formControlName="newGroup" placeholder="Agregar nuevo grupo" name="newGroup"><br>
@@ -10,9 +13,8 @@
 </form>   
 <hr>
 <hr>
-<li *ngFor="let user_group of user_groups_names">
-<li *ngFor="let user_group of user_groups">
-    {{ user_group.name }} 
+<li *ngFor="let user_group of user_groups | filter:filteredStatus:'grupo'">
+    {{ user_group.grupo }} 
    <form [formGroup]="updateGroupForm" (ngSubmit)="onUpdateGroup(user_group)">
       <div>
          <input type="text" class="form-control" id="updateGroup" formControlName="updateGroup" placeholder="Modificar grupo" name="updateGroup"><br>

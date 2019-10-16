@@ -12,13 +12,19 @@ import { UserGroupComponent } from './user/user-group/user-group.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth-guard-service';
 import { PermissionComponent } from './user/permission/permission.component';
+import { FilterPipe } from './share/fiter.pipe';
+import { PagerComponent } from './share/apiService/pager/pager.component';
+import { ApiHalPagerModel } from './share/apiService/api-hal-pager.model';
+import { ShareModule } from './share/share.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     UserGroupComponent,
-    PermissionComponent
+    PermissionComponent,
+    FilterPipe,
+    PagerComponent,
   ],
   imports: [
     LocalStorageModule.forRoot({
