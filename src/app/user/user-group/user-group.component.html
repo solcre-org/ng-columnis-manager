@@ -13,8 +13,8 @@
 </form>   
 <hr>
 <hr>
-<li *ngFor="let user_group of user_groups | filter:filteredStatus:'grupo'">
-    {{ user_group.grupo }} 
+<li *ngFor="let user_group of user_groups | filter:filteredStatus:'name'">
+    {{ user_group.name }} 
    <form [formGroup]="updateGroupForm" (ngSubmit)="onUpdateGroup(user_group)">
       <div>
          <input type="text" class="form-control" id="updateGroup" formControlName="updateGroup" placeholder="Modificar grupo" name="updateGroup"><br>
@@ -27,3 +27,8 @@
    </div>
    <hr>
 </li>  
+<app-pager 
+   *ngIf="apiHalPagerModel"
+   [pager]="apiHalPagerModel"
+   (onChange)="onChangePage($event)"
+   ></app-pager>

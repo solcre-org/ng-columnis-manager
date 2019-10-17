@@ -14,7 +14,6 @@ import { AuthGuard } from './auth/auth-guard-service';
 import { PermissionComponent } from './user/permission/permission.component';
 import { FilterPipe } from './share/fiter.pipe';
 import { PagerComponent } from './share/apiService/pager/pager.component';
-import { ApiHalPagerModel } from './share/apiService/api-hal-pager.model';
 import { ShareModule } from './share/share.module';
 
 
@@ -24,7 +23,7 @@ import { ShareModule } from './share/share.module';
     UserGroupComponent,
     PermissionComponent,
     FilterPipe,
-    PagerComponent,
+    PagerComponent
   ],
   imports: [
     LocalStorageModule.forRoot({
@@ -38,7 +37,7 @@ import { ShareModule } from './share/share.module';
     ReactiveFormsModule,
     AuthModule,
     CoreModule
-  ],
+    ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })

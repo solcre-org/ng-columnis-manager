@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ApiService } from 'src/app/share/apiService/api.service';
 import { ApiHalPagerModel } from 'src/app/share/apiService/api-hal-pager.model';
+import { ApiResponseModel } from 'src/app/share/apiService/api-response.model';
 
 @Component({
   selector: 'app-permission',
@@ -13,12 +14,13 @@ import { ApiHalPagerModel } from 'src/app/share/apiService/api-hal-pager.model';
   styleUrls: ['./permission.component.css']
 })
 export class PermissionComponent implements OnInit {
+
   permissions: Permission[] = [];
   newPermissionForm: FormGroup;
   updatePermissionForm: FormGroup;
   filteredStatus = '';
 
-  apiHalPagerModel: ApiHalPagerModel = null;
+  apiHalPagerModel: ApiHalPagerModel;
 
 
   constructor(
@@ -28,12 +30,11 @@ export class PermissionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.getPermissions(5);
     console.log(this.authService.getAccessToken());
     this.newPermissionForm = this.formBuilder.group({
       'newPermissionName': this.formBuilder.control(null, [Validators.required]),
-      'newPermissionDescription': this.formBuilder.control(null)
+      'newPermissionDescription': this.formBuilder.control('')
     });
     this.updatePermissionForm = this.formBuilder.group({
       'updatePermissionName': this.formBuilder.control(null, [Validators.required]),
@@ -41,17 +42,18 @@ export class PermissionComponent implements OnInit {
     })
   }
 
+  onChangePage(page) {
+    this.permissions = [];
+    this.getPermissions(page);
+  } 
+
   getPermissions(current_page: number) {
-    this.apiService.fetchData(environment.permissionsURI, { page: current_page }).subscribe((data: any) => {
-      const array_data = data['data'];
-      console.log(data.pager);
-      this.apiHalPagerModel = data.pager;
-      console.log(this.apiHalPagerModel);
+    this.apiService.fetchData(environment.permissionsURI, { page: current_page }).subscribe((response: ApiResponseModel) => {
+      const array_data = response.data;
+      this.apiHalPagerModel = response.pager;
       for (let permission in array_data) {
-        const id = array_data[permission]['id'];
-        const nombre = array_data[permission]['nombre'];
-        const descripcion = array_data[permission]['descripcion'];
-        const permissionToAdd: Permission = { id, nombre, descripcion };
+        let permissionToAdd: Permission = new Permission();
+        permissionToAdd.fromJSON(array_data[permission]);
         this.permissions.push(permissionToAdd);
       }
     },
@@ -63,14 +65,13 @@ export class PermissionComponent implements OnInit {
 
 
   onAddPermission() {
-    const nombre: string = this.newPermissionForm.value.newPermissionName;
-    const descripcion = this.newPermissionForm.value.newPermissionDescription;
-    const permissionToAdd: any = { nombre, descripcion };
-    this.apiService.createObj(environment.permissionsURI, permissionToAdd).subscribe((data: any) => {
-      const id = data['data']['id'];
-      const nombre = data['data']['nombre'];
-      const descripcion = data['data']['descripcion'];
-      const permissionToAdd: Permission = { id, nombre, descripcion };
+    let name = this.newPermissionForm.value.newPermissionName;
+    let description = this.newPermissionForm.value.newPermissionDescription;
+    let permissionToAdd: Permission = new Permission(null, name, description);
+    let json = permissionToAdd.toJSON(permissionToAdd);
+    this.apiService.createObj(environment.permissionsURI, json).subscribe((response: ApiResponseModel) => {
+      const permissionToAdd: Permission = new Permission ();
+      permissionToAdd.fromJSON(response.data);
       this.permissions.push(permissionToAdd);
     },
       (error: HttpErrorResponse) => {
@@ -91,16 +92,16 @@ export class PermissionComponent implements OnInit {
   }
 
   onUpdatePermission(permission: Permission) {
-    console.log(permission);
-    const id = permission.id;
-    const nombre = this.updatePermissionForm.value.updatePermissionName;
-    const descripcion = this.updatePermissionForm.value.updatePermissionDescription;
-    const permissionToUp: any = { id, nombre, descripcion };
-    this.apiService.updateObj(environment.permissionsURI, permissionToUp).subscribe((data: any) => {
-      console.log(data);
+    let id = permission.id;
+    let name = this.updatePermissionForm.value.updatePermissionName;
+    let description = this.updatePermissionForm.value.updatePermissionDescription;
+    let permissionToUp: Permission = new Permission ( id, name, description );
+    let json = permission.toJSON(permissionToUp);
+    this.apiService.updateObj(environment.permissionsURI, json).subscribe((response: ApiResponseModel) => {
       const index = this.permissions.indexOf(permission);
-      this.permissions[index].nombre = this.updatePermissionForm.value.updatePermissionName;
-      this.permissions[index].descripcion = this.updatePermissionForm.value.updatePermissionDescription;
+      this.permissions[index].name = this.updatePermissionForm.value.updatePermissionName;
+      this.permissions[index].description = this.updatePermissionForm.value.updatePermissionDescription;
     })
   }
+
 }

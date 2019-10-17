@@ -48,7 +48,6 @@ export class PagerComponent implements OnInit {
 		if (this.current != this.last) {
 			//Increase
 			this.current++;
-
 			//Generate range angain
 			this.range = this.generateRange(this.current, this.last);
 

@@ -18,8 +18,8 @@
 </form>
 <hr>
 <hr>
-<li *ngFor="let permission of permissions | filter:filteredStatus:'nombre'">
-   {{ permission.nombre }}
+<li *ngFor="let permission of permissions | filter:filteredStatus:'name'">
+   {{ permission.name }}
    <form [formGroup]="updatePermissionForm" (ngSubmit)="onUpdatePermission(permission)">
       <div>
          <input type="text" class="form-control" id="updatePermissionName" formControlName="updatePermissionName"
@@ -27,7 +27,7 @@
       </div>
       <div>
          <input type="text" class="form-control" id="updatePermissionDescription"
-            formControlName="updatePermissionDescription" value="{{permission.descripcion}}"
+            formControlName="updatePermissionDescription" value="{{permission.description}}"
             name="updatePermissionDescription"><br>
       </div>
       <button class="btn btn-primary" type="submit" [disabled]="!updatePermissionForm.valid">Guardar</button>
@@ -37,5 +37,9 @@
    </div>
    <hr>
 </li>
-<!-- <app-pager [ApiHalPagerModel]="apiHalPagerModel"></app-pager> -->
+<app-pager 
+   *ngIf="apiHalPagerModel"
+   [pager]="apiHalPagerModel"
+   (onChange)="onChangePage($event)"
+   ></app-pager>
 
