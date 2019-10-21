@@ -15,6 +15,7 @@ import { PermissionComponent } from './user/permission/permission.component';
 import { FilterPipe } from './share/fiter.pipe';
 import { PagerComponent } from './share/apiService/pager/pager.component';
 import { ShareModule } from './share/share.module';
+import { TableComponent } from './share/table/table.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ShareModule } from './share/share.module';
     UserGroupComponent,
     PermissionComponent,
     FilterPipe,
-    PagerComponent
+    PagerComponent,
+    TableComponent
   ],
   imports: [
     LocalStorageModule.forRoot({

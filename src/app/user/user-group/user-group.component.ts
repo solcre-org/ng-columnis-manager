@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserGroup } from './user-group.model';
 import { ApiService } from 'src/app/share/apiService/api.service';
 import { ApiResponseModel } from 'src/app/share/apiService/api-response.model';
 import { ApiHalPagerModel } from 'src/app/share/apiService/api-hal-pager.model';
+import { TableModel } from 'src/app/share/table/table.model';
+import { TableHeaderModel } from 'src/app/share/table/table-header.model';
+import { TableRowModel } from 'src/app/share/table/table-row.model';
+import { stringify } from '@angular/compiler/src/util';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-user-group',
@@ -16,6 +21,10 @@ import { ApiHalPagerModel } from 'src/app/share/apiService/api-hal-pager.model';
 export class UserGroupComponent implements OnInit {
   user_groups: UserGroup[] = [];
 
+  tableModel: TableModel;
+  headers: TableHeaderModel[] = [];
+  body: TableRowModel[] = [];
+    
   apiHalPagerModel: ApiHalPagerModel;
   newGroupForm: FormGroup;
   updateGroupForm: FormGroup;
@@ -29,6 +38,9 @@ export class UserGroupComponent implements OnInit {
 
 
   ngOnInit() {
+    let header_1: TableHeaderModel = new TableHeaderModel('Id');
+    let header_2: TableHeaderModel = new TableHeaderModel('Nombre');
+    this.headers =[header_1, header_2];
     this.getUserGroups(1);
     console.log(this.authService.getAccessToken());
     this.newGroupForm = this.formBuilder.group({
@@ -53,7 +65,16 @@ export class UserGroupComponent implements OnInit {
         let groupToAdd: UserGroup = new UserGroup();
         groupToAdd.fromJSON(array_data[user_group]);
         this.user_groups.push(groupToAdd);
+
+
+        let data: string[] = [stringify(groupToAdd.id), groupToAdd.name];
+        let body_temp : TableRowModel = new TableRowModel(groupToAdd, data);
+        this.body.push(body_temp);
+      
       }
+  
+      this.tableModel = new TableModel (this.headers, this.body);
+
     },
       (error: HttpErrorResponse) => {
         console.log(error['error']);
@@ -75,6 +96,19 @@ export class UserGroupComponent implements OnInit {
     this.newGroupForm.reset();
   }
 
+  onDelete(group: UserGroup) {
+    console.log(group.name + " eliminado");
+
+    this.apiService.deleteObj(environment.user_groupsURI, group.id).subscribe((data: any) => {
+      const index = this.user_groups.indexOf(group);
+      this.user_groups.splice(index, 1);
+
+    },
+      (error: HttpErrorResponse) => {
+        console.log(error['error']);
+      }
+    )
+  }
 
   onDeleteGroup(group: UserGroup) {
 
