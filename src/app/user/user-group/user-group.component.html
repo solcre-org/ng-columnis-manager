@@ -1,22 +1,22 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
- 
+<form [formGroup]="newGroupForm" (ngSubmit)="onAddGroup()">
+   <div>
+      <input type="text" class="form-control" id="newGroup" formControlName="newGroup" placeholder="Agregar nuevo grupo"
+         name="newGroup"><br>
+   </div>
+   <button class="btn btn-primary" type="submit" [disabled]="!newGroupForm.valid">Agregar grupo</button>
+</form>
 <app-table *ngIf="tableModel" (onDelete)="onDelete($event)" [tableModel]="tableModel">
 
 </app-table>
 
-<h2>Lista de grupos de usuarios</h2>
+<!-- <h2>Lista de grupos de usuarios</h2>
 <div>
    <input type="text" placeholder="Filtre por nombre"  [(ngModel)]="filteredStatus"><br><hr>
-</div>
-<form [formGroup]="newGroupForm" (ngSubmit)="onAddGroup()">
-   <div>
-      <input type="text" class="form-control" id="newGroup" formControlName="newGroup" placeholder="Agregar nuevo grupo" name="newGroup"><br>
-   </div>
-   <button class="btn btn-primary" type="submit" [disabled]="!newGroupForm.valid">Agregar grupo</button>
-</form>   
-<hr>
-<hr>
+</div> -->
+
+<!-- <hr>
 <li *ngFor="let user_group of user_groups | filter:filteredStatus:'name'">
     {{ user_group.name }} 
    <form [formGroup]="updateGroupForm" (ngSubmit)="onUpdateGroup(user_group)">
@@ -30,9 +30,5 @@
       <button class="btn btn-primary" (click)="onDeleteGroup(user_group)">Eliminar</button>
    </div>
    <hr>
-</li>  
-<app-pager 
-   *ngIf="apiHalPagerModel"
-   [pager]="apiHalPagerModel"
-   (onChange)="onChangePage($event)"
-   ></app-pager>
+</li>    -->
+<app-pager *ngIf="apiHalPagerModel" [pager]="apiHalPagerModel" (onChange)="onChangePage($event)"></app-pager>

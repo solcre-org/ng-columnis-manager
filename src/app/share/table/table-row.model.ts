@@ -1,6 +1,6 @@
 export class TableRowModel {
-    constructor( 
-        public model: any,
+    constructor(
+        public id: number,
         public data: string[]
-    ){}
+    ) { }
 }

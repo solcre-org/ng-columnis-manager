@@ -11,7 +11,6 @@ import { TableModel } from 'src/app/share/table/table.model';
 import { TableHeaderModel } from 'src/app/share/table/table-header.model';
 import { TableRowModel } from 'src/app/share/table/table-row.model';
 import { stringify } from '@angular/compiler/src/util';
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-user-group',
@@ -24,7 +23,7 @@ export class UserGroupComponent implements OnInit {
   tableModel: TableModel;
   headers: TableHeaderModel[] = [];
   body: TableRowModel[] = [];
-    
+
   apiHalPagerModel: ApiHalPagerModel;
   newGroupForm: FormGroup;
   updateGroupForm: FormGroup;
@@ -40,7 +39,7 @@ export class UserGroupComponent implements OnInit {
   ngOnInit() {
     let header_1: TableHeaderModel = new TableHeaderModel('Id');
     let header_2: TableHeaderModel = new TableHeaderModel('Nombre');
-    this.headers =[header_1, header_2];
+    this.headers = [header_1, header_2];
     this.getUserGroups(1);
     console.log(this.authService.getAccessToken());
     this.newGroupForm = this.formBuilder.group({
@@ -55,7 +54,7 @@ export class UserGroupComponent implements OnInit {
   onChangePage(page) {
     this.user_groups = [];
     this.getUserGroups(page);
-  } 
+  }
 
   getUserGroups(current_page) {
     this.apiService.fetchData(environment.user_groupsURI, { page: current_page }).subscribe((response: ApiResponseModel) => {
@@ -68,12 +67,12 @@ export class UserGroupComponent implements OnInit {
 
 
         let data: string[] = [stringify(groupToAdd.id), groupToAdd.name];
-        let body_temp : TableRowModel = new TableRowModel(groupToAdd, data);
+        let body_temp: TableRowModel = new TableRowModel(groupToAdd.id, data);
         this.body.push(body_temp);
-      
+
       }
-  
-      this.tableModel = new TableModel (this.headers, this.body);
+
+      this.tableModel = new TableModel(this.headers, this.body);
 
     },
       (error: HttpErrorResponse) => {
@@ -86,23 +85,21 @@ export class UserGroupComponent implements OnInit {
     let groupToAdd: UserGroup = new UserGroup(null, name);
     let json = groupToAdd.toJSON(groupToAdd);
     this.apiService.createObj(environment.user_groupsURI, json).subscribe((response: ApiResponseModel) => {
-      const groupToAdd: UserGroup = new UserGroup ();
+      const groupToAdd: UserGroup = new UserGroup();
       groupToAdd.fromJSON(response.data);
-      this.user_groups.push(groupToAdd);
+      // this.user_groups.push(groupToAdd);
+      let tableRowModel: TableRowModel = new TableRowModel(groupToAdd.id, [stringify(groupToAdd.id), groupToAdd.name])
+      this.tableModel.addRow(tableRowModel);
     },
       (error: HttpErrorResponse) => {
         console.log(error['error']);
       });
-    this.newGroupForm.reset();
+    // this.newGroupForm.reset();
   }
 
-  onDelete(group: UserGroup) {
-    console.log(group.name + " eliminado");
-
-    this.apiService.deleteObj(environment.user_groupsURI, group.id).subscribe((data: any) => {
-      const index = this.user_groups.indexOf(group);
-      this.user_groups.splice(index, 1);
-
+  onDelete(id: number) {
+    this.apiService.deleteObj(environment.user_groupsURI, id).subscribe((data: any) => {
+      this.tableModel.removeRow(id);
     },
       (error: HttpErrorResponse) => {
         console.log(error['error']);
@@ -110,33 +107,33 @@ export class UserGroupComponent implements OnInit {
     )
   }
 
-  onDeleteGroup(group: UserGroup) {
+  // onDeleteGroup(group: UserGroup) {
 
-    this.apiService.deleteObj(environment.user_groupsURI, group.id).subscribe((data: any) => {
-      const index = this.user_groups.indexOf(group);
-      this.user_groups.splice(index, 1);
+  //   this.apiService.deleteObj(environment.user_groupsURI, group.id).subscribe((data: any) => {
+  //     const index = this.user_groups.indexOf(group);
+  //     this.user_groups.splice(index, 1);
 
-    },
-      (error: HttpErrorResponse) => {
-        console.log(error['error']);
-      }
-    )
-  }
+  //   },
+  //     (error: HttpErrorResponse) => {
+  //       console.log(error['error']);
+  //     }
+  //   )
+  // }
 
-  onUpdateGroup(group: UserGroup) {
-    const id = group.id;
-    const name = this.updateGroupForm.value.updateGroup;
-    let groupToUpdate: UserGroup = new UserGroup( id, name );
-    let json = group.toJSON(groupToUpdate);
-    this.apiService.updateObj(environment.user_groupsURI, json).subscribe((response: any) => {
-      const index = this.user_groups.indexOf(group);
-      this.user_groups[index].name = this.updateGroupForm.value.updateGroup;
+  // onUpdateGroup(group: UserGroup) {
+  //   const id = group.id;
+  //   const name = this.updateGroupForm.value.updateGroup;
+  //   let groupToUpdate: UserGroup = new UserGroup( id, name );
+  //   let json = group.toJSON(groupToUpdate);
+  //   this.apiService.updateObj(environment.user_groupsURI, json).subscribe((response: any) => {
+  //     const index = this.user_groups.indexOf(group);
+  //     this.user_groups[index].name = this.updateGroupForm.value.updateGroup;
 
-    },
-      (error: HttpErrorResponse) => {
-        console.log(error['error']);
-      })
+  //   },
+  //     (error: HttpErrorResponse) => {
+  //       console.log(error['error']);
+  //     })
 
-  }
+  // }
 
 }

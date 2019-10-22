@@ -1,11 +1,11 @@
 import { DataBaseModelInterface } from 'src/app/share/apiService/data-base-model.interface';
 
-export class UserGroup implements DataBaseModelInterface{
+export class UserGroup implements DataBaseModelInterface {
 
-    constructor (
+    constructor(
         public id?: number,
         public name?: string
-    ) {}
+    ) { }
 
     getId() {
         return this.id;
@@ -15,7 +15,7 @@ export class UserGroup implements DataBaseModelInterface{
         this.name = json.grupo;
     }
     toJSON(json: UserGroup) {
-        let newJson: any =  {};
+        let newJson: any = {};
         if (json.id != null) {
             newJson['id'] = json.id;
         }

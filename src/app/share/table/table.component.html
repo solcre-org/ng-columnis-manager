@@ -2,17 +2,27 @@
     <div class="row">
         <table>
             <tr>
-                <th *ngFor="let th of tableModel.header" >
+                <th *ngFor="let th of tableModel.header">
                     {{ th.display }}
                 </th>
             </tr>
-            <tr *ngFor="let tr of tableModel.body" >
+            <div>
+                <input type="text" placeholder="Filtre por nombre" [(ngModel)]="filteredStatus"><br>
+                <hr>
+            </div>
+
+            <tr *ngFor="let tr of tableModel.body | filter:filteredStatus:'data'">
                 <td *ngFor="let td of tr.data">
                     {{ td }}
                 </td>
                 <div class="btn-group mr-2">
-                    <button class="btn btn-primary" (click)="onDeleteRow(tr.model)">Eliminar</button>
+                        <button class="btn btn-primary" (click)="onModifiersRow(tr)">Modificar</button>
                 </div>
+
+                <div class="btn-group mr-2">
+                    <button class="btn btn-primary" (click)="onDeleteRow(tr.id)">Eliminar</button>
+                </div>
+
             </tr>
         </table>
     </div>

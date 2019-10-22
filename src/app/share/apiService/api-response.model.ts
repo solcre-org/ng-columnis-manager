@@ -1,15 +1,15 @@
 import { ApiHalPagerModel } from "./api-hal-pager.model";
 
-export class ApiResponseModel{
+export class ApiResponseModel {
 	public pager: ApiHalPagerModel;
 
 	constructor(
-		public data?: any){
-			//Defaults
-			this.pager = new ApiHalPagerModel();
-		}
+		public data?: any) {
+		//Defaults
+		this.pager = new ApiHalPagerModel();
+	}
 
-	public hasCollectionResponse(): boolean{
+	public hasCollectionResponse(): boolean {
 		return (this.data instanceof Array && this.data.length > 0);
 	}
 
