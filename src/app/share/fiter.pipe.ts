@@ -11,7 +11,11 @@ export class FilterPipe implements PipeTransform {
         }
         const resultArray = [];
         for (const item of value) {
-            if ((item[propName][1].toUpperCase()).includes(filterString.toUpperCase())) {
+
+            let description = item.model.description;
+            if ((item.model.name.toUpperCase()).includes(filterString.toUpperCase())) {
+                resultArray.push(item);
+            } else if (description != null && (description.toUpperCase()).includes(filterString.toUpperCase())) {
                 resultArray.push(item);
             }
         }

@@ -3,26 +3,24 @@
         <table>
             <tr>
                 <th *ngFor="let th of tableModel.header">
-                    {{ th.display }}
+                    <button (click)="onSortRows(th)">{{ th.display }}</button>
                 </th>
             </tr>
             <div>
-                <input type="text" placeholder="Filtre por nombre" [(ngModel)]="filteredStatus"><br>
+                <input type="text" placeholder="Filtre" [(ngModel)]="filteredStatus"><br>
                 <hr>
             </div>
-
             <tr *ngFor="let tr of tableModel.body | filter:filteredStatus:'data'">
                 <td *ngFor="let td of tr.data">
                     {{ td }}
                 </td>
                 <div class="btn-group mr-2">
-                        <button class="btn btn-primary" (click)="onModifiersRow(tr)">Modificar</button>
+                    <button class="btn btn-primary" (click)="onModifiersRow(tr)">Modificar</button>
                 </div>
 
                 <div class="btn-group mr-2">
-                    <button class="btn btn-primary" (click)="onDeleteRow(tr.id)">Eliminar</button>
+                    <button class="btn btn-primary" (click)="onDeleteRow(tr)">Eliminar</button>
                 </div>
-
             </tr>
         </table>
     </div>

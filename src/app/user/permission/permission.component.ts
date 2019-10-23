@@ -7,6 +7,10 @@ import { environment } from 'src/environments/environment';
 import { ApiService } from 'src/app/share/apiService/api.service';
 import { ApiHalPagerModel } from 'src/app/share/apiService/api-hal-pager.model';
 import { ApiResponseModel } from 'src/app/share/apiService/api-response.model';
+import { TableHeaderModel } from 'src/app/share/table/table-header.model';
+import { TableModel } from 'src/app/share/table/table.model';
+import { TableRowModel } from 'src/app/share/table/table-row.model';
+import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-permission',
@@ -16,12 +20,14 @@ import { ApiResponseModel } from 'src/app/share/apiService/api-response.model';
 export class PermissionComponent implements OnInit {
 
   permissions: Permission[] = [];
-  newPermissionForm: FormGroup;
+  permissionForm: FormGroup;
   updatePermissionForm: FormGroup;
   filteredStatus = '';
 
   apiHalPagerModel: ApiHalPagerModel;
-
+  tableModel: TableModel;
+  headers: TableHeaderModel[] = [];
+  body: TableRowModel[] = [];
 
   constructor(
     private authService: AuthService,
@@ -30,78 +36,109 @@ export class PermissionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getPermissions(5);
-    console.log(this.authService.getAccessToken());
-    this.newPermissionForm = this.formBuilder.group({
-      'newPermissionName': this.formBuilder.control(null, [Validators.required]),
-      'newPermissionDescription': this.formBuilder.control('')
+    let header_1: TableHeaderModel = new TableHeaderModel('Id');
+    let header_2: TableHeaderModel = new TableHeaderModel('Nombre');
+    let header_3: TableHeaderModel = new TableHeaderModel('Descripción');
+
+    this.headers = [header_1, header_2, header_3];
+    this.getPermissions(1);
+
+    this.permissionForm = this.formBuilder.group({
+      'id': this.formBuilder.control(null, []),
+      'description': this.formBuilder.control(null, []),
+      'name': this.formBuilder.control(null, [Validators.required]),
+      'model': this.formBuilder.control(null, []),
     });
-    this.updatePermissionForm = this.formBuilder.group({
-      'updatePermissionName': this.formBuilder.control(null, [Validators.required]),
-      'updatePermissionDescription': this.formBuilder.control('')
-    })
   }
 
   onChangePage(page) {
-    this.permissions = [];
+    this.tableModel.removeBody();
     this.getPermissions(page);
-  } 
+  }
 
   getPermissions(current_page: number) {
+    this.body = [];
     this.apiService.fetchData(environment.permissionsURI, { page: current_page }).subscribe((response: ApiResponseModel) => {
-      const array_data = response.data;
+      let array_data = response.data;
       this.apiHalPagerModel = response.pager;
       for (let permission in array_data) {
         let permissionToAdd: Permission = new Permission();
         permissionToAdd.fromJSON(array_data[permission]);
-        this.permissions.push(permissionToAdd);
+        let data: string[] = [stringify(permissionToAdd.id), permissionToAdd.name, permissionToAdd.description];
+        let body_temp: TableRowModel = new TableRowModel(permissionToAdd.id, permissionToAdd, data);
+        this.body.push(body_temp);
       }
+      this.tableModel = new TableModel(this.headers, this.body);
+
     },
       (error: HttpErrorResponse) => {
         console.log(error['error']);
       })
   }
 
-
+  onSave() {
+    if (this.permissionForm.value.id == null) {
+      this.onAddPermission();
+    } else {
+      let permission = this.permissionForm.value.model;
+      this.onUpdatePermission(permission);
+    }
+  }
 
   onAddPermission() {
-    let name = this.newPermissionForm.value.newPermissionName;
-    let description = this.newPermissionForm.value.newPermissionDescription;
+    let name: string = this.permissionForm.value.name;
+    let description: string = this.permissionForm.value.description;
     let permissionToAdd: Permission = new Permission(null, name, description);
-    let json = permissionToAdd.toJSON(permissionToAdd);
+    let json = permissionToAdd.toJSON();
+
     this.apiService.createObj(environment.permissionsURI, json).subscribe((response: ApiResponseModel) => {
-      const permissionToAdd: Permission = new Permission ();
+      let permissionToAdd: Permission = new Permission();
       permissionToAdd.fromJSON(response.data);
-      this.permissions.push(permissionToAdd);
+
+      let tableRowModel: TableRowModel = new TableRowModel(permissionToAdd.id, permissionToAdd, [stringify(permissionToAdd.id), permissionToAdd.name, permissionToAdd.description])
+      this.tableModel.addRow(tableRowModel);
     },
       (error: HttpErrorResponse) => {
         console.log(error['error']);
       });
-    this.newPermissionForm.reset();
+    this.permissionForm.reset();
   }
 
-  onDeletePermission(permission: Permission) {
-    this.apiService.deleteObj(environment.permissionsURI, permission.id).subscribe((data: any) => {
-      const index = this.permissions.indexOf(permission);
-      this.permissions.splice(index, 1);
+  onDelete(row: TableRowModel) {
+    this.apiService.deleteObj(environment.permissionsURI, row.id).subscribe((data: any) => {
+      this.tableModel.removeRow(row.id);
     },
       (error: HttpErrorResponse) => {
         console.log(error['error']);
-      });
-
+      }
+    )
   }
 
+  onUpdate(row: TableRowModel) {
+    let value: Permission = row.model;
+
+    //TODO: Patchvalue to form
+    this.permissionForm.patchValue({
+      "id": value.id,
+      "name": value.name,
+      "description": value.description,
+      "model": value
+    })
+  }
   onUpdatePermission(permission: Permission) {
     let id = permission.id;
-    let name = this.updatePermissionForm.value.updatePermissionName;
-    let description = this.updatePermissionForm.value.updatePermissionDescription;
-    let permissionToUp: Permission = new Permission ( id, name, description );
-    let json = permission.toJSON(permissionToUp);
+    let name = this.permissionForm.value.name;
+    let description = this.permissionForm.value.description;
+    let permissionToUp: Permission = new Permission(id, name, description);
+    let json = permissionToUp.toJSON();
     this.apiService.updateObj(environment.permissionsURI, json).subscribe((response: ApiResponseModel) => {
-      const index = this.permissions.indexOf(permission);
-      this.permissions[index].name = this.updatePermissionForm.value.updatePermissionName;
-      this.permissions[index].description = this.updatePermissionForm.value.updatePermissionDescription;
-    })
+      let tableRowModel: TableRowModel = new TableRowModel(permissionToUp.id, permissionToUp, [stringify(permissionToUp.id), permissionToUp.name, permissionToUp.description])
+      this.tableModel.updateRow(tableRowModel);
+    },
+      (error: HttpErrorResponse) => {
+        console.log(error['error']);
+      })
+    this.permissionForm.reset();
   }
 
 }

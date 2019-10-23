@@ -1,45 +1,35 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
-<h2>Lista de permisos de usuarios</h2>
-<div>
-   <input type="text" placeholder="Filtre por nombre" [(ngModel)]="filteredStatus"><br>
-   <hr>
-</div>
-<form [formGroup]="newPermissionForm" (ngSubmit)="onAddPermission()">
+<form
+   [formGroup]="permissionForm"
+   (ngSubmit)="onSave()">
    <div>
-      <input type="text" class="form-control" id="newPermissionName" formControlName="newPermissionName"
-         placeholder="Agregar nuevo permiso" name="newPermissionName"><br>
+      <input 
+         type="text" 
+         class="form-control"
+         model="newPermission"
+         id = "newPermission"
+         formControlName="name"
+         placeholder="Agregar nuevo permiso"
+         name="newPermission">
    </div>
    <div>
-      <input type="text" class="form-control" id="newPermissionDescription" formControlName="newPermissionDescription"
-         placeholder="Descripción" name="newPermissionDescription"><br>
+      <input 
+         type="text" 
+         class="form-control"
+         formControlName="description"
+         placeholder="Descripción"
+         name="newPermission">
    </div>
-   <button class="btn btn-primary" type="submit" [disabled]="!newPermissionForm.valid">Agregar permiso</button>
-</form>
-<hr>
-<hr>
-<li *ngFor="let permission of permissions | filter:filteredStatus:'name'">
-   {{ permission.name }}
-   <form [formGroup]="updatePermissionForm" (ngSubmit)="onUpdatePermission(permission)">
-      <div>
-         <input type="text" class="form-control" id="updatePermissionName" formControlName="updatePermissionName"
-            placeholder="Modificar nombre" name="updatePermissionName"><br>
-      </div>
-      <div>
-         <input type="text" class="form-control" id="updatePermissionDescription"
-            formControlName="updatePermissionDescription" value="{{permission.description}}"
-            name="updatePermissionDescription"><br>
-      </div>
-      <button class="btn btn-primary" type="submit" [disabled]="!updatePermissionForm.valid">Guardar</button>
-   </form>
-   <div class="btn-group mr-2">
-      <button class="btn btn-primary" (click)="onDeletePermission(permission)">Eliminar</button>
-   </div>
-   <hr>
-</li>
-<app-pager 
-   *ngIf="apiHalPagerModel"
-   [pager]="apiHalPagerModel"
-   (onChange)="onChangePage($event)"
-   ></app-pager>
 
+   <button class="btn btn-primary" type="submit" [disabled]="!permissionForm.valid">Agregar permiso o modificar</button>
+
+</form>
+<app-table 
+   *ngIf="tableModel" 
+   (onDelete)="onDelete($event)" 
+   (onUpdate)="onUpdate($event)" 
+   [tableModel]="tableModel">
+</app-table>
+
+<app-pager *ngIf="apiHalPagerModel" [pager]="apiHalPagerModel" (onChange)="onChangePage($event)"></app-pager>

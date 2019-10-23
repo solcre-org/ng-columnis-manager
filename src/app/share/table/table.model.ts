@@ -7,6 +7,10 @@ export class TableModel {
 		public body?: TableRowModel[]
 	) { }
 
+	public removeBody(): void {
+		this.body = [];
+	}
+
 	public addRow(row: TableRowModel): void {
 		this.body.unshift(row);
 	}
@@ -21,5 +25,15 @@ export class TableModel {
 		if (index > -1) {
 			this.body.splice(index, 1);
 		}
+	}
+
+	public updateRow(row: TableRowModel) {
+
+		const index: number = this.body.map((row: TableRowModel) => {
+			return row.id;
+		}).indexOf(row.id);
+
+		this.body[index] = row;
+
 	}
 }

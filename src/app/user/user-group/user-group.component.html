@@ -1,34 +1,23 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
-<form [formGroup]="newGroupForm" (ngSubmit)="onAddGroup()">
+<form [formGroup]="userGroupForm" (ngSubmit)="onSave()">
    <div>
-      <input type="text" class="form-control" id="newGroup" formControlName="newGroup" placeholder="Agregar nuevo grupo"
+      <input 
+         type="text" 
+         class="form-control" 
+         model="newGroup"
+         id="newGroup" 
+         formControlName="name" 
+         placeholder="Agregar nuevo grupo"
          name="newGroup"><br>
    </div>
-   <button class="btn btn-primary" type="submit" [disabled]="!newGroupForm.valid">Agregar grupo</button>
+   <button class="btn btn-primary" type="submit" [disabled]="!userGroupForm.valid">Agregar grupo o modificar</button>
 </form>
-<app-table *ngIf="tableModel" (onDelete)="onDelete($event)" [tableModel]="tableModel">
-
+<app-table 
+   *ngIf="tableModel" 
+   (onDelete)="onDelete($event)" 
+   (onUpdate)="onUpdate($event)" 
+   [tableModel]="tableModel">
 </app-table>
-
-<!-- <h2>Lista de grupos de usuarios</h2>
-<div>
-   <input type="text" placeholder="Filtre por nombre"  [(ngModel)]="filteredStatus"><br><hr>
-</div> -->
-
-<!-- <hr>
-<li *ngFor="let user_group of user_groups | filter:filteredStatus:'name'">
-    {{ user_group.name }} 
-   <form [formGroup]="updateGroupForm" (ngSubmit)="onUpdateGroup(user_group)">
-      <div>
-         <input type="text" class="form-control" id="updateGroup" formControlName="updateGroup" placeholder="Modificar grupo" name="updateGroup"><br>
-      </div>
-      <button class="btn btn-primary" type="submit" [disabled]="!updateGroupForm.valid">Guardar</button>
-   </form>      
-
-   <div class="btn-group mr-2">
-      <button class="btn btn-primary" (click)="onDeleteGroup(user_group)">Eliminar</button>
-   </div>
-   <hr>
-</li>    -->
+<app-dialog></app-dialog>
 <app-pager *ngIf="apiHalPagerModel" [pager]="apiHalPagerModel" (onChange)="onChangePage($event)"></app-pager>

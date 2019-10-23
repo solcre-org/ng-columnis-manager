@@ -2,29 +2,29 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-​
+
 import { ApiResponseModel } from "./api-response.model";
 import { AuthService } from "src/app/auth/auth.service";
 import { environment } from "src/environments/environment";
 // import { FormUtility } from '../utilities/form.utility';
-​
+
 @Injectable({
 	providedIn: "root"
 })
 export class ApiService {
-​
-​
+
+
 	//Service constructor
 	constructor(
 		private authService: AuthService,
-		private httpClient: HttpClient){}
-​
-	
-​
+		private httpClient: HttpClient) { }
+
+
+
 	//Fetch
-	public fetchData(uri: string, params?: any): Observable<ApiResponseModel>{
+	public fetchData(uri: string, params?: any): Observable<ApiResponseModel> {
 		//Check cache of observables
-​
+
 		//Get options
 		const httpOptions = {
 			headers: new HttpHeaders({
@@ -32,7 +32,7 @@ export class ApiService {
 			}),
 			params: params
 		};
-​
+
 		//Do request
 		return this.httpClient
 			.get(environment.apiURL + uri, httpOptions)
@@ -43,21 +43,21 @@ export class ApiService {
 				})
 			);
 	}
-​
+
 	//Fetch
-	public getObj(uri: string, id?: any): Observable<ApiResponseModel>{
+	public getObj(uri: string, id?: any): Observable<ApiResponseModel> {
 		//Check cache of observables
-​
+
 		//Get options
 		const httpOptions = {
 			headers: new HttpHeaders({
 				'Authorization': 'Bearer ' + this.getAccessToken()
 			})
 		};
-​
+
 		//Do request
 		return this.httpClient
-			.get(environment.apiURL + uri + ( id ? '/' + id : ''), httpOptions)
+			.get(environment.apiURL + uri + (id ? '/' + id : ''), httpOptions)
 			.pipe(
 				//Map response
 				map((response: any) => {
@@ -66,19 +66,19 @@ export class ApiService {
 				})
 			);
 	}
-​
+
 	//Update an object using PATCH
-	public partialUpdateObj(uri: string, id: any,  obj: any): Observable<ApiResponseModel>{
+	public partialUpdateObj(uri: string, id: any, obj: any): Observable<ApiResponseModel> {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
 				'Authorization': 'Bearer ' + this.getAccessToken()
 			})
 		};
-​
+
 		//Url
 		const url: string = environment.apiURL + uri + '/' + id;
-​
+
 		//Do request
 		return this.httpClient
 			.patch(url, obj, httpOptions)
@@ -90,19 +90,19 @@ export class ApiService {
 				})
 			);
 	}
-​
+
 	//Delete an object using DELETE
-	public deleteObj(uri: string, id?: any): Observable<boolean>{
+	public deleteObj(uri: string, id?: any): Observable<boolean> {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
 				'Authorization': 'Bearer ' + this.getAccessToken()
 			})
 		};
-​
+
 		//Url
 		const url: string = environment.apiURL + uri + (id ? '/' + id : '');
-​
+
 		//Do request
 		return this.httpClient
 			.delete(url, httpOptions)
@@ -114,17 +114,17 @@ export class ApiService {
 				})
 			);
 	}
-	public partialUpdateList(uri: string, data: any[]): Observable<ApiResponseModel>{
+	public partialUpdateList(uri: string, data: any[]): Observable<ApiResponseModel> {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
 				'Authorization': 'Bearer ' + this.getAccessToken()
 			})
 		};
-​
+
 		//Url
 		const url: string = environment.apiURL + uri;
-​
+
 		//Do request
 		return this.httpClient
 			.patch(url, data, httpOptions)
@@ -137,32 +137,32 @@ export class ApiService {
 				})
 			);
 	}
-​
+
 	private getAccessToken(): string {
-		if(!this.authService.getAccessToken()){
+		if (!this.authService.getAccessToken()) {
 			return;
-			
-		} 
+
+		}
 		return this.authService.getAccessToken();
 	}
-​
+
 	//Create an object with POST
-	public createObj(uri: string, obj: any): Observable<ApiResponseModel>{
+	public createObj(uri: string, obj: any): Observable<ApiResponseModel> {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
 				'Authorization': 'Bearer ' + this.getAccessToken()
 			})
 		};
-​
+
 		//Url
 		const url: string = environment.apiURL + uri;
-​
+
 		//check form data
 		// if(FormUtility.needFormData(obj)){
 		// 	obj = FormUtility.jsonToFormData(obj);
 		// }
-​
+
 		//Do request
 		return this.httpClient
 			.post(url, obj, httpOptions)
@@ -170,10 +170,10 @@ export class ApiService {
 				//.retry(this.environmentService.getHttpRetryTimes())
 				map((response: any) => {
 					//Return api response model
-					return this.parseSingleResponse(response);		
-			}));
+					return this.parseSingleResponse(response);
+				}));
 	}
-​
+
 	/*public downloadFile(uri: string, params: any, type: string, fileName:string ): Observable<Blob>{
 		//Do request
 		return this.httpClient
@@ -253,30 +253,30 @@ export class ApiService {
 	}
 		*/
 
-					
+
 	//Update an object using PUT
-	public updateObj(uri: string, obj: any): Observable<ApiResponseModel>{
+	public updateObj(uri: string, obj: any): Observable<ApiResponseModel> {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
-				'Content-Type':  'application/json',
+				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + this.getAccessToken()
 			})
 		};
 
 		//Url
 		const url: string = environment.apiURL + uri + '/' + obj.id;
-​
+
 		//Do request
 		return this.httpClient
 			.put(url, obj, httpOptions)
 			.pipe(
 				map((response: any) => {
-				//Return api response model
+					//Return api response model
 					return this.parseSingleResponse(response);
-			}));
+				}));
 	}
-​
+
 	/*
 ​
 	public partialUpdateList(uri: string, data: any[]): Observable<ApiResponseModel>{
@@ -322,43 +322,43 @@ export class ApiService {
 	}
 ​
 	*/
-​
+
 	//Parse collection response
 	private parseCollectionResponse(response: any): ApiResponseModel {
 		//Current response
 		let resp: ApiResponseModel = new ApiResponseModel();
-​
+
 		//CHECK RESPONSE
-		if(response 
-			&& response._embedded 
-			&& Object.keys(response._embedded).length > 0){
+		if (response
+			&& response._embedded
+			&& Object.keys(response._embedded).length > 0) {
 			//load pager
 			resp.pager.fromJSON(response);
-​
+
 			//Load data
 			resp.data = response._embedded[Object.keys(response._embedded)[0]];
-		}else {
+		} else {
 			resp.data = response;
 		}
-		
+
 		//Return api response model
 		return resp;
 	}
-​
+
 	//Parse single response
-	private parseSingleResponse(response: any): ApiResponseModel{
+	private parseSingleResponse(response: any): ApiResponseModel {
 		//Current response
 		let resp: ApiResponseModel = new ApiResponseModel();
-​
+
 		//CHECK RESPONSE
-		if(response){
+		if (response) {
 			//Load data
 			resp.data = response;
 		}
-		
+
 		//Return api response model
 		return resp;
 	}
-​
-	
+
+
 }

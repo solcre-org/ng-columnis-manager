@@ -13,6 +13,7 @@ export class TableComponent implements OnInit {
   @Input() tableModel: TableModel;
 
   @Output() onDelete: EventEmitter<TableRowModel> = new EventEmitter();
+  @Output() onUpdate: EventEmitter<TableRowModel> = new EventEmitter();
 
   newRowForm: FormGroup;
   filteredStatus = '';
@@ -25,19 +26,16 @@ export class TableComponent implements OnInit {
 
   }
 
-  // onAddRow() { 
-  //   let name = this.newRowForm.value.name;
-  //   this.onAdd.emit(row);
-  // }
-
-  onDeleteRow(row: any) {
+  onDeleteRow(row: TableRowModel) {
     this.onDelete.emit(row);
-    this.tableModel.removeRow(row);
   }
 
-  onModifiersRow(row: any) {
-    console.log(row);
+  onModifiersRow(row: TableRowModel) {
+    this.onUpdate.emit(row);
   }
 
+  onSortRows(column: TableRowModel){ 
+    console.log(column);
+  }
 
 }

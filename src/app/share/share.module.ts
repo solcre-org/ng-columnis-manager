@@ -5,6 +5,7 @@ import { PagerComponent } from './apiService/pager/pager.component';
 import { ApiHalPagerModel } from './apiService/api-hal-pager.model';
 import { TableComponent } from './table/table.component';
 import { SimplePanelComponent } from './simple-panel/simple-panel.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
     declarations: [
@@ -12,14 +13,16 @@ import { SimplePanelComponent } from './simple-panel/simple-panel.component';
         ApiService,
         PagerComponent,
         TableComponent,
-        SimplePanelComponent
+        SimplePanelComponent,
+        DialogComponent
     ],
     exports: [
         FilterPipe,
         ApiService,
         PagerComponent,
         TableComponent,
-        SimplePanelComponent
+        SimplePanelComponent,
+        DialogComponent
     ]
 
 })
