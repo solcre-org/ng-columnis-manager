@@ -11,6 +11,8 @@ import { TableHeaderModel } from 'src/app/share/table/table-header.model';
 import { TableModel } from 'src/app/share/table/table.model';
 import { TableRowModel } from 'src/app/share/table/table-row.model';
 import { stringify } from '@angular/compiler/src/util';
+import { DialogService } from 'src/app/share/dialog/dialog.service';
+import { DialogModel } from 'src/app/share/dialog/dialog.model';
 
 @Component({
   selector: 'app-permission',
@@ -30,7 +32,7 @@ export class PermissionComponent implements OnInit {
   body: TableRowModel[] = [];
 
   constructor(
-    private authService: AuthService,
+    private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
   ) { }
@@ -105,13 +107,19 @@ export class PermissionComponent implements OnInit {
   }
 
   onDelete(row: TableRowModel) {
-    this.apiService.deleteObj(environment.permissionsURI, row.id).subscribe((data: any) => {
-      this.tableModel.removeRow(row.id);
-    },
-      (error: HttpErrorResponse) => {
-        console.log(error['error']);
-      }
-    )
+    //Open dialog
+    this.dialogService.open(new DialogModel("Titulo", "Estas seguro que desea eliminar el item: " + row.data[1] + "?", () => {
+
+      //Delete the usergroup
+      this.apiService.deleteObj(environment.permissionsURI, row.id).subscribe((data: any) => {
+        this.tableModel.removeRow(row.id);
+      },
+        (error: HttpErrorResponse) => {
+          console.log(error['error']);
+        }
+      )
+    }));
+
   }
 
   onUpdate(row: TableRowModel) {

@@ -17,6 +17,7 @@ import { PagerComponent } from './share/apiService/pager/pager.component';
 import { ShareModule } from './share/share.module';
 import { TableComponent } from './share/table/table.component';
 import { DialogComponent } from './share/dialog/dialog.component';
+import { DialogService } from './share/dialog/dialog.service';
 
 
 @NgModule({
@@ -41,8 +42,8 @@ import { DialogComponent } from './share/dialog/dialog.component';
     ReactiveFormsModule,
     AuthModule,
     CoreModule
-    ],
-  providers: [AuthService, AuthGuard],
+  ],
+  providers: [AuthService, AuthGuard, DialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

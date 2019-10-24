@@ -20,4 +20,7 @@
    [tableModel]="tableModel">
 </app-table>
 <app-dialog></app-dialog>
-<app-pager *ngIf="apiHalPagerModel" [pager]="apiHalPagerModel" (onChange)="onChangePage($event)"></app-pager>
+<app-pager 
+   *ngIf="apiHalPagerModel" 
+   [pager]="apiHalPagerModel" 
+   (onChange)="onChangePage($event)"></app-pager>

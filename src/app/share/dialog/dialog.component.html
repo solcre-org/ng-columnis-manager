@@ -1,3 +1,18 @@
-<div>
-    <p>Confirm</p>
+<div id="modal-ter" class="modal" [class.isActive]="isActive">
+	<div class="modal-background"></div>
+	<div class="modal-card">
+	  <header class="modal-card-head">
+		<p class="modal-card-title" *ngIf="model">{{ model.title }}</p>
+		<!-- <button class="delete" aria-label="close" (click)="onCancel()"></button> -->
+	  </header>
+	  <section class="modal-card-body">
+		<div class="content">
+		  <p *ngIf="model">{{ model.message }}</p>
+		</div>
+	  </section>
+	  <footer class="modal-card-foot">
+		<button class="button is-success" (click)="onConfirm()">Confirmar</button>
+		<button class="button" (click)="onCancel()">Cancelar</button>
+	  </footer>
+	</div>
 </div>

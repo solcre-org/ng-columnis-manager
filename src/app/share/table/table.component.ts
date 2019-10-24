@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { TableModel } from './table.model';
 import { TableRowModel } from './table-row.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DialogModel } from '../dialog/dialog.model';
 
 @Component({
   selector: 'app-table',
@@ -15,6 +16,7 @@ export class TableComponent implements OnInit {
   @Output() onDelete: EventEmitter<TableRowModel> = new EventEmitter();
   @Output() onUpdate: EventEmitter<TableRowModel> = new EventEmitter();
 
+  dialog: DialogModel;
   newRowForm: FormGroup;
   filteredStatus = '';
   updateGroupForm: FormGroup;
@@ -26,8 +28,14 @@ export class TableComponent implements OnInit {
 
   }
 
+
   onDeleteRow(row: TableRowModel) {
     this.onDelete.emit(row);
+  }
+
+  onConfirmDelete() {
+    this.dialog.doConfirm();
+
   }
 
   onModifiersRow(row: TableRowModel) {

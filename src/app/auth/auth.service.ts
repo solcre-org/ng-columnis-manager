@@ -9,7 +9,24 @@ export class AuthService {
 
     isAuthenticated() {
         const currentUser = this.localStorageService.get('access_token');
+        const refreshToken = this.localStorageService.get('refresh_token');
         if (currentUser) {
+            console.log(refreshToken);
+            this.httpClient.post(environment.apiURL + environment.oauthURI, {
+                "client_id": "columnis_manager",
+                "grant_type": "refresh_token",
+                "refresh_token": refreshToken
+            }).subscribe(
+                (data: any) => {
+                    this.localStorageService.set('access_token', data['access_token']);
+                    console.log("Logged in", data);
+                    this.router.navigate(['/user_groups']);
+    
+                },
+                (error: HttpErrorResponse) => {
+                    console.log("Logged failed");
+                }
+            );
             return true;
         }
         return false;
@@ -25,7 +42,9 @@ export class AuthService {
         }).subscribe(
             (data: any) => {
                 this.localStorageService.set('access_token', data['access_token']);
+                this.localStorageService.set('refresh_token', data['refresh_token']);
                 console.log("Logged in", data);
+                console.log(this.localStorageService);
                 this.router.navigate(['/user_groups']);
 
             },

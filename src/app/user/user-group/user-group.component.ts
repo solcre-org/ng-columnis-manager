@@ -1,7 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserGroup } from './user-group.model';
 import { ApiService } from 'src/app/share/apiService/api.service';
@@ -12,6 +11,7 @@ import { TableHeaderModel } from 'src/app/share/table/table-header.model';
 import { TableRowModel } from 'src/app/share/table/table-row.model';
 import { stringify } from '@angular/compiler/src/util';
 import { DialogModel } from 'src/app/share/dialog/dialog.model';
+import { DialogService } from 'src/app/share/dialog/dialog.service';
 
 @Component({
   selector: 'app-user-group',
@@ -23,14 +23,16 @@ export class UserGroupComponent implements OnInit {
   tableModel: TableModel;
   headers: TableHeaderModel[] = [];
   body: TableRowModel[] = [];
-  dialog: DialogModel = new DialogModel("titulo", "Estás seguro que deseas borrar el ítem: ", this.onConfirmDelete);
 
   apiHalPagerModel: ApiHalPagerModel;
   userGroupForm: FormGroup;
   filteredStatus = '';
+
+
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private dialogService: DialogService
 
   ) { }
 
@@ -101,23 +103,22 @@ export class UserGroupComponent implements OnInit {
   }
 
   onDelete(row: TableRowModel) {
-    let message = this.dialog.message;
-    this.dialog.message = this.dialog.message + row.data[1];
-    console.log(this.dialog);
-    this.onConfirmDelete(row);
-    // this.dialog.confirmCallback(row); //ERROR
-    this.dialog.message = message;
+    //Open dialog
+    this.dialogService.open(new DialogModel("Titulo", "Estas seguro que desea eliminar el item: " + row.data[1] + "?", () => {
+
+      //Delete the usergroup
+      this.apiService.deleteObj(environment.userGroupsURI, row.id).subscribe((data: any) => {
+        this.tableModel.removeRow(row.id);
+      },
+        (error: HttpErrorResponse) => {
+          console.log(error['error']);
+        }
+      )
+    }));
+
   }
-  
-  onConfirmDelete(row: TableRowModel) {
-    this.apiService.deleteObj(environment.userGroupsURI, row.id).subscribe((data: any) => {
-      this.tableModel.removeRow(row.id);
-    },
-      (error: HttpErrorResponse) => {
-        console.log(error['error']);
-      }
-    )
-  }
+
+
 
   onUpdate(row: TableRowModel) {
     let value: UserGroup = row.model;

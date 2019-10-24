@@ -6,6 +6,7 @@ import { ApiHalPagerModel } from './apiService/api-hal-pager.model';
 import { TableComponent } from './table/table.component';
 import { SimplePanelComponent } from './simple-panel/simple-panel.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { DialogService } from './dialog/dialog.service';
 
 @NgModule({
     declarations: [
@@ -14,6 +15,7 @@ import { DialogComponent } from './dialog/dialog.component';
         PagerComponent,
         TableComponent,
         SimplePanelComponent,
+        DialogService,
         DialogComponent
     ],
     exports: [
@@ -22,6 +24,7 @@ import { DialogComponent } from './dialog/dialog.component';
         PagerComponent,
         TableComponent,
         SimplePanelComponent,
+        DialogService,
         DialogComponent
     ]
 
