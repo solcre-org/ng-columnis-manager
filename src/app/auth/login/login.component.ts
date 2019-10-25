@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { LoaderService } from 'src/app/share/loader/loader.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [AuthService]
 })
 export class LoginComponent implements OnInit {
 

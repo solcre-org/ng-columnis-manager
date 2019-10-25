@@ -12,11 +12,13 @@ import { TableRowModel } from 'src/app/share/table/table-row.model';
 import { stringify } from '@angular/compiler/src/util';
 import { DialogModel } from 'src/app/share/dialog/dialog.model';
 import { DialogService } from 'src/app/share/dialog/dialog.service';
+import { LoaderService } from 'src/app/share/loader/loader.service';
 
 @Component({
   selector: 'app-user-group',
   templateUrl: './user-group.component.html',
-  styleUrls: ['./user-group.component.css']
+  styleUrls: ['./user-group.component.css'],
+  providers: [DialogService]
 })
 export class UserGroupComponent implements OnInit {
 
@@ -32,12 +34,14 @@ export class UserGroupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private loaderService: LoaderService
 
   ) { }
 
 
   ngOnInit() {
+    this.onLoad(); //No funciona 
     let header_1: TableHeaderModel = new TableHeaderModel('Id');
     let header_2: TableHeaderModel = new TableHeaderModel('Nombre');
     this.headers = [header_1, header_2];
@@ -49,12 +53,18 @@ export class UserGroupComponent implements OnInit {
     });
   }
 
+  onLoad() {
+    this.loaderService.open();
+  }
   onChangePage(page) {
+    this.loaderService.open();
     this.tableModel.removeBody();
     this.getUserGroups(page);
+
   }
 
   getUserGroups(current_page) {
+
     this.body = [];
     this.apiService.fetchData(environment.userGroupsURI, { page: current_page }).subscribe((response: ApiResponseModel) => {
       const array_data = response.data;
@@ -67,11 +77,14 @@ export class UserGroupComponent implements OnInit {
         let body_temp: TableRowModel = new TableRowModel(groupToAdd.id, groupToAdd, data);
         this.body.push(body_temp);
 
+
       }
       this.tableModel = new TableModel(this.headers, this.body);
+      this.loaderService.close();
     },
       (error: HttpErrorResponse) => {
         console.log(error['error']);
+        this.loaderService.close();
       })
   }
 
@@ -103,14 +116,17 @@ export class UserGroupComponent implements OnInit {
   }
 
   onDelete(row: TableRowModel) {
+
     //Open dialog
     this.dialogService.open(new DialogModel("Titulo", "Estas seguro que desea eliminar el item: " + row.data[1] + "?", () => {
-
+      this.loaderService.open();
       //Delete the usergroup
       this.apiService.deleteObj(environment.userGroupsURI, row.id).subscribe((data: any) => {
+        this.loaderService.close();
         this.tableModel.removeRow(row.id);
       },
         (error: HttpErrorResponse) => {
+          this.loaderService.close();
           console.log(error['error']);
         }
       )

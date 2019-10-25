@@ -14,10 +14,10 @@ import { AuthGuard } from './auth/auth-guard-service';
 import { PermissionComponent } from './user/permission/permission.component';
 import { FilterPipe } from './share/fiter.pipe';
 import { PagerComponent } from './share/apiService/pager/pager.component';
-import { ShareModule } from './share/share.module';
 import { TableComponent } from './share/table/table.component';
 import { DialogComponent } from './share/dialog/dialog.component';
-import { DialogService } from './share/dialog/dialog.service';
+import { LoaderComponent } from './share/loader/loader.component';
+import { LoaderService } from './share/loader/loader.service';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { DialogService } from './share/dialog/dialog.service';
     FilterPipe,
     PagerComponent,
     TableComponent,
-    DialogComponent
+    DialogComponent,
   ],
   imports: [
     LocalStorageModule.forRoot({
@@ -43,7 +43,7 @@ import { DialogService } from './share/dialog/dialog.service';
     AuthModule,
     CoreModule
   ],
-  providers: [AuthService, AuthGuard, DialogService],
+  providers: [AuthService, AuthGuard, LoaderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

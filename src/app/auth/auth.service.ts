@@ -2,10 +2,11 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { HttpClientModule, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { LoaderService } from '../share/loader/loader.service';
 
 export class AuthService {
 
-    constructor(private router: Router, private httpClient: HttpClient, private localStorageService: LocalStorageService) { }
+    constructor(private loaderService: LoaderService, private router: Router, private httpClient: HttpClient, private localStorageService: LocalStorageService) { }
 
     isAuthenticated() {
         const currentUser = this.localStorageService.get('access_token');
@@ -18,13 +19,13 @@ export class AuthService {
                 "refresh_token": refreshToken
             }).subscribe(
                 (data: any) => {
-                    this.localStorageService.set('access_token', data['access_token']);
+                    // this.localStorageService.set('access_token', data['access_token']);
                     console.log("Logged in", data);
-                    this.router.navigate(['/user_groups']);
-    
+
                 },
                 (error: HttpErrorResponse) => {
-                    console.log("Logged failed");
+                    console.log("Token vencido");
+                    return false;
                 }
             );
             return true;
@@ -33,6 +34,7 @@ export class AuthService {
     }
 
     signIn(email: string, password: string) {
+        this.loaderService.open();
         let username = email.split("@");
         this.httpClient.post(environment.apiURL + environment.oauthURI, {
             "client_id": "columnis_manager",
@@ -46,11 +48,16 @@ export class AuthService {
                 console.log("Logged in", data);
                 console.log(this.localStorageService);
                 this.router.navigate(['/user_groups']);
+                this.loaderService.close();
 
             },
             (error: HttpErrorResponse) => {
                 console.log("Logged failed");
+                this.loaderService.close();
+
             }
+
+
         );
     }
 

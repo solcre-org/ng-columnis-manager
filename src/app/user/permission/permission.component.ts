@@ -17,7 +17,9 @@ import { DialogModel } from 'src/app/share/dialog/dialog.model';
 @Component({
   selector: 'app-permission',
   templateUrl: './permission.component.html',
-  styleUrls: ['./permission.component.css']
+  styleUrls: ['./permission.component.css'],
+  providers: [DialogService]
+
 })
 export class PermissionComponent implements OnInit {
 
