@@ -13,12 +13,13 @@ import { stringify } from '@angular/compiler/src/util';
 import { DialogModel } from 'src/app/share/dialog/dialog.model';
 import { DialogService } from 'src/app/share/dialog/dialog.service';
 import { LoaderService } from 'src/app/share/loader/loader.service';
+import { SimplePanelService } from 'src/app/share/simple-panel/simple-panel.service';
 
 @Component({
   selector: 'app-user-group',
   templateUrl: './user-group.component.html',
   styleUrls: ['./user-group.component.css'],
-  providers: [DialogService]
+  providers: [DialogService, SimplePanelService]
 })
 export class UserGroupComponent implements OnInit {
 
@@ -34,6 +35,8 @@ export class UserGroupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private simplePanelService: SimplePanelService,
+
     private dialogService: DialogService,
     private loaderService: LoaderService
 
@@ -42,10 +45,10 @@ export class UserGroupComponent implements OnInit {
 
   ngOnInit() {
     this.onLoad(); //No funciona 
-    let header_1: TableHeaderModel = new TableHeaderModel('Id');
-    let header_2: TableHeaderModel = new TableHeaderModel('Nombre');
+    let header_1: TableHeaderModel = new TableHeaderModel('Id', 'id');
+    let header_2: TableHeaderModel = new TableHeaderModel('Nombre', 'name');
     this.headers = [header_1, header_2];
-    this.getUserGroups(1);
+    this.getUserGroups(1, 'name');
     this.userGroupForm = this.formBuilder.group({
       'id': this.formBuilder.control(null, []),
       'name': this.formBuilder.control(null, [Validators.required]),
@@ -59,11 +62,11 @@ export class UserGroupComponent implements OnInit {
   onChangePage(page) {
     this.loaderService.open();
     this.tableModel.removeBody();
-    this.getUserGroups(page);
+    this.getUserGroups(page, 'name');
 
   }
 
-  getUserGroups(current_page) {
+  getUserGroups(current_page, key) {
 
     this.body = [];
     this.apiService.fetchData(environment.userGroupsURI, { page: current_page }).subscribe((response: ApiResponseModel) => {
@@ -77,15 +80,40 @@ export class UserGroupComponent implements OnInit {
         let body_temp: TableRowModel = new TableRowModel(groupToAdd.id, groupToAdd, data);
         this.body.push(body_temp);
 
-
       }
       this.tableModel = new TableModel(this.headers, this.body);
+
       this.loaderService.close();
     },
       (error: HttpErrorResponse) => {
         console.log(error['error']);
         this.loaderService.close();
       })
+  }
+
+  basicSort() { //Sorting without api request
+    for (let group in this.tableModel.body) {
+      for (let groupToComprare in this.tableModel.body) {
+        let compare = this.compare(this.tableModel.body[group].data[1], this.tableModel.body[groupToComprare].data[1], true);
+        if (compare == -1) {
+          let temp = this.tableModel.body[group];
+          this.tableModel.body[group] = this.tableModel.body[groupToComprare];
+          this.tableModel.body[groupToComprare] = temp;
+        }
+      }
+    }
+  }
+
+  compare(a: string, b: string, isAsc: boolean) {
+    a = a.toUpperCase();
+    b = b.toUpperCase();
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  onSort(column: TableHeaderModel) {
+    let key: string = column.key;
+    console.log(key);
+    this.getUserGroups(1, key);
   }
 
   onSave() {

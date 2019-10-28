@@ -18,6 +18,7 @@ import { TableComponent } from './share/table/table.component';
 import { DialogComponent } from './share/dialog/dialog.component';
 import { LoaderComponent } from './share/loader/loader.component';
 import { LoaderService } from './share/loader/loader.service';
+import { SimplePanelComponent } from './share/simple-panel/simple-panel.component';
 
 
 @NgModule({
@@ -29,12 +30,13 @@ import { LoaderService } from './share/loader/loader.service';
     PagerComponent,
     TableComponent,
     DialogComponent,
+    SimplePanelComponent,
   ],
   imports: [
     LocalStorageModule.forRoot({
       prefix: 'columnis-manager',
       storageType: 'localStorage'
-  }),
+    }),
     BrowserModule,
     AppRoutingModule,
     FormsModule,

@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TableModel } from '../table/table.model';
-import { ApiService } from '../apiService/api.service';
-import { environment } from 'src/environments/environment';
-import { ApiHalPagerModel } from '../apiService/api-hal-pager.model';
-import { UserGroup } from 'src/app/user/user-group/user-group.model';
+import { TableRowModel } from '../table/table-row.model';
+import { TableHeaderModel } from '../table/table-header.model';
+import { SimplePanelService } from './simple-panel.service';
+import { environment } from 'src/environments/environment.prod';
+import { SimplePanelModel } from './simple-panel.model';
 
 @Component({
   selector: 'app-simple-panel',
@@ -12,19 +13,28 @@ import { UserGroup } from 'src/app/user/user-group/user-group.model';
 })
 export class SimplePanelComponent implements OnInit {
 
-  @Input() options: any;
+  @Input() simplePanelModel: SimplePanelModel;
   @Input() tableModel: TableModel;
-  
-  apiHalPagerModel: ApiHalPagerModel;
+
+  @Output() onParseRow: EventEmitter<any> = new EventEmitter();
+
+  @Output() onDeleteRow: EventEmitter<TableRowModel> = new EventEmitter();
+  @Output() onUpdate: EventEmitter<TableRowModel> = new EventEmitter();
+  @Output() onSort: EventEmitter<TableHeaderModel> = new EventEmitter();
+  model: SimplePanelModel;
+
 
   constructor(
-    private apiService: ApiService
+    private simplePanelService: SimplePanelService
   ) { }
 
   ngOnInit() {
-    
+    // this.simplePanelService.fetchData(this.simplePanelModel.URI).subscribe();
+    // array.forEach(element => {
+      
+    // });
   }
 
 
-
 }
+

@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
-<form [formGroup]="userGroupForm" (ngSubmit)="onSave()">
+<!-- <form [formGroup]="userGroupForm" (ngSubmit)="onSave()">
    <div>
       <input 
          type="text" 
@@ -12,13 +12,14 @@
          name="newGroup"><br>
    </div>
    <button class="btn btn-primary" type="submit" [disabled]="!userGroupForm.valid">Agregar grupo o modificar</button>
-</form>
-<app-table 
+</form> -->
+
+<app-simple-panel 
    *ngIf="tableModel" 
-   (onDelete)="onDelete($event)" 
-   (onUpdate)="onUpdate($event)" 
+   [simplePanelModel]="simplePanelModel"
    [tableModel]="tableModel">
-</app-table>
+</app-simple-panel>
+
 <app-dialog></app-dialog>
 <app-pager 
    *ngIf="apiHalPagerModel" 

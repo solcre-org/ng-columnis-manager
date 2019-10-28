@@ -40,9 +40,9 @@ export class PermissionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let header_1: TableHeaderModel = new TableHeaderModel('Id');
-    let header_2: TableHeaderModel = new TableHeaderModel('Nombre');
-    let header_3: TableHeaderModel = new TableHeaderModel('Descripción');
+    let header_1: TableHeaderModel = new TableHeaderModel('Id', 'id');
+    let header_2: TableHeaderModel = new TableHeaderModel('Nombre', 'name');
+    let header_3: TableHeaderModel = new TableHeaderModel('Descripción', 'description');
 
     this.headers = [header_1, header_2, header_3];
     this.getPermissions(1);
