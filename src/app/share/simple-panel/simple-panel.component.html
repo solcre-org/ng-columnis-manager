@@ -1,4 +1,25 @@
+<form [formGroup]="rowForm" (ngSubmit)="onSave()">
+   <div>
+      <input 
+         type="text" 
+         class="form-control" 
+         model="newRow"
+         id="newRow" 
+         formControlName="name" 
+         placeholder="Agregar nuevo"
+         name="newRow"><br>
+   </div>
+   <button class="btn btn-primary" type="submit" [disabled]="!rowForm.valid">Agregar o modificar</button>
+</form>
 <app-table 
    *ngIf="tableModel" 
-   [tableModel]="tableModel">
+   [tableModel]="tableModel"
+   (onDelete)="onDelete($event)"
+   (onUpdate)="onUpdate($event)">
 </app-table>
+<app-dialog></app-dialog>
+<app-pager 
+   *ngIf="apiHalPagerModel" 
+   [pager]="apiHalPagerModel" 
+   (onChange)="onChangePage($event)"></app-pager>
+<app-loader></app-loader>

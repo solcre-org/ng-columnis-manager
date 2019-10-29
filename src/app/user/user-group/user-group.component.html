@@ -16,13 +16,16 @@
 
 <app-simple-panel 
    *ngIf="tableModel" 
-   [simplePanelModel]="simplePanelModel"
-   [tableModel]="tableModel">
+   [simplePanelOptions]="simplePanelOptions"
+   [tableModel]="tableModel"
+   (onParseRow)="onParseRow($event)"
+   (onAddRow)="onAddRow($event)"
+   (onUpdateRow)="onUpdateRow($event)">
 </app-simple-panel>
 
-<app-dialog></app-dialog>
-<app-pager 
+<!-- <app-dialog></app-dialog> -->
+<!-- <app-pager 
    *ngIf="apiHalPagerModel" 
    [pager]="apiHalPagerModel" 
    (onChange)="onChangePage($event)"></app-pager>
-<app-loader></app-loader>
+<app-loader></app-loader> -->

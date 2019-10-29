@@ -12,6 +12,10 @@ export class TableModel {
 	}
 
 	public addRow(row: TableRowModel): void {
+		if(!this.body) {
+			this.body = [];
+		}
+
 		this.body.unshift(row);
 	}
 

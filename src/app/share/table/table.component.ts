@@ -15,7 +15,7 @@ export class TableComponent implements OnInit {
   @Input() tableModel: TableModel;
 
   @Output() onDelete: EventEmitter<TableRowModel> = new EventEmitter();
-  @Output() onUpdateSimplePanel: EventEmitter<TableRowModel> = new EventEmitter();
+  @Output() onUpdate: EventEmitter<TableRowModel> = new EventEmitter();
   @Output() onSort: EventEmitter<TableHeaderModel> = new EventEmitter();
   dialog: DialogModel;
   newRowForm: FormGroup;
@@ -40,7 +40,7 @@ export class TableComponent implements OnInit {
   }
 
   onModifiersRow(row: TableRowModel) {
-    this.onUpdateSimplePanel.emit(row);
+    this.onUpdate.emit(row);
   }
 
   onSortRows(column: TableHeaderModel){ 

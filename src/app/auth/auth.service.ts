@@ -13,6 +13,8 @@ export class AuthService {
         const refreshToken = this.localStorageService.get('refresh_token');
         if (currentUser) {
             console.log(refreshToken);
+            console.log(currentUser);
+
             this.httpClient.post(environment.apiURL + environment.oauthURI, {
                 "client_id": "columnis_manager",
                 "grant_type": "refresh_token",
