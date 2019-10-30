@@ -8,10 +8,10 @@ export class LoaderService {
     constructor(){
     }
 
-	public open(){
+	public start(){
 		this.onOpen.emit();
     }
-    public close() {
+    public done() {
         this.onClose.emit();
     }
  

@@ -36,7 +36,7 @@ export class AuthService {
     }
 
     signIn(email: string, password: string) {
-        this.loaderService.open();
+        this.loaderService.start();
         let username = email.split("@");
         this.httpClient.post(environment.apiURL + environment.oauthURI, {
             "client_id": "columnis_manager",
@@ -50,12 +50,12 @@ export class AuthService {
                 console.log("Logged in", data);
                 console.log(this.localStorageService);
                 this.router.navigate(['/user_groups']);
-                this.loaderService.close();
+                this.loaderService.done();
 
             },
             (error: HttpErrorResponse) => {
                 console.log("Logged failed");
-                this.loaderService.close();
+                this.loaderService.done();
 
             }
 

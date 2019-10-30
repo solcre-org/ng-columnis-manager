@@ -13,15 +13,21 @@ import { TableRowModel } from 'src/app/share/table/table-row.model';
 import { stringify } from '@angular/compiler/src/util';
 import { DialogService } from 'src/app/share/dialog/dialog.service';
 import { DialogModel } from 'src/app/share/dialog/dialog.model';
+import { SimplePanelOptions } from 'src/app/share/simple-panel/simple-panel-options.model';
+import { SimplePanelService } from 'src/app/share/simple-panel/simple-panel.service';
 
 @Component({
   selector: 'app-permission',
   templateUrl: './permission.component.html',
   styleUrls: ['./permission.component.css'],
-  providers: [DialogService]
+  providers: [DialogService, SimplePanelService]
 
 })
 export class PermissionComponent implements OnInit {
+
+  tableModel: TableModel;
+  simplePanelOptions: SimplePanelOptions;
+  rowForm: FormGroup;
 
   permissions: Permission[] = [];
   permissionForm: FormGroup;
@@ -29,7 +35,6 @@ export class PermissionComponent implements OnInit {
   filteredStatus = '';
 
   apiHalPagerModel: ApiHalPagerModel;
-  tableModel: TableModel;
   headers: TableHeaderModel[] = [];
   body: TableRowModel[] = [];
 
@@ -40,20 +45,36 @@ export class PermissionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let header_1: TableHeaderModel = new TableHeaderModel('Id', 'id');
-    let header_2: TableHeaderModel = new TableHeaderModel('Nombre', 'name');
-    let header_3: TableHeaderModel = new TableHeaderModel('Descripción', 'description');
 
-    this.headers = [header_1, header_2, header_3];
-    this.getPermissions(1);
+    this.tableModel = new TableModel ([
+      new TableHeaderModel('Id', 'id'), 
+      new TableHeaderModel('Nombre', 'name'), 
+      new TableHeaderModel('Descripción', 'description')]);
+    
+    this.simplePanelOptions = new SimplePanelOptions(
+      environment.permissionsURI,
+    );
 
-    this.permissionForm = this.formBuilder.group({
+    this.rowForm = this.formBuilder.group({
       'id': this.formBuilder.control(null, []),
       'description': this.formBuilder.control(null, []),
       'name': this.formBuilder.control(null, [Validators.required]),
       'model': this.formBuilder.control(null, []),
     });
+
   }
+
+  onParseRow(permission: Permission) {
+    //Get each row from simple panel
+    let permissionToAdd: Permission = new Permission();
+    //parse this row to UG
+    permissionToAdd.fromJSON(permission);
+
+    let data: string[] = [permissionToAdd.id.toString(), permissionToAdd.name, permissionToAdd.description];
+    let row: TableRowModel = new TableRowModel(permissionToAdd.id, permissionToAdd, data);
+    this.tableModel.addRow(row);
+  }
+
 
   onChangePage(page) {
     this.tableModel.removeBody();
@@ -108,21 +129,48 @@ export class PermissionComponent implements OnInit {
     this.permissionForm.reset();
   }
 
-  onDelete(row: TableRowModel) {
-    //Open dialog
-    this.dialogService.open(new DialogModel("Titulo", "Estas seguro que desea eliminar el item: " + row.data[1] + "?", () => {
+  onGetDataBaseModel(json: any): Permission {
+    let permissionToAdd: Permission = new Permission(null, json.name, json.description);
+    return permissionToAdd;
+  }
 
-      //Delete the usergroup
-      this.apiService.deleteObj(environment.permissionsURI, row.id).subscribe((data: any) => {
-        this.tableModel.removeRow(row.id);
-      },
-        (error: HttpErrorResponse) => {
-          console.log(error['error']);
-        }
-      )
-    }));
+  onBeforeUpdate(row: TableRowModel): void {
+    let permission: Permission = row.model;
+    //TODO: Patchvalue to form
+    this.rowForm.patchValue({
+      "id": permission.id,
+      "name": permission.name,
+      "description": permission.description,
+      "model": permission
+    })
+  }
+
+  onParseFromInput(model: Permission): any {
+    let permissionToUpdate: Permission = model;
+    permissionToUpdate.id = this.rowForm.value.id;
+    permissionToUpdate.name = this.rowForm.value.name;
+    permissionToUpdate.description = this.rowForm.value.description;
+
+    return permissionToUpdate;
 
   }
+
+
+  // onDelete(row: TableRowModel) {
+  //   //Open dialog
+  //   this.dialogService.open(new DialogModel("Titulo", "Estas seguro que desea eliminar el item: " + row.data[1] + "?", () => {
+
+  //     //Delete the usergroup
+  //     this.apiService.deleteObj(environment.permissionsURI, row.id).subscribe((data: any) => {
+  //       this.tableModel.removeRow(row.id);
+  //     },
+  //       (error: HttpErrorResponse) => {
+  //         console.log(error['error']);
+  //       }
+  //     )
+  //   }));
+
+  // }
 
   onUpdate(row: TableRowModel) {
     let value: Permission = row.model;

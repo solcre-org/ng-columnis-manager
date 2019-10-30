@@ -1,8 +1,6 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
-<form
-   [formGroup]="permissionForm"
-   (ngSubmit)="onSave()">
+<div class="row-form" [formGroup]="rowForm">
    <div>
       <input 
          type="text" 
@@ -12,7 +10,7 @@
          formControlName="name"
          placeholder="Agregar nuevo permiso"
          name="newPermission">
-   </div>
+      </div>
    <div>
       <input 
          type="text" 
@@ -21,16 +19,13 @@
          placeholder="Descripción"
          name="newPermission">
    </div>
-
-   <button class="btn btn-primary" type="submit" [disabled]="!permissionForm.valid">Agregar permiso o modificar</button>
-
-</form>
-<app-table 
+</div>
+<app-simple-panel 
    *ngIf="tableModel" 
-   (onDelete)="onDelete($event)" 
-   (onUpdate)="onUpdate($event)" 
-   [tableModel]="tableModel">
-</app-table>
-<app-dialog></app-dialog>
-
-<app-pager *ngIf="apiHalPagerModel" [pager]="apiHalPagerModel" (onChange)="onChangePage($event)"></app-pager>
+   [simplePanelOptions]="simplePanelOptions"
+   [rowForm]="rowForm"
+   [tableModel]="tableModel"
+   (onParseRow)="onParseRow($event)"
+   [onBeforeUpdate]="onBeforeUpdate"
+   [onParseFromInput]="onParseFromInput">
+</app-simple-panel>

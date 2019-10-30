@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
-<!-- <form [formGroup]="userGroupForm" (ngSubmit)="onSave()">
+<!-- <form [formGroup]="rowForm" (ngSubmit)="onSaveRow()">
    <div>
       <input 
          type="text" 
@@ -11,21 +11,30 @@
          placeholder="Agregar nuevo grupo"
          name="newGroup"><br>
    </div>
-   <button class="btn btn-primary" type="submit" [disabled]="!userGroupForm.valid">Agregar grupo o modificar</button>
+   <button class="btn btn-primary" type="submit" [disabled]="!rowForm.valid">Agregar grupo o modificar</button>
 </form> -->
+
+<div class="row-form" [formGroup]="rowForm">
+   <input 
+      type="text" 
+      class="form-control" 
+      model="newRow"
+      id="newRow" 
+      formControlName="name" 
+      placeholder="Agregar nuevo"
+      name="newRow"><br>
+</div>
+   
 
 <app-simple-panel 
    *ngIf="tableModel" 
    [simplePanelOptions]="simplePanelOptions"
+   [rowForm]="rowForm"
    [tableModel]="tableModel"
    (onParseRow)="onParseRow($event)"
    (onAddRow)="onAddRow($event)"
-   (onUpdateRow)="onUpdateRow($event)">
+   (onUpdateRow)="onUpdateRow($event)"
+   [onGetDataBaseModel]="onGetDataBaseModel"
+   [onBeforeUpdate]="onBeforeUpdate"
+   [onParseFromInput]="onParseFromInput">
 </app-simple-panel>
-
-<!-- <app-dialog></app-dialog> -->
-<!-- <app-pager 
-   *ngIf="apiHalPagerModel" 
-   [pager]="apiHalPagerModel" 
-   (onChange)="onChangePage($event)"></app-pager>
-<app-loader></app-loader> -->

@@ -1,81 +1,48 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { ApiService } from '../apiService/api.service';
 import { ApiResponseModel } from '../apiService/api-response.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { SimplePanelOptions } from './simple-panel.model';
+import { SimplePanelOptions } from './simple-panel-options.model';
 import { UserGroup } from 'src/app/user/user-group/user-group.model';
 import { stringify } from '@angular/compiler/src/util';
 import { TableRowModel } from '../table/table-row.model';
 import { TableModel } from '../table/table.model';
 import { TableHeaderModel } from '../table/table-header.model';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export class SimplePanelService {
-  public onGet: EventEmitter<SimplePanelOptions> = new EventEmitter();
-  tableModel: TableModel;
-  headers: TableHeaderModel[] = [];
-  body: TableRowModel[] = [];
+
+    tableModel: TableModel;
+    public onAddRow: EventEmitter<TableRowModel> = new EventEmitter();
+
 
     constructor(
         private apiService: ApiService
-    ){}
+    ) { }
 
-// 	public fetchData(model?: SimplePanelOptions): Observable<ApiResponseModel> {
-//     this.apiService.fetchData(model.URI).subscribe((response: ApiResponseModel) => {
-//         // console.log(response);
-//         let array_data = response.data;
-//         // console.log(array_data);
-//         array_data.forEach(element => {
-    
-//           console.log(element);
-          
-//         });
-//     //   for (let user_group in array_data) {
-//     //     let groupToAdd: UserGroup = new UserGroup();
-//     //     groupToAdd.fromJSON(array_data[user_group]);
-//     //     let header_1: TableHeaderModel = new TableHeaderModel('Id', 'id');
-//     //     let header_2: TableHeaderModel = new TableHeaderModel('Nombre', 'name');
-//     //     this.headers = [header_1, header_2];
-       
-//     //     let data: string[] = [stringify(groupToAdd.id), groupToAdd.name];
-//     //     let body_temp: TableRowModel = new TableRowModel(groupToAdd.id, groupToAdd, data);
-//     //     this.body.push(body_temp);
-  
-    
-    
-//     // // return this.apiService.fetchData(model.URI);
-//     // }
-// })
-// }
+    onAdd(tableRowModel: TableRowModel) {
+        let json = tableRowModel.model.toJSON();
+        // let row: any = tableRowModel.model;
+        this.apiService.createObj(environment.userGroupsURI, json).subscribe((response: ApiResponseModel) => {
+            tableRowModel.model.fromJSON(response.data);
+            tableRowModel.id = tableRowModel.model.getId();
+            tableRowModel.data[0] = tableRowModel.model.getId();
+            console.log(tableRowModel);
+            this.onAddRow.emit(tableRowModel);
 
 
-    // public get(model: SimplePanelOptions): TableModel {
-    //   this.apiService.fetchData(model.URI).subscribe((response: ApiResponseModel) => {
-    //     console.log(response);
-    //     let array_data = response.data;
-    //     console.log(array_data);
-    //   for (let user_group in array_data) {
-    //     let groupToAdd: UserGroup = new UserGroup();
-    //     groupToAdd.fromJSON(array_data[user_group]);
-    //     let header_1: TableHeaderModel = new TableHeaderModel('Id', 'id');
-    //     let header_2: TableHeaderModel = new TableHeaderModel('Nombre', 'name');
-    //     this.headers = [header_1, header_2];
-       
-    //     let data: string[] = [stringify(groupToAdd.id), groupToAdd.name];
-    //     let body_temp: TableRowModel = new TableRowModel(groupToAdd.id, groupToAdd, data);
-    //     this.body.push(body_temp);
-  
-    
-    //   }
-    //   this.tableModel = new TableModel(this.headers, this.body);
-    //   console.log(this.tableModel);
-    //   return this.tableModel;
-    //   }, 
-    //     (error: HttpErrorResponse) => {
-    //       console.log(error['error']);
+            // let tableRowModel: TableRowModel = new TableRowModel(row.id, row, [stringify(row.id), row.name])
+            //   this.tableModel.addRow(tableRowModel);
+        },
+            (error: HttpErrorResponse) => {
+                console.log(error['error']);
+            });
 
-    //     })
-      
-    // }
+    }
+
+    onSave(){
+        console.log("save");
+    }
 
 }

@@ -8,25 +8,23 @@ import { LoaderService } from './loader.service';
 })
 export class LoaderComponent implements OnInit {
 
-  isActive: boolean; 
+  isActive: boolean;
 
   constructor(
     private loaderService: LoaderService
   ) { }
 
   ngOnInit() {
-		this.loaderService.onOpen.subscribe(() => {
-      console.log("open");
+    this.loaderService.onOpen.subscribe(() => {
       //Open
-          this.isActive = true;
+      this.isActive = true;
 
     })
-      this.loaderService.onClose.subscribe(() => {
-        //Close
-            this.isActive = false;
+    this.loaderService.onClose.subscribe(() => {
+      //Close
+      this.isActive = false;
+    })
 
-      })
-    
   }
 
 
