@@ -1,12 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserGroup } from './user-group.model';
 import { TableModel } from 'src/app/share/table/table.model';
 import { TableHeaderModel } from 'src/app/share/table/table-header.model';
 import { TableRowModel } from 'src/app/share/table/table-row.model';
-import { DialogService } from 'src/app/share/dialog/dialog.service';
-import { LoaderService } from 'src/app/share/loader/loader.service';
 import { SimplePanelService } from 'src/app/share/simple-panel/simple-panel.service';
 import { SimplePanelOptions } from 'src/app/share/simple-panel/simple-panel-options.model';
 
@@ -14,7 +12,7 @@ import { SimplePanelOptions } from 'src/app/share/simple-panel/simple-panel-opti
   selector: 'app-user-group',
   templateUrl: './user-group.component.html',
   styleUrls: ['./user-group.component.css'],
-  providers: [DialogService, SimplePanelService]
+  providers: [SimplePanelService]
 })
 export class UserGroupComponent implements OnInit {
 
@@ -23,11 +21,8 @@ export class UserGroupComponent implements OnInit {
   rowForm: FormGroup;
 
   constructor(
-
     private formBuilder: FormBuilder,
-
   ) { }
-
 
   ngOnInit() {
     this.tableModel = new TableModel([
@@ -56,12 +51,6 @@ export class UserGroupComponent implements OnInit {
     let data: string[] = [groupToAdd.id.toString(), groupToAdd.name];
     let row: TableRowModel = new TableRowModel(groupToAdd.id, groupToAdd, data);
     this.tableModel.addRow(row);
-  }
-
-  onSort(column: TableHeaderModel) {
-    let key: string = column.key;
-    console.log(key);
-    // this.getUserGroups(1, key);
   }
 
   onGetDataBaseModel(json: any): UserGroup {

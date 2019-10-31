@@ -43,7 +43,7 @@ export class TableComponent implements OnInit {
     this.onUpdate.emit(row);
   }
 
-  onSortRows(column: TableHeaderModel){ 
+  onSortRows(column: TableHeaderModel) {
     // console.log(column.key);
     // let key: string  = column.key;
     this.onSort.emit(column);

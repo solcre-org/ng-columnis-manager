@@ -10,27 +10,25 @@ import { DialogModel } from '../dialog/dialog.model';
 import { LoaderService } from '../loader/loader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiHalPagerModel } from '../apiService/api-hal-pager.model';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { DataBaseModelInterface } from '../apiService/data-base-model.interface';
+import { TableHeaderModel } from '../table/table-header.model';
 
 @Component({
   selector: 'app-simple-panel',
   templateUrl: './simple-panel.component.html',
-  styleUrls: ['./simple-panel.component.css']
+  styleUrls: ['./simple-panel.component.css'],
+  providers: [DialogService]
 })
 export class SimplePanelComponent implements OnInit {
 
   @Input() tableModel: TableModel;
   @Input() simplePanelOptions: SimplePanelOptions;
+  @Input() rowForm: FormGroup;
 
   @Output() onParseRow: EventEmitter<any> = new EventEmitter();
 
-  @Output() onParseNewRow: EventEmitter<TableRowModel> = new EventEmitter();
-
-  @Input() rowForm: FormGroup;
-
-  @Output() onSaveRow: EventEmitter<TableRowModel> = new EventEmitter();
-
+  //Functions to send to parent before update or add a row
   @Input() onGetDataBaseModel: (json: any) => DataBaseModelInterface;
   @Input() onBeforeUpdate: (row: TableRowModel) => void;
   @Input() onParseFromInput: (model: DataBaseModelInterface) => any;
@@ -39,31 +37,18 @@ export class SimplePanelComponent implements OnInit {
   apiHalPagerModel: ApiHalPagerModel;
   currentPage: number = 1;
 
+  currentSorting: any = {};
+  currentKeySorting: string; // clicked column
+
   constructor(
     private simplePanelService: SimplePanelService,
     private apiService: ApiService,
     private dialogService: DialogService,
     private loaderService: LoaderService
-
   ) { }
 
   ngOnInit() {
     this.onGetRows();
-    this.simplePanelService.onAddRow.subscribe((tableRowModel: TableRowModel) => {
-      //add Row on table
-      this.onParseNewRow.emit(tableRowModel);
-
-    })
-
-    // this.simplePanelOptions.fromJSON("aa");
-
-    // this.rowForm = this.formBuilder.group({
-    //   'id': this.formBuilder.control(null, []),
-    //   'name': this.formBuilder.control(null, [Validators.required]),
-    //   'model': this.formBuilder.control(null, []),
-    // });
-
-    // this.simplePanelService.fetchData(new SimplePanelOptions(environment.userGroupsURI));
   }
 
   onChangePage(page) {
@@ -71,11 +56,23 @@ export class SimplePanelComponent implements OnInit {
     this.tableModel.removeBody();
     this.loaderService.start();
     this.onGetRows();
-    // this.tableModel.removeBody();
   }
 
   onGetRows() {
-    this.apiService.fetchData(this.simplePanelOptions.URI, { page: this.currentPage }).subscribe((response: ApiResponseModel) => {
+    this.tableModel.removeBody();
+    //set the query paramaters 
+    let params: any = {};
+    if (this.currentKeySorting) {
+      params = {
+        page: this.currentPage,
+        ["sort[" + this.currentKeySorting + "]"]: this.currentSorting[this.currentKeySorting]
+      };
+    } else {
+      params = { page: this.currentPage };
+    };
+
+    console.log(params);
+    this.apiService.fetchData(this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
       if (response.hasCollectionResponse()) {
         this.apiHalPagerModel = response.pager;
         response.data.forEach((element: any) => {
@@ -90,9 +87,11 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onSave() {
+    //if null -> is a new row
     if (this.rowForm.value.id == null) {
       let model: DataBaseModelInterface = this.onGetDataBaseModel(this.rowForm.value);
       this.onAdd(model);
+      //else is modified row
     } else {
       this.onUpdateRow(this.rowForm.value.model);
     }
@@ -100,7 +99,6 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onAdd(model: DataBaseModelInterface) {
-    
     this.loaderService.start();
     let json = model.toJSON();
     this.apiService.createObj(this.simplePanelOptions.URI, json).subscribe((response: ApiResponseModel) => {
@@ -127,7 +125,7 @@ export class SimplePanelComponent implements OnInit {
     const id: number = model.getId();
     let json = rowToAdd.toJSON();
     this.apiService.updateObj(this.simplePanelOptions.URI, json).subscribe((response: any) => {
-      
+
       //Add each field from the model to data[]
       let data: string[] = [];
       for (let field in rowToAdd) {
@@ -146,13 +144,6 @@ export class SimplePanelComponent implements OnInit {
     this.rowForm.reset();
   }
 
-
-  // transformJsonBeforeSend(value: any) {
-  //   value.model.fromJSON();
-  //   return value;
-  // }
-
-
   onDelete(row: TableRowModel) {
     //Open dialog
     this.dialogService.open(new DialogModel("", "¿Estás seguro que deseas borrar el ítem: " + row.data[1] + "?", () => {
@@ -168,6 +159,26 @@ export class SimplePanelComponent implements OnInit {
         }
       )
     }));
+
+  }
+
+  onSort(column: TableHeaderModel) {
+    this.loaderService.start();
+    const current: string = this.currentSorting[column.key];
+
+    //Switch between states   
+    if (!current) {
+      this.currentSorting[column.key] = "ASC";
+      this.currentKeySorting = column.key
+    } else if (current === 'ASC') {
+      this.currentSorting[column.key] = "DESC";
+      this.currentKeySorting = column.key
+    } else {
+      delete this.currentSorting[column.key];
+      this.currentKeySorting = null;
+    }
+    console.log(this.currentSorting);
+    this.onGetRows();
 
   }
 
