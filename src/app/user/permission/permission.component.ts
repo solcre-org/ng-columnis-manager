@@ -65,10 +65,7 @@ export class PermissionComponent implements OnInit {
     let permission: Permission = row.model;
     //TODO: Patchvalue to form
     this.rowForm.patchValue({
-      "id": permission.id,
-      "name": permission.name,
       "description": permission.description,
-      "model": permission
     })
   }
 

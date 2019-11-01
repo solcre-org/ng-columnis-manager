@@ -1,14 +1,9 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { ApiService } from '../apiService/api.service';
 import { ApiResponseModel } from '../apiService/api-response.model';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { SimplePanelOptions } from './simple-panel-options.model';
-import { UserGroup } from 'src/app/user/user-group/user-group.model';
-import { stringify } from '@angular/compiler/src/util';
+import { HttpErrorResponse } from '@angular/common/http';
 import { TableRowModel } from '../table/table-row.model';
 import { TableModel } from '../table/table.model';
-import { TableHeaderModel } from '../table/table-header.model';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export class SimplePanelService {

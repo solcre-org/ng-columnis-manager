@@ -62,9 +62,6 @@ export class UserGroupComponent implements OnInit {
     let userGroup: UserGroup = row.model;
     //TODO: Patchvalue to form
     this.rowForm.patchValue({
-      "id": userGroup.id,
-      "name": userGroup.name,
-      "model": userGroup
     })
   }
 

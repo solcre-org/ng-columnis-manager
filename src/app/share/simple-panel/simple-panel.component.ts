@@ -115,7 +115,17 @@ export class SimplePanelComponent implements OnInit {
 
 
   onUpdate(row: TableRowModel) {
+
+    //parse the default fields.
+    this.rowForm.patchValue({
+      "id": row.id,
+      "name": row.data[1],
+      "model": row.model,
+    });
+
+    //parse the specific fields.
     this.onBeforeUpdate(row);
+
   }
 
   onUpdateRow(model: DataBaseModelInterface) {

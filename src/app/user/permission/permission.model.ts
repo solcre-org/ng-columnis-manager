@@ -12,16 +12,16 @@ export class Permission implements DataBaseModelInterface {
     }
     fromJSON(json: any): void {
         this.id = json.id;
-        this.name = json.nombre;
-        this.description = json.descripcion;
+        this.name = json.name;
+        this.description = json.description;
     }
     toJSON() {
         let newJson: any = {};
         if (this.id != null) {
             newJson['id'] = this.id;
         }
-        newJson['nombre'] = this.name;
-        newJson['descripcion'] = this.description;
+        newJson['name'] = this.name;
+        newJson['description'] = this.description;
         return newJson;
      }
 

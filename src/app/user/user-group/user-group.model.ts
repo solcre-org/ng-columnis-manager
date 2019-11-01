@@ -12,7 +12,7 @@ export class UserGroup implements DataBaseModelInterface {
     }
     fromJSON(json: any): void {
         this.id = json.id;
-        this.name = json.grupo;
+        this.name = json.name;
     }
     toJSON() {
         let newJson: any = {};

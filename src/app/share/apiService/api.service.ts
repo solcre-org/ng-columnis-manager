@@ -28,7 +28,8 @@ export class ApiService {
 		//Get options
 		const httpOptions = {
 			headers: new HttpHeaders({
-				'Authorization': 'Bearer ' + this.getAccessToken()
+				'Authorization': 'Bearer ' + this.getAccessToken(),
+				'Accept': "application/vnd.columnis.v2+json"
 			}),
 			params: params
 		};
@@ -51,7 +52,8 @@ export class ApiService {
 		//Get options
 		const httpOptions = {
 			headers: new HttpHeaders({
-				'Authorization': 'Bearer ' + this.getAccessToken()
+				'Authorization': 'Bearer ' + this.getAccessToken(),
+				'Accept': "application/vnd.columnis.v2+json"
 			})
 		};
 
@@ -72,7 +74,8 @@ export class ApiService {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
-				'Authorization': 'Bearer ' + this.getAccessToken()
+				'Authorization': 'Bearer ' + this.getAccessToken(),
+				'Accept': "application/vnd.columnis.v2+json"
 			})
 		};
 
@@ -96,7 +99,8 @@ export class ApiService {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
-				'Authorization': 'Bearer ' + this.getAccessToken()
+				'Authorization': 'Bearer ' + this.getAccessToken(),
+				'Accept': "application/vnd.columnis.v2+json"
 			})
 		};
 
@@ -118,7 +122,8 @@ export class ApiService {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
-				'Authorization': 'Bearer ' + this.getAccessToken()
+				'Authorization': 'Bearer ' + this.getAccessToken(),
+				'Accept': "application/vnd.columnis.v2+json"
 			})
 		};
 
@@ -151,7 +156,8 @@ export class ApiService {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
-				'Authorization': 'Bearer ' + this.getAccessToken()
+				'Authorization': 'Bearer ' + this.getAccessToken(),
+				'Accept': "application/vnd.columnis.v2+json"
 			})
 		};
 
@@ -259,8 +265,8 @@ export class ApiService {
 		//Post options
 		const httpOptions = {
 			headers: new HttpHeaders({
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + this.getAccessToken()
+				'Authorization': 'Bearer ' + this.getAccessToken(),
+				'Accept': "application/vnd.columnis.v2+json"
 			})
 		};
 
