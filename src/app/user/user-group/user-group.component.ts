@@ -41,37 +41,20 @@ export class UserGroupComponent implements OnInit {
     });
   }
 
-
-  onParseRow(userGroup: UserGroup) {
+  onParseRow(userGroup: UserGroup): TableRowModel  {
     //Get each row from simple panel
     let groupToAdd: UserGroup = new UserGroup();
     //parse this row to UG
     groupToAdd.fromJSON(userGroup);
-
     let data: string[] = [groupToAdd.id.toString(), groupToAdd.name];
     let row: TableRowModel = new TableRowModel(groupToAdd.id, groupToAdd, data);
-    this.tableModel.addRow(row);
+    return row;
   }
 
   onGetDataBaseModel(json: any): UserGroup {
-    let groupToAdd: UserGroup = new UserGroup(null, json.name);
+    //Return the UG modified or added
+    let groupToAdd: UserGroup = new UserGroup(json.id, json.name);
     return groupToAdd;
-  }
-
-  onBeforeUpdate(row: TableRowModel): void {
-    let userGroup: UserGroup = row.model;
-    //TODO: Patchvalue to form
-    this.rowForm.patchValue({
-    })
-  }
-
-  onParseFromInput(model: UserGroup): any {
-    let userGroupToUpdate: UserGroup = model;
-    userGroupToUpdate.id = this.rowForm.value.id;
-    userGroupToUpdate.name = this.rowForm.value.name;
-
-    return userGroupToUpdate;
-
   }
 
 }

@@ -1,10 +1,10 @@
 import { DataBaseModelInterface } from 'src/app/share/apiService/data-base-model.interface';
 
-export class UserGroup implements DataBaseModelInterface {
+export class User implements DataBaseModelInterface {
 
     constructor(
         public id?: number,
-        public name?: string
+        public user?: string
     ) { }
 
     getId() {
@@ -12,14 +12,14 @@ export class UserGroup implements DataBaseModelInterface {
     }
     fromJSON(json: any): void {
         this.id = json.id;
-        this.name = json.name;
+        this.user = json.user;
     }
     toJSON() {
         let newJson: any = {};
         if (this.id != null) {
             newJson.id = this.id;
         }
-        newJson.name = this.name;
+        newJson.user = this.user;
         return newJson;
     }
 

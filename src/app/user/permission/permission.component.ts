@@ -45,38 +45,27 @@ export class PermissionComponent implements OnInit {
 
   }
 
-  onParseRow(permission: Permission) {
+  onParseRow(permission: any): TableRowModel {
     //Get each row from simple panel
     let permissionToAdd: Permission = new Permission();
-    //parse this row to Permission
-    permissionToAdd.fromJSON(permission);
-
-    let data: string[] = [permissionToAdd.id.toString(), permissionToAdd.name, permissionToAdd.description];
-    let row: TableRowModel = new TableRowModel(permissionToAdd.id, permissionToAdd, data);
-    this.tableModel.addRow(row);
+    let row: TableRowModel;
+    let data: string[]; 
+    if (permission != null && permission.id != null && permission.name != null) {
+      //parse this row to Permission
+      permissionToAdd.fromJSON(permission);
+      data = [permissionToAdd.id.toString(), permissionToAdd.name, permissionToAdd.description];
+      row = new TableRowModel(permissionToAdd.id, permissionToAdd, data);
+    }
+    return row;
   }
 
   onGetDataBaseModel(json: any): Permission {
-    let permissionToAdd: Permission = new Permission(null, json.name, json.description);
+    let permissionToAdd: Permission;
+    //return the specific model with attributes
+    if (json != null && json.id != null && json.name != null) {
+      permissionToAdd = new Permission(json.id, json.name, json.description);
+    }
     return permissionToAdd;
-  }
-
-  onBeforeUpdate(row: TableRowModel): void {
-    let permission: Permission = row.model;
-    //TODO: Patchvalue to form
-    this.rowForm.patchValue({
-      "description": permission.description,
-    })
-  }
-
-  onParseFromInput(model: Permission): any {
-    let permissionToUpdate: Permission = model;
-    permissionToUpdate.id = this.rowForm.value.id;
-    permissionToUpdate.name = this.rowForm.value.name;
-    permissionToUpdate.description = this.rowForm.value.description;
-
-    return permissionToUpdate;
-
   }
 
 }

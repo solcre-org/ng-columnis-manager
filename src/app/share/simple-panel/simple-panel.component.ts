@@ -13,6 +13,7 @@ import { ApiHalPagerModel } from '../apiService/api-hal-pager.model';
 import { FormGroup } from '@angular/forms';
 import { DataBaseModelInterface } from '../apiService/data-base-model.interface';
 import { TableHeaderModel } from '../table/table-header.model';
+import { createOfflineCompileUrlResolver } from '@angular/compiler';
 
 @Component({
   selector: 'app-simple-panel',
@@ -26,16 +27,13 @@ export class SimplePanelComponent implements OnInit {
   @Input() simplePanelOptions: SimplePanelOptions;
   @Input() rowForm: FormGroup;
 
-  @Output() onParseRow: EventEmitter<any> = new EventEmitter();
+  @Input() onParseRow: (row: any) => TableRowModel;
 
   //Functions to send to parent before update or add a row
   @Input() onGetDataBaseModel: (json: any) => DataBaseModelInterface;
-  @Input() onBeforeUpdate: (row: TableRowModel) => void;
-  @Input() onParseFromInput: (model: DataBaseModelInterface) => any;
 
-
-  apiHalPagerModel: ApiHalPagerModel;
-  currentPage: number = 1;
+  //start apihalpager in currentpage = 1
+  apiHalPagerModel: ApiHalPagerModel = new ApiHalPagerModel(1);
 
   currentSorting: any = {};
   currentKeySorting: string; // clicked column
@@ -48,61 +46,72 @@ export class SimplePanelComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.onGetRows();
+    if (this.tableModel instanceof TableModel) {
+      this.onGetRows();
+    }
   }
 
   onChangePage(page) {
-    this.currentPage = page;
+    //Save the new page number 
+    this.apiHalPagerModel.currentPage = page;
     this.tableModel.removeBody();
     this.loaderService.start();
     this.onGetRows();
   }
 
   onGetRows() {
-    this.tableModel.removeBody();
     //set the query paramaters 
     let params: any = {};
-    if (this.currentKeySorting) {
-      params = {
-        page: this.currentPage,
-        ["sort[" + this.currentKeySorting + "]"]: this.currentSorting[this.currentKeySorting]
+    if (this.simplePanelOptions instanceof SimplePanelOptions) {
+      this.tableModel.removeBody();
+      if (this.currentKeySorting) {
+        params = {
+          page: this.apiHalPagerModel.currentPage,
+          ["sort[" + this.currentKeySorting + "]"]: this.currentSorting[this.currentKeySorting]
+        };
+      } else {
+        params = {
+          page: this.apiHalPagerModel.currentPage
+        };
       };
-    } else {
-      params = { page: this.currentPage };
-    };
 
-    console.log(params);
-    this.apiService.fetchData(this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
-      if (response.hasCollectionResponse()) {
-        this.apiHalPagerModel = response.pager;
-        response.data.forEach((element: any) => {
-          // Send each row to the corresponding model
-          this.onParseRow.emit(element);
-        });
+      this.apiService.fetchData(this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
+        if (response.hasCollectionResponse()) {
+          this.apiHalPagerModel = response.pager;
+          response.data.forEach((data: any) => {
+            // Send each row to the corresponding model
+            let row: TableRowModel = this.onParseRow(data);
+            this.tableModel.addRow(row);
+          });
+          //BasicSort by name
+          // this.basicSort();
+        }
         this.loaderService.done();
-        //BasicSort by name
-        this.basicSort();
-      }
-    })
+      })
+    }
   }
 
   onSave() {
     //if null -> is a new row
     if (this.rowForm.value.id == null) {
-      let model: DataBaseModelInterface = this.onGetDataBaseModel(this.rowForm.value);
-      this.onAdd(model);
+      this.onAdd(this.rowForm.value);
       //else is modified row
     } else {
-      this.onUpdateRow(this.rowForm.value.model);
+
+      this.onUpdateRow(this.rowForm.value);
     }
 
   }
 
-  onAdd(model: DataBaseModelInterface) {
+  onAdd(model: any) {
     this.loaderService.start();
-    let json = model.toJSON();
+    let rowToAdd = this.onGetDataBaseModel(model);
+    let json: any = rowToAdd.toJSON();
     this.apiService.createObj(this.simplePanelOptions.URI, json).subscribe((response: ApiResponseModel) => {
-      this.onParseRow.emit(response.data);
+      if (response.hasCollectionResponse()) {
+        let row: TableRowModel = this.onParseRow(response.data);
+        this.tableModel.addRow(row);
+      }
       this.loaderService.done();
     },
       (error: HttpErrorResponse) => {
@@ -112,45 +121,36 @@ export class SimplePanelComponent implements OnInit {
     this.rowForm.reset();
   }
 
-
-
   onUpdate(row: TableRowModel) {
-
-    //parse the default fields.
-    this.rowForm.patchValue({
-      "id": row.id,
-      "name": row.data[1],
-      "model": row.model,
-    });
-
-    //parse the specific fields.
-    this.onBeforeUpdate(row);
-
+    //parse the fields to input.
+    this.rowForm.patchValue(row.model);
   }
 
-  onUpdateRow(model: DataBaseModelInterface) {
+  onUpdateRow(model: any) {
     this.loaderService.start();
     //Parse inputs value to model to update
-    let rowToAdd = this.onParseFromInput(model);
-    const id: number = model.getId();
-    let json = rowToAdd.toJSON();
-    this.apiService.updateObj(this.simplePanelOptions.URI, json).subscribe((response: any) => {
 
-      //Add each field from the model to data[]
-      let data: string[] = [];
-      for (let field in rowToAdd) {
-        data.push(rowToAdd[field]);
-      }
-
-      let tableRowModel: TableRowModel = new TableRowModel(id, response.data, data)
-      this.tableModel.updateRow(tableRowModel);
-      this.loaderService.done();
-    },
-      (error: HttpErrorResponse) => {
-        console.log(error['error']);
+    let rowToAdd: DataBaseModelInterface = this.onGetDataBaseModel(model);
+    if (rowToAdd != null) {
+      let json: any = rowToAdd.toJSON();
+      this.apiService.updateObj(this.simplePanelOptions.URI, json).subscribe((response: any) => {
+        let newRow: TableRowModel = this.onParseRow(response.data);
+        let row: TableRowModel = this.tableModel.findRow(model.id);
+        if (row instanceof TableRowModel) {
+          //update the data and model 
+          row.data = newRow.data;
+          row.model = newRow.model;
+          this.tableModel.updateRow(row);
+        }
         this.loaderService.done();
+      },
+        (error: HttpErrorResponse) => {
+          console.log(error['error']);
+          this.loaderService.done();
 
-      })
+        })
+    }
+    this.loaderService.done();
     this.rowForm.reset();
   }
 

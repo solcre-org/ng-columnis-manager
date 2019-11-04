@@ -18,7 +18,12 @@ export class TableModel {
 
 		this.body.unshift(row);
 	}
-
+	
+	public findRow(id: any): TableRowModel {
+		return this.body.find((row: TableRowModel) => {
+			return row.model.getId() == id;
+		});
+	}
 
 	public removeRow(id: any) {
 

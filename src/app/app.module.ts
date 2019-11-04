@@ -19,6 +19,7 @@ import { DialogComponent } from './share/dialog/dialog.component';
 import { LoaderComponent } from './share/loader/loader.component';
 import { LoaderService } from './share/loader/loader.service';
 import { SimplePanelComponent } from './share/simple-panel/simple-panel.component';
+import { UserComponent } from './user/user/user.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { SimplePanelComponent } from './share/simple-panel/simple-panel.componen
     AppComponent,
     UserGroupComponent,
     PermissionComponent,
+    UserComponent,
     FilterPipe,
     PagerComponent,
     TableComponent,

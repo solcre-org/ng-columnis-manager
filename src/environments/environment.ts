@@ -7,7 +7,9 @@ export const environment = {
   apiURL: "https://api.columnis.com/004",
   oauthURI: '/oauth',
   userGroupsURI: '/columnis/user_groups',
-  permissionsURI: '/columnis/permissions'
+  permissionsURI: '/columnis/permissions',
+  usersURI: '/columnis/users'
+
 };
 
 /*

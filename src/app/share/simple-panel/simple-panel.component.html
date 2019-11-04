@@ -15,7 +15,7 @@
 
 <app-dialog></app-dialog>
 <app-pager 
-   *ngIf="apiHalPagerModel" 
+   *ngIf="apiHalPagerModel.totalItems" 
    [pager]="apiHalPagerModel" 
    (onChange)="onChangePage($event)"></app-pager>
 <app-loader></app-loader>

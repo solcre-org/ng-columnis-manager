@@ -5,7 +5,6 @@
       <input 
          type="text" 
          class="form-control"
-         model="newPermission"
          id = "newPermission"
          formControlName="name"
          placeholder="Agregar nuevo permiso"
@@ -25,8 +24,6 @@
    [simplePanelOptions]="simplePanelOptions"
    [rowForm]="rowForm"
    [tableModel]="tableModel"
-   (onParseRow)="onParseRow($event)"
-   [onBeforeUpdate]="onBeforeUpdate"
-   [onParseFromInput]="onParseFromInput"
+   [onParseRow]="onParseRow"
    [onGetDataBaseModel]="onGetDataBaseModel">
 </app-simple-panel>
