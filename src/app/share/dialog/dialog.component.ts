@@ -12,7 +12,7 @@ export class DialogComponent implements OnInit {
 	//Models
 	model: DialogModel;
 	isActive: boolean;
-
+	isCancel: boolean;
 	//Inject services
 	constructor(
 		private dialogService: DialogService
@@ -23,7 +23,11 @@ export class DialogComponent implements OnInit {
 		//Watch on open
 		this.dialogService.onOpen.subscribe((model: DialogModel) => {
 			this.model = model;
-
+			if (this.model.confirmCallback) {
+				this.isCancel = true;
+			} else {
+				this.isCancel = false;
+			}
 			//Open
       		this.isActive = true;
 		})

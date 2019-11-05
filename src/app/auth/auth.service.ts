@@ -1,20 +1,24 @@
 import { LocalStorageService } from 'angular-2-local-storage';
-import { HttpClientModule, HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { LoaderService } from '../share/loader/loader.service';
+import { DialogService } from '../share/dialog/dialog.service';
+import { DialogModel } from '../share/dialog/dialog.model';
 
 export class AuthService {
 
-    constructor(private loaderService: LoaderService, private router: Router, private httpClient: HttpClient, private localStorageService: LocalStorageService) { }
+    constructor(
+        private dialogService: DialogService,
+        private loaderService: LoaderService, 
+        private router: Router, 
+        private httpClient: HttpClient, 
+        private localStorageService: LocalStorageService) { }
 
     isAuthenticated() {
         const currentUser = this.localStorageService.get('access_token');
         const refreshToken = this.localStorageService.get('refresh_token');
         if (currentUser) {
-            console.log(refreshToken);
-            console.log(currentUser);
-
             this.httpClient.post(environment.apiURL + environment.oauthURI, {
                 "client_id": "columnis_manager",
                 "grant_type": "refresh_token",
@@ -54,9 +58,8 @@ export class AuthService {
 
             },
             (error: HttpErrorResponse) => {
-                console.log("Logged failed");
+                this.dialogService.open(new DialogModel(error.error.detail));
                 this.loaderService.done();
-
             }
 
 

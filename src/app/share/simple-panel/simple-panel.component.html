@@ -1,8 +1,14 @@
-<form [formGroup]="rowForm" (ngSubmit)="onSave()">
-      <ng-content select=".row-form"></ng-content>
-      <button class="btn btn-primary" type="submit" [disabled]="!rowForm.valid">Agregar o modificar</button>
+<form *ngIf="onShow" [formGroup]="rowForm" (ngSubmit)="onSave()">
+   <ng-content select=".row-form"></ng-content>
+   <button class="btn btn-primary" 
+      type="submit" 
+      [disabled]="!rowForm.valid">
+      Agregar o modificar</button>
 </form>
-   
+<button class="bold-link" 
+(click)="onShowAdd($event)">
+Agregar</button>
+
 <app-table 
    *ngIf="tableModel" 
    [tableModel]="tableModel"
@@ -11,11 +17,10 @@
    (onUpdate)="onUpdate($event)"
    (onSort)="onSort($event)">
 </app-table>
-
-
 <app-dialog></app-dialog>
 <app-pager 
-   *ngIf="apiHalPagerModel.totalItems" 
+   *ngIf="apiHalPagerModel.totalItems"
    [pager]="apiHalPagerModel" 
-   (onChange)="onChangePage($event)"></app-pager>
+   (onChange)="onChangePage($event)">
+</app-pager>
 <app-loader></app-loader>

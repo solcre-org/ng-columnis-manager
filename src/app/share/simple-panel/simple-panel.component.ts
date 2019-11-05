@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TableModel } from '../table/table.model';
 import { TableRowModel } from '../table/table-row.model';
 import { SimplePanelService } from './simple-panel.service';
@@ -13,7 +13,7 @@ import { ApiHalPagerModel } from '../apiService/api-hal-pager.model';
 import { FormGroup } from '@angular/forms';
 import { DataBaseModelInterface } from '../apiService/data-base-model.interface';
 import { TableHeaderModel } from '../table/table-header.model';
-import { createOfflineCompileUrlResolver } from '@angular/compiler';
+import { TableSortEnum } from '../table/table-sort.enum';
 
 @Component({
   selector: 'app-simple-panel',
@@ -37,6 +37,8 @@ export class SimplePanelComponent implements OnInit {
 
   currentSorting: any = {};
   currentKeySorting: string; // clicked column
+
+  onShow: boolean = false;
 
   constructor(
     private simplePanelService: SimplePanelService,
@@ -97,57 +99,69 @@ export class SimplePanelComponent implements OnInit {
       this.onAdd(this.rowForm.value);
       //else is modified row
     } else {
-
       this.onUpdateRow(this.rowForm.value);
     }
+  }
 
+  onShowAdd() {
+    this.onShow = true;
   }
 
   onAdd(model: any) {
     this.loaderService.start();
-    let rowToAdd = this.onGetDataBaseModel(model);
-    let json: any = rowToAdd.toJSON();
-    this.apiService.createObj(this.simplePanelOptions.URI, json).subscribe((response: ApiResponseModel) => {
-      if (response.hasCollectionResponse()) {
-        let row: TableRowModel = this.onParseRow(response.data);
-        this.tableModel.addRow(row);
-      }
-      this.loaderService.done();
-    },
-      (error: HttpErrorResponse) => {
-        console.log(error['error']);
+    let rowToAdd: DataBaseModelInterface;
+    if (model) {
+      rowToAdd = this.onGetDataBaseModel(model);
+    }
+    if (rowToAdd) {
+      let json: any = rowToAdd.toJSON();
+      this.apiService.createObj(this.simplePanelOptions.URI, json).subscribe((response: ApiResponseModel) => {
+        if (response.hasSingleResponse()) {
+          let row: TableRowModel = this.onParseRow(response.data);
+          this.tableModel.addRow(row);
+        }
         this.loaderService.done();
-      });
+      },
+        (error: HttpErrorResponse) => {
+          this.dialogService.open(new DialogModel(error.error.detail));
+          this.loaderService.done();
+        });
+    }
     this.rowForm.reset();
   }
 
   onUpdate(row: TableRowModel) {
     //parse the fields to input.
-    this.rowForm.patchValue(row.model);
+    if (row instanceof TableRowModel) {
+      this.rowForm.patchValue(row.model);
+    }
   }
 
   onUpdateRow(model: any) {
     this.loaderService.start();
+    let rowToAdd: DataBaseModelInterface;
     //Parse inputs value to model to update
-
-    let rowToAdd: DataBaseModelInterface = this.onGetDataBaseModel(model);
-    if (rowToAdd != null) {
+    if (model) {
+      rowToAdd = this.onGetDataBaseModel(model);
+    }
+    if (rowToAdd) {
       let json: any = rowToAdd.toJSON();
       this.apiService.updateObj(this.simplePanelOptions.URI, json).subscribe((response: any) => {
-        let newRow: TableRowModel = this.onParseRow(response.data);
-        let row: TableRowModel = this.tableModel.findRow(model.id);
-        if (row instanceof TableRowModel) {
-          //update the data and model 
-          row.data = newRow.data;
-          row.model = newRow.model;
-          this.tableModel.updateRow(row);
+        if (response.hasSingleResponse()) {
+          let newRow: TableRowModel = this.onParseRow(response.data);
+          let row: TableRowModel = this.tableModel.findRow(model.id);
+          if (row instanceof TableRowModel) {
+            //update the data and model 
+            row.data = newRow.data;
+            row.model = newRow.model;
+            this.tableModel.updateRow(row);
+          }
         }
         this.loaderService.done();
       },
         (error: HttpErrorResponse) => {
-          console.log(error['error']);
+          this.dialogService.open(new DialogModel(error.error.detail));
           this.loaderService.done();
-
         })
     }
     this.loaderService.done();
@@ -156,32 +170,32 @@ export class SimplePanelComponent implements OnInit {
 
   onDelete(row: TableRowModel) {
     //Open dialog
-    this.dialogService.open(new DialogModel("", "¿Estás seguro que deseas borrar el ítem: " + row.data[1] + "?", () => {
-      this.loaderService.start();
-      //Delete the usergroup
-      this.apiService.deleteObj(this.simplePanelOptions.URI, row.id).subscribe((data: any) => {
-        this.tableModel.removeRow(row.id);
-        this.loaderService.done();
-      },
-        (error: HttpErrorResponse) => {
-          console.log(error['error']);
+    if (row instanceof TableRowModel) {
+      this.dialogService.open(new DialogModel("¿Estás seguro que deseas borrar el ítem: " + row.data[1] + "?", () => {
+        this.loaderService.start();
+        //Delete the usergroup
+        this.apiService.deleteObj(this.simplePanelOptions.URI, row.id).subscribe((data: any) => {
+          this.tableModel.removeRow(row.id);
           this.loaderService.done();
-        }
-      )
-    }));
-
+        },
+          (error: HttpErrorResponse) => {
+            this.dialogService.open(new DialogModel(error.error.detail));
+            this.loaderService.done();
+          }
+        )
+      }));
+    }
   }
 
   onSort(column: TableHeaderModel) {
     this.loaderService.start();
-    const current: string = this.currentSorting[column.key];
-
+    const current: string = this.currentSorting[column.key]; 
     //Switch between states   
     if (!current) {
-      this.currentSorting[column.key] = "ASC";
+      this.currentSorting[column.key] = TableSortEnum.ASC;
       this.currentKeySorting = column.key
-    } else if (current === 'ASC') {
-      this.currentSorting[column.key] = "DESC";
+    } else if (current === TableSortEnum.ASC) {
+      this.currentSorting[column.key] = TableSortEnum.DESC;
       this.currentKeySorting = column.key
     } else {
       delete this.currentSorting[column.key];
@@ -189,7 +203,6 @@ export class SimplePanelComponent implements OnInit {
     }
     console.log(this.currentSorting);
     this.onGetRows();
-
   }
 
   basicSort() { //Sorting without api request
@@ -210,6 +223,4 @@ export class SimplePanelComponent implements OnInit {
     b = b.toUpperCase();
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-
 }
-

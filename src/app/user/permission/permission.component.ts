@@ -13,7 +13,6 @@ import { SimplePanelService } from 'src/app/share/simple-panel/simple-panel.serv
   templateUrl: './permission.component.html',
   styleUrls: ['./permission.component.css'],
   providers: [SimplePanelService]
-
 })
 export class PermissionComponent implements OnInit {
 
@@ -26,7 +25,6 @@ export class PermissionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.tableModel = new TableModel([
       new TableHeaderModel('Id', 'id'),
       new TableHeaderModel('Nombre', 'name'),
@@ -35,37 +33,27 @@ export class PermissionComponent implements OnInit {
     this.simplePanelOptions = new SimplePanelOptions(
       environment.permissionsURI,
     );
-
+    //setup the form
     this.rowForm = this.formBuilder.group({
       'id': this.formBuilder.control(null, []),
-      'description': this.formBuilder.control(null, []),
       'name': this.formBuilder.control(null, [Validators.required]),
-      'model': this.formBuilder.control(null, []),
+      'description': this.formBuilder.control(null, [])
     });
-
   }
 
   onParseRow(permission: any): TableRowModel {
     //Get each row from simple panel
     let permissionToAdd: Permission = new Permission();
-    let row: TableRowModel;
-    let data: string[]; 
-    if (permission != null && permission.id != null && permission.name != null) {
-      //parse this row to Permission
-      permissionToAdd.fromJSON(permission);
-      data = [permissionToAdd.id.toString(), permissionToAdd.name, permissionToAdd.description];
-      row = new TableRowModel(permissionToAdd.id, permissionToAdd, data);
-    }
+    //parse this row to Permission
+    permissionToAdd.fromJSON(permission);
+    let data: string[] = [permissionToAdd.id.toString(), permissionToAdd.name, permissionToAdd.description];
+    let row: TableRowModel = new TableRowModel(permissionToAdd.id, permissionToAdd, data);
     return row;
   }
 
   onGetDataBaseModel(json: any): Permission {
-    let permissionToAdd: Permission;
     //return the specific model with attributes
-    if (json != null && json.id != null && json.name != null) {
-      permissionToAdd = new Permission(json.id, json.name, json.description);
-    }
+    let permissionToAdd: Permission = new Permission(json.id, json.name, json.description);
     return permissionToAdd;
   }
-
 }

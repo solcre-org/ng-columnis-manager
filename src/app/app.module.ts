@@ -20,6 +20,7 @@ import { LoaderComponent } from './share/loader/loader.component';
 import { LoaderService } from './share/loader/loader.service';
 import { SimplePanelComponent } from './share/simple-panel/simple-panel.component';
 import { UserComponent } from './user/user/user.component';
+import { SimplePanelService } from './share/simple-panel/simple-panel.service';
 
 
 @NgModule({
@@ -31,7 +32,6 @@ import { UserComponent } from './user/user/user.component';
     FilterPipe,
     PagerComponent,
     TableComponent,
-    DialogComponent,
     SimplePanelComponent,
   ],
   imports: [

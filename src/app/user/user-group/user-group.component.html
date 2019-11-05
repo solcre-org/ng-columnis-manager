@@ -1,15 +1,6 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
-<div class="row-form" [formGroup]="rowForm">
-   <input 
-      type="text" 
-      class="form-control" 
-      model="newRow"
-      id="newRow" 
-      formControlName="name" 
-      placeholder="Agregar nuevo"
-      name="newRow"><br>
-</div>
+
 <app-simple-panel 
    *ngIf="tableModel" 
    [simplePanelOptions]="simplePanelOptions"
@@ -17,4 +8,14 @@
    [tableModel]="tableModel"
    [onParseRow]="onParseRow"
    [onGetDataBaseModel]="onGetDataBaseModel">
+   <div class="row-form" [formGroup]="rowForm">
+      <input 
+         type="text" 
+         class="form-control" 
+         model="newRow"
+         id="newRow" 
+         formControlName="name" 
+         placeholder="Agregar nuevo"
+         name="newRow"><br>
+   </div>
 </app-simple-panel>

@@ -29,9 +29,10 @@ export class TableComponent implements OnInit {
 
   }
 
-
   onDeleteRow(row: TableRowModel) {
-    this.onDelete.emit(row);
+    if (row instanceof TableRowModel) {
+      this.onDelete.emit(row);
+    }
   }
 
   onConfirmDelete() {
@@ -40,11 +41,14 @@ export class TableComponent implements OnInit {
   }
 
   onModifiersRow(row: TableRowModel) {
-    this.onUpdate.emit(row);
+    if (row instanceof TableRowModel) {
+      this.onUpdate.emit(row);
+    }
   }
 
   onSortRows(column: TableHeaderModel) {
-    this.onSort.emit(column);
+    if (column instanceof TableHeaderModel) {
+      this.onSort.emit(column);
+    }
   }
-
 }

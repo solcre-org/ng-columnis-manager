@@ -1,19 +1,20 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { LoaderComponent } from '../share/loader/loader.component';
-import { LoaderService } from '../share/loader/loader.service';
+import { DialogService } from '../share/dialog/dialog.service';
+import { DialogComponent } from '../share/dialog/dialog.component';
 
 @NgModule({
     declarations: [
         LoginComponent,
-        LoaderComponent
+        LoaderComponent,
+        DialogComponent
     ], 
     imports: [
         LocalStorageModule,
@@ -25,7 +26,9 @@ import { LoaderService } from '../share/loader/loader.service';
     ],
     exports: [
         LoginComponent,
-        LoaderComponent
-    ]
+        LoaderComponent,
+        DialogComponent
+    ],
+    providers: [DialogService]
 })
 export class AuthModule { } 

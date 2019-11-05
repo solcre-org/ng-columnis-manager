@@ -12,7 +12,7 @@
 	  </section>
 	  <footer class="modal-card-foot">
 		<button class="button is-success" (click)="onConfirm()">Confirmar</button>
-		<button class="button" (click)="onCancel()">Cancelar</button>
+		<button *ngIf="isCancel" (click)="onCancel()">Cancelar</button>
 	  </footer>
 	</div>
 </div>

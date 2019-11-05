@@ -5,8 +5,8 @@ import { UserGroup } from './user-group.model';
 import { TableModel } from 'src/app/share/table/table.model';
 import { TableHeaderModel } from 'src/app/share/table/table-header.model';
 import { TableRowModel } from 'src/app/share/table/table-row.model';
-import { SimplePanelService } from 'src/app/share/simple-panel/simple-panel.service';
 import { SimplePanelOptions } from 'src/app/share/simple-panel/simple-panel-options.model';
+import { SimplePanelService } from 'src/app/share/simple-panel/simple-panel.service';
 
 @Component({
   selector: 'app-user-group',
@@ -33,15 +33,14 @@ export class UserGroupComponent implements OnInit {
     this.simplePanelOptions = new SimplePanelOptions(
       environment.userGroupsURI,
     );
-
+    //setup the form
     this.rowForm = this.formBuilder.group({
       'id': this.formBuilder.control(null, []),
-      'name': this.formBuilder.control(null, [Validators.required]),
-      'model': this.formBuilder.control(null, []),
+      'name': this.formBuilder.control(null, [Validators.required])
     });
   }
 
-  onParseRow(userGroup: UserGroup): TableRowModel  {
+  onParseRow(userGroup: UserGroup): TableRowModel {
     //Get each row from simple panel
     let groupToAdd: UserGroup = new UserGroup();
     //parse this row to UG
@@ -56,5 +55,4 @@ export class UserGroupComponent implements OnInit {
     let groupToAdd: UserGroup = new UserGroup(json.id, json.name);
     return groupToAdd;
   }
-
 }
