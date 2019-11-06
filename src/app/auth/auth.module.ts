@@ -9,6 +9,7 @@ import { LocalStorageModule } from 'angular-2-local-storage';
 import { LoaderComponent } from '../share/loader/loader.component';
 import { DialogService } from '../share/dialog/dialog.service';
 import { DialogComponent } from '../share/dialog/dialog.component';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { DialogComponent } from '../share/dialog/dialog.component';
         AppRoutingModule,
         FormsModule,
         HttpClientModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        TranslateModule
     ],
     exports: [
         LoginComponent,

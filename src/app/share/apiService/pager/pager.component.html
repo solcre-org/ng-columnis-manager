@@ -2,12 +2,12 @@
 	<a 
 		class="pagination-previous"
 		[class.disabled]="(first === current)"
-		(click)="onPrev()">Anterior</a>
+		(click)="onPrev()">{{ "common.prev" | translate }} |</a>
 
 	<a 
 		class="pagination-next"
 		[class.disabled]="last === current"
-		(click)="onNext()">Siguiente</a>
+		(click)="onNext()"> {{ "common.next" | translate }}</a>
 
 	<ul class="pagination-list">
 	  <li *ngFor="let r of range">

@@ -24,9 +24,9 @@ export class AuthService {
                 "grant_type": "refresh_token",
                 "refresh_token": refreshToken
             }).subscribe(
-                (data: any) => {
-                    // this.localStorageService.set('access_token', data['access_token']);
-                    console.log("Logged in", data);
+                (response: any) => {
+                    // this.localStorageService.set('access_token', response['access_token']);
+                    console.log("Logged in", response);
 
                 },
                 (error: HttpErrorResponse) => {
@@ -48,10 +48,10 @@ export class AuthService {
             "username": username[0],
             "password": password
         }).subscribe(
-            (data: any) => {
-                this.localStorageService.set('access_token', data['access_token']);
-                this.localStorageService.set('refresh_token', data['refresh_token']);
-                console.log("Logged in", data);
+            (response: any) => {
+                this.localStorageService.set('access_token', response['access_token']);
+                this.localStorageService.set('refresh_token', response['refresh_token']);
+                console.log("Logged in", response);
                 console.log(this.localStorageService);
                 this.router.navigate(['/user_groups']);
                 this.loaderService.done();

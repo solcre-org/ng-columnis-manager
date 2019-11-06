@@ -1,13 +1,15 @@
 <div class="container">
     <div class="row">
         <table *ngIf="tableModel.body">
+            <h2>{{ tableModel.title | translate }}</h2>
+            <ng-content select=".add-button"></ng-content>
             <tr>
                 <th *ngFor="let th of tableModel.header">
-                    <button (click)="onSortRows(th)">{{ th.display }}</button>
+                    <button (click)="onSortRows(th)">{{ th.display | translate }}</button>
                 </th>
             </tr>
             <div>
-                <input type="text" placeholder="Filtre" [(ngModel)]="filteredStatus"><br>
+                <input type="text" placeholder="{{ 'share.table.filter' | translate }}" [(ngModel)]="filteredStatus"><br>
                 <hr>
             </div>
             <tr *ngFor="let tr of tableModel.body | filter:filteredStatus:'data'">
@@ -15,11 +17,18 @@
                     {{ td }}
                 </td>
                 <div class="btn-group mr-2">
-                    <button class="btn btn-primary" (click)="onModifiersRow(tr)">Modificar</button>
+                    <button 
+                       *ngFor="let action of tr.extraActions"
+						type="button" 
+                        (click)="onExtraActionRow(tr, action)">
+                    </button>
+                </div>
+                <div class="btn-group mr-2">
+                    <button class="btn btn-primary" (click)="onModifiersRow(tr)">{{ "share.table.modify" | translate }}</button>
                 </div>
 
                 <div class="btn-group mr-2">
-                    <button class="btn btn-primary" (click)="onDeleteRow(tr)">Eliminar</button>
+                    <button class="btn btn-primary" (click)="onDeleteRow(tr)">{{ "share.table.delete" | translate }}</button>
                 </div>
             </tr>
         </table>

@@ -25,7 +25,7 @@ export class UserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tableModel = new TableModel([
+    this.tableModel = new TableModel("Usuarios", [
       new TableHeaderModel('Id', 'id'),
       new TableHeaderModel('Email', 'email'),
       new TableHeaderModel('Usuario', 'user'),

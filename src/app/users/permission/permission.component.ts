@@ -7,6 +7,7 @@ import { TableModel } from 'src/app/share/table/table.model';
 import { TableRowModel } from 'src/app/share/table/table-row.model';
 import { SimplePanelOptions } from 'src/app/share/simple-panel/simple-panel-options.model';
 import { SimplePanelService } from 'src/app/share/simple-panel/simple-panel.service';
+import { TableRowActionModel } from 'src/app/share/table/table-row-action.model';
 
 @Component({
   selector: 'app-permission',
@@ -25,10 +26,10 @@ export class PermissionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tableModel = new TableModel([
+    this.tableModel = new TableModel("users.permission.title", [
       new TableHeaderModel('Id', 'id'),
-      new TableHeaderModel('Nombre', 'name'),
-      new TableHeaderModel('Descripción', 'description')]);
+      new TableHeaderModel('users.headers.name', 'name'),
+      new TableHeaderModel('users.headers.description', 'description')]);
 
     this.simplePanelOptions = new SimplePanelOptions(
       environment.permissionsURI,
@@ -47,7 +48,13 @@ export class PermissionComponent implements OnInit {
     //parse this row to Permission
     permissionToAdd.fromJSON(permission);
     let data: string[] = [permissionToAdd.id.toString(), permissionToAdd.name, permissionToAdd.description];
-    let row: TableRowModel = new TableRowModel(permissionToAdd.id, permissionToAdd, data);
+    let extraAction: TableRowActionModel = new TableRowActionModel("Destacar", () => {
+      console.log("extraAction");
+    });
+    let extraActions: TableRowActionModel[] = [];
+
+    extraActions.push(extraAction);
+    let row: TableRowModel = new TableRowModel(permissionToAdd.id, permissionToAdd, data, extraActions);
     return row;
   }
 

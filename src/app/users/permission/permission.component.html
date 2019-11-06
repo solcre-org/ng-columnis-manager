@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+<app-header></app-header>
+
+<app-simple-panel 
+   *ngIf="tableModel" 
+   [simplePanelOptions]="simplePanelOptions"
+   [rowForm]="rowForm"
+   [tableModel]="tableModel"
+   [onParseRow]="onParseRow"
+   [onGetDataBaseModel]="onGetDataBaseModel">
+   <div class="row-form" [formGroup]="rowForm">
+      <div>
+         <label for="newPermission"></label>
+         <input 
+            type="text" 
+            class="form-control"
+            id = "newPermission"
+            formControlName="name"
+            placeholder="{{ 'users.permission.name' | translate }}"
+            name="newPermission">
+      </div>
+
+      <div>
+         <input 
+            type="text" 
+            class="form-control"
+            formControlName="description"
+            placeholder="{{ 'users.permission.description' | translate }}"
+            name="newPermission">
+      </div>
+   </div>
+</app-simple-panel>

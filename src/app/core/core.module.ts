@@ -3,11 +3,13 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
     imports: [
-        RouterModule
+        RouterModule,
+        TranslateModule
     ],
     declarations: [
         HeaderComponent,

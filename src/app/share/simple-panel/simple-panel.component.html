@@ -1,13 +1,17 @@
-<form *ngIf="onShow" [formGroup]="rowForm" (ngSubmit)="onSave()">
+<form *ngIf="onShowForm" [formGroup]="rowForm" (ngSubmit)="onSave()">
    <ng-content select=".row-form"></ng-content>
-   <button class="btn btn-primary" 
+   <button *ngIf="!onShowSave" class="btn btn-primary" 
       type="submit" 
       [disabled]="!rowForm.valid">
-      Agregar o modificar</button>
+      {{ "share.simplePanel.add" | translate }}</button>
+   <button *ngIf="onShowSave" class="btn btn-primary" 
+      type="submit" 
+      [disabled]="!rowForm.valid">
+      {{ "share.simplePanel.save" | translate }}</button>
+   <button type="button" class="btn btn-primary" 
+      (click)="onHideForm()">
+      {{ "share.simplePanel.cancel"  | translate }}</button>
 </form>
-<button class="bold-link" 
-(click)="onShowAdd($event)">
-Agregar</button>
 
 <app-table 
    *ngIf="tableModel" 
@@ -16,6 +20,14 @@ Agregar</button>
    (onDelete)="onDelete($event)"
    (onUpdate)="onUpdate($event)"
    (onSort)="onSort($event)">
+   <div class="add-button">
+         <button 
+            class="btn btn-primary" 
+            *ngIf="!onShowForm" 
+            (click)="onShowAdd($event)">
+            +
+         </button>
+   </div>
 </app-table>
 <app-dialog></app-dialog>
 <app-pager 

@@ -4,6 +4,7 @@ import { TableRowModel } from './table-row.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DialogModel } from '../dialog/dialog.model';
 import { TableHeaderModel } from './table-header.model';
+import { TableRowActionModel } from './table-row-action.model';
 
 @Component({
   selector: 'app-table',
@@ -50,5 +51,11 @@ export class TableComponent implements OnInit {
     if (column instanceof TableHeaderModel) {
       this.onSort.emit(column);
     }
+  }
+
+  onExtraActionRow(row: TableRowModel, action: TableRowActionModel) {
+		if (action.callback) {
+			action.callback(row);
+		}
   }
 }

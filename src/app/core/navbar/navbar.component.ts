@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
@@ -8,13 +9,22 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private translateSevice: TranslateService
+  ) { }
 
   ngOnInit() {
   }
 
   onLogout() {
     this.authService.logout();
+  }
+
+  onLanguageChange(language: string) {
+    if (language) {
+      this.translateSevice.use(language);
+    }
   }
 
 }

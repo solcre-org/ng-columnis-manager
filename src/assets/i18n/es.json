@@ -1,0 +1,51 @@
+{
+    "auth": {
+        "login": {
+            "user": "Usuario@dominio.com",
+            "password": "Contraseña",
+            "enter": "Entrar"
+        }
+    }, 
+    "users": {
+        "headers": {
+            "name": "Nombre",
+            "description": "Descripción"
+        }, 
+        "userGroup": {
+            "title": "Grupos",
+            "name": "Ingrese el nombre del grupo"
+        },
+        "permission": {
+            "title": "Permisos",
+            "name": "Ingrese el nombre del permiso",
+            "description": "Ingrese la descripción del permiso"
+        }
+    },
+    "share": {
+        "simplePanel": {
+            "add": "Agregar", 
+            "cancel": "Cancelar",
+            "save": "Guardar"
+        },
+        "table": {
+            "modify": "Modificar", 
+            "delete": "Eliminar",
+            "filter": "Filtrar en esta tabla"
+        },
+        "dialog": {
+            "warning": "No ha confirmado los cambios. ¿Desea continuar y perder los cambios?",
+            "message": "¿Estás seguro que deseas borrar el ítem: ",
+            "accept": "Aceptar",
+            "cancel": "Cancelar"
+        }
+    },
+    "common": {
+        "add": "Agregar",
+        "cancel": "Cancelar",
+        "save": "Guardar",
+        "next": "Siguiente",
+        "prev": "Anterior",
+        "spanish": "Español",
+        "english": "Inglés"
+    }
+}

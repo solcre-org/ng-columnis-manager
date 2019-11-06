@@ -11,8 +11,8 @@
 		</div>
 	  </section>
 	  <footer class="modal-card-foot">
-		<button class="button is-success" (click)="onConfirm()">Confirmar</button>
-		<button *ngIf="isCancel" (click)="onCancel()">Cancelar</button>
+		<button class="button is-success" (click)="onConfirm()">{{ "share.dialog.accept" | translate }}</button>
+		<button *ngIf="isCancel" (click)="onCancel()">{{ "share.dialog.cancel" | translate }}</button>
 	  </footer>
 	</div>
 </div>

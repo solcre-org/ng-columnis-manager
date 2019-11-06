@@ -14,6 +14,7 @@ import { FormGroup } from '@angular/forms';
 import { DataBaseModelInterface } from '../apiService/data-base-model.interface';
 import { TableHeaderModel } from '../table/table-header.model';
 import { TableSortEnum } from '../table/table-sort.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-simple-panel',
@@ -38,13 +39,15 @@ export class SimplePanelComponent implements OnInit {
   currentSorting: any = {};
   currentKeySorting: string; // clicked column
 
-  onShow: boolean = false;
+  onShowForm: boolean = false;
+  onShowSave: boolean = false;
 
   constructor(
     private simplePanelService: SimplePanelService,
     private apiService: ApiService,
     private dialogService: DialogService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
@@ -80,9 +83,9 @@ export class SimplePanelComponent implements OnInit {
       this.apiService.fetchData(this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
         if (response.hasCollectionResponse()) {
           this.apiHalPagerModel = response.pager;
-          response.data.forEach((data: any) => {
+          response.data.forEach((response: any) => {
             // Send each row to the corresponding model
-            let row: TableRowModel = this.onParseRow(data);
+            let row: TableRowModel = this.onParseRow(response);
             this.tableModel.addRow(row);
           });
           //BasicSort by name
@@ -104,7 +107,27 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onShowAdd() {
-    this.onShow = true;
+    this.onShowForm = true;
+  }
+
+  onHideForm() {
+    //check if the user change the input values
+      if (this.rowForm.dirty) {
+      let warning: string;
+      //get the translate message and save in let
+      this.translateService.get('share.dialog.warning').subscribe(response => {
+        warning = response;
+      });
+      this.dialogService.open(new DialogModel(warning, () => {
+        this.rowForm.reset();
+        this.onShowForm = false;
+        this.onShowSave = false;
+      }));
+    } else {
+      this.rowForm.reset();
+      this.onShowForm = false;
+      this.onShowSave = false;
+    }
   }
 
   onAdd(model: any) {
@@ -131,6 +154,8 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onUpdate(row: TableRowModel) {
+    this.onShowForm = true;
+    this.onShowSave = true;
     //parse the fields to input.
     if (row instanceof TableRowModel) {
       this.rowForm.patchValue(row.model);
@@ -146,6 +171,7 @@ export class SimplePanelComponent implements OnInit {
     }
     if (rowToAdd) {
       let json: any = rowToAdd.toJSON();
+      //save the model
       this.apiService.updateObj(this.simplePanelOptions.URI, json).subscribe((response: any) => {
         if (response.hasSingleResponse()) {
           let newRow: TableRowModel = this.onParseRow(response.data);
@@ -164,17 +190,23 @@ export class SimplePanelComponent implements OnInit {
           this.loaderService.done();
         })
     }
-    this.loaderService.done();
     this.rowForm.reset();
+    this.loaderService.done();
   }
 
   onDelete(row: TableRowModel) {
     //Open dialog
     if (row instanceof TableRowModel) {
-      this.dialogService.open(new DialogModel("¿Estás seguro que deseas borrar el ítem: " + row.data[1] + "?", () => {
+      let message: string;
+      //get the translate message and save in let
+      this.translateService.get('share.dialog.message').subscribe(response => {
+        message = response;
+      });
+      //row.data[1] is the name 
+      this.dialogService.open(new DialogModel(message + row.data[1] + "?", () => {
         this.loaderService.start();
         //Delete the usergroup
-        this.apiService.deleteObj(this.simplePanelOptions.URI, row.id).subscribe((data: any) => {
+        this.apiService.deleteObj(this.simplePanelOptions.URI, row.id).subscribe((response: any) => {
           this.tableModel.removeRow(row.id);
           this.loaderService.done();
         },
@@ -189,7 +221,7 @@ export class SimplePanelComponent implements OnInit {
 
   onSort(column: TableHeaderModel) {
     this.loaderService.start();
-    const current: string = this.currentSorting[column.key]; 
+    const current: string = this.currentSorting[column.key];
     //Switch between states   
     if (!current) {
       this.currentSorting[column.key] = TableSortEnum.ASC;

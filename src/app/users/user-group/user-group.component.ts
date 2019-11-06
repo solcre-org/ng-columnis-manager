@@ -25,9 +25,9 @@ export class UserGroupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tableModel = new TableModel([
+    this.tableModel = new TableModel("users.userGroup.title", [
       new TableHeaderModel('Id', 'id'),
-      new TableHeaderModel('Nombre', 'name')
+      new TableHeaderModel('users.headers.name', 'name')
     ]);
 
     this.simplePanelOptions = new SimplePanelOptions(
