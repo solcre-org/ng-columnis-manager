@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { TableModel } from '../table/table.model';
 import { TableRowModel } from '../table/table-row.model';
 import { SimplePanelService } from './simple-panel.service';
@@ -33,6 +33,8 @@ export class SimplePanelComponent implements OnInit {
   //Functions to send to parent before update or add a row
   @Input() onGetDataBaseModel: (json: any) => DataBaseModelInterface;
 
+  @Output() onExtraAction: EventEmitter<any> = new EventEmitter();
+
   //start apihalpager in currentpage = 1
   apiHalPagerModel: ApiHalPagerModel = new ApiHalPagerModel(1);
 
@@ -41,6 +43,8 @@ export class SimplePanelComponent implements OnInit {
 
   onShowForm: boolean = false;
   onShowSave: boolean = false;
+
+  domainCode: string; 
 
   constructor(
     private simplePanelService: SimplePanelService,
@@ -52,6 +56,7 @@ export class SimplePanelComponent implements OnInit {
 
   ngOnInit() {
     if (this.tableModel instanceof TableModel) {
+      this.domainCode = "004";
       this.onGetRows();
     }
   }
@@ -84,6 +89,7 @@ export class SimplePanelComponent implements OnInit {
         if (response.hasCollectionResponse()) {
           this.apiHalPagerModel = response.pager;
           response.data.forEach((response: any) => {
+            
             // Send each row to the corresponding model
             let row: TableRowModel = this.onParseRow(response);
             this.tableModel.addRow(row);
@@ -217,6 +223,10 @@ export class SimplePanelComponent implements OnInit {
         )
       }));
     }
+  }
+  
+  onExtraActionClick(data:any) {
+    this.onExtraAction.emit(data);
   }
 
   onSort(column: TableHeaderModel) {

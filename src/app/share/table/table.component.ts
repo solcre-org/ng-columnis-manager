@@ -18,6 +18,8 @@ export class TableComponent implements OnInit {
   @Output() onDelete: EventEmitter<TableRowModel> = new EventEmitter();
   @Output() onUpdate: EventEmitter<TableRowModel> = new EventEmitter();
   @Output() onSort: EventEmitter<TableHeaderModel> = new EventEmitter();
+  @Output() onExtraActionClick: EventEmitter<any> = new EventEmitter();
+
   dialog: DialogModel;
   newRowForm: FormGroup;
   filteredStatus = '';
@@ -52,10 +54,8 @@ export class TableComponent implements OnInit {
       this.onSort.emit(column);
     }
   }
-
-  onExtraActionRow(row: TableRowModel, action: TableRowActionModel) {
-		if (action.callback) {
-			action.callback(row);
-		}
+  onExtraActionRow(key: string, row: any) {
+    this.onExtraActionClick.emit({key, row});
   }
+
 }

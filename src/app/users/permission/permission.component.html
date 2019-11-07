@@ -7,7 +7,8 @@
    [rowForm]="rowForm"
    [tableModel]="tableModel"
    [onParseRow]="onParseRow"
-   [onGetDataBaseModel]="onGetDataBaseModel">
+   [onGetDataBaseModel]="onGetDataBaseModel"
+   (onExtraAction)="onExtraAction($event)">
    <div class="row-form" [formGroup]="rowForm">
       <div>
          <label for="newPermission"></label>

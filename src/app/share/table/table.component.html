@@ -17,10 +17,10 @@
                     {{ td }}
                 </td>
                 <div class="btn-group mr-2">
-                    <button 
+                    <button class="btn btn-primary"
                        *ngFor="let action of tr.extraActions"
 						type="button" 
-                        (click)="onExtraActionRow(tr, action)">
+                        (click)="onExtraActionRow(action.key, tr)">{{ action.description }}
                     </button>
                 </div>
                 <div class="btn-group mr-2">

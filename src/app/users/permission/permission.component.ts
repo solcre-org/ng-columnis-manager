@@ -48,13 +48,19 @@ export class PermissionComponent implements OnInit {
     //parse this row to Permission
     permissionToAdd.fromJSON(permission);
     let data: string[] = [permissionToAdd.id.toString(), permissionToAdd.name, permissionToAdd.description];
-    let extraAction: TableRowActionModel = new TableRowActionModel("Destacar", () => {
-      console.log("extraAction");
-    });
-    let extraActions: TableRowActionModel[] = [];
 
-    extraActions.push(extraAction);
-    let row: TableRowModel = new TableRowModel(permissionToAdd.id, permissionToAdd, data, extraActions);
+    //Declare the extra actions 
+    let extraActions: TableRowActionModel[] = [
+      new TableRowActionModel("highlight", "Destacar"),
+      new TableRowActionModel("double", "Duplicar")
+    ];
+
+    let row: TableRowModel = new TableRowModel(
+      permissionToAdd.id,
+      permissionToAdd,
+      data,
+      extraActions
+    );
     return row;
   }
 
@@ -62,5 +68,18 @@ export class PermissionComponent implements OnInit {
     //return the specific model with attributes
     let permissionToAdd: Permission = new Permission(json.id, json.name, json.description);
     return permissionToAdd;
+  }
+
+  //Declare the functions of the actions
+  onExtraAction(data: any) {
+    switch (data.key) {
+      case "highlight": {
+        console.log(data.key);
+      }
+      case "double": {
+        console.log(data.key);
+        this.tableModel.addRow(data.row);
+      }
+    }
   }
 }
