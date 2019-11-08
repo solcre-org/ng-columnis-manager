@@ -15,6 +15,7 @@ import { DataBaseModelInterface } from '../apiService/data-base-model.interface'
 import { TableHeaderModel } from '../table/table-header.model';
 import { TableSortEnum } from '../table/table-sort.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-simple-panel',
@@ -44,19 +45,20 @@ export class SimplePanelComponent implements OnInit {
   onShowForm: boolean = false;
   onShowSave: boolean = false;
 
-  domainCode: string; 
+  domainCode: string;
 
   constructor(
     private simplePanelService: SimplePanelService,
     private apiService: ApiService,
     private dialogService: DialogService,
     private loaderService: LoaderService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit() {
     if (this.tableModel instanceof TableModel) {
-      this.domainCode = "004";
+      this.domainCode = this.localStorageService.get('code');
       this.onGetRows();
     }
   }
@@ -85,11 +87,11 @@ export class SimplePanelComponent implements OnInit {
         };
       };
 
-      this.apiService.fetchData(this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
+      this.apiService.fetchData(this.domainCode + this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
         if (response.hasCollectionResponse()) {
           this.apiHalPagerModel = response.pager;
           response.data.forEach((response: any) => {
-            
+
             // Send each row to the corresponding model
             let row: TableRowModel = this.onParseRow(response);
             this.tableModel.addRow(row);
@@ -118,7 +120,7 @@ export class SimplePanelComponent implements OnInit {
 
   onHideForm() {
     //check if the user change the input values
-      if (this.rowForm.dirty) {
+    if (this.rowForm.dirty) {
       let warning: string;
       //get the translate message and save in let
       this.translateService.get('share.dialog.warning').subscribe(response => {
@@ -144,7 +146,7 @@ export class SimplePanelComponent implements OnInit {
     }
     if (rowToAdd) {
       let json: any = rowToAdd.toJSON();
-      this.apiService.createObj(this.simplePanelOptions.URI, json).subscribe((response: ApiResponseModel) => {
+      this.apiService.createObj(this.domainCode + this.simplePanelOptions.URI, json).subscribe((response: ApiResponseModel) => {
         if (response.hasSingleResponse()) {
           let row: TableRowModel = this.onParseRow(response.data);
           this.tableModel.addRow(row);
@@ -178,7 +180,7 @@ export class SimplePanelComponent implements OnInit {
     if (rowToAdd) {
       let json: any = rowToAdd.toJSON();
       //save the model
-      this.apiService.updateObj(this.simplePanelOptions.URI, json).subscribe((response: any) => {
+      this.apiService.updateObj(this.domainCode + this.simplePanelOptions.URI, json).subscribe((response: any) => {
         if (response.hasSingleResponse()) {
           let newRow: TableRowModel = this.onParseRow(response.data);
           let row: TableRowModel = this.tableModel.findRow(model.id);
@@ -212,7 +214,7 @@ export class SimplePanelComponent implements OnInit {
       this.dialogService.open(new DialogModel(message + row.data[1] + "?", () => {
         this.loaderService.start();
         //Delete the usergroup
-        this.apiService.deleteObj(this.simplePanelOptions.URI, row.id).subscribe((response: any) => {
+        this.apiService.deleteObj(this.domainCode + this.simplePanelOptions.URI, row.id).subscribe((response: any) => {
           this.tableModel.removeRow(row.id);
           this.loaderService.done();
         },
@@ -224,8 +226,8 @@ export class SimplePanelComponent implements OnInit {
       }));
     }
   }
-  
-  onExtraActionClick(data:any) {
+
+  onExtraActionClick(data: any) {
     this.onExtraAction.emit(data);
   }
 

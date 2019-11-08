@@ -5,24 +5,25 @@ import { environment } from '../../environments/environment';
 import { LoaderService } from '../share/loader/loader.service';
 import { DialogService } from '../share/dialog/dialog.service';
 import { DialogModel } from '../share/dialog/dialog.model';
-import { ApiService } from '../share/apiService/api.service';
-import { ApiResponseModel } from '../share/apiService/api-response.model';
 
 export class AuthService {
 
+    codeDomain: string;
+
     constructor(
         private dialogService: DialogService,
-        private loaderService: LoaderService, 
-        private router: Router, 
-        private httpClient: HttpClient, 
+        private loaderService: LoaderService,
+        private router: Router,
+        private httpClient: HttpClient,
         private localStorageService: LocalStorageService
-        ) { }
+    ) { }
 
     isAuthenticated() {
-        const currentUser = this.localStorageService.get('access_token');
-        const refreshToken = this.localStorageService.get('refresh_token');
+        let currentUser = this.localStorageService.get('access_token');
+        let refreshToken = this.localStorageService.get('refresh_token');
+        this.codeDomain = this.localStorageService.get('code');
         if (currentUser) {
-            this.httpClient.post(environment.apiURL + environment.oauthURI, {
+            this.httpClient.post(environment.apiURL + this.codeDomain + environment.oauthURI, {
                 "client_id": "columnis_manager",
                 "grant_type": "refresh_token",
                 "refresh_token": refreshToken
@@ -46,20 +47,19 @@ export class AuthService {
         this.loaderService.start();
         let username = email.split("@");
 
-        this.httpClient.post(environment.apiURL + environment.oauthURI, {
+        this.httpClient.post(environment.apiURL + this.codeDomain + environment.oauthURI, {
             "client_id": "columnis_manager",
             "grant_type": "password",
             "username": username[0],
             "password": password
         }).subscribe(
             (response: any) => {
+                this.localStorageService.set('code', this.codeDomain);
                 this.localStorageService.set('access_token', response['access_token']);
                 this.localStorageService.set('refresh_token', response['refresh_token']);
                 console.log("Logged in", response);
-                console.log(this.localStorageService);
                 this.router.navigate(['/user_groups']);
                 this.loaderService.done();
-
             },
             (error: HttpErrorResponse) => {
                 this.dialogService.open(new DialogModel(error.error.detail));
@@ -81,16 +81,11 @@ export class AuthService {
     }
 
     getCode(domain: string) {
-        let code: string;
         let params = new HttpParams().set('domain', domain);
         this.httpClient.get(environment.apiURL + environment.codeURI, { params }).subscribe((response: any) => {
-            console.log((response.code).toString());
-            code = response.code;
-            this.localStorageService.set('code', '/' + code);
+            this.codeDomain = response.code;
         }, (error: HttpErrorResponse) => {
             console.log(error);
-            // this.dialogService.open(new DialogModel(error.error.detail));
-            // this.loaderService.done();
         });
     }
 

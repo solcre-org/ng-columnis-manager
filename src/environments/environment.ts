@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiURL: "https://api.columnis.com/004",
-  codeURI: "/001/columnis/clients",
+  apiURL: "https://api.columnis.com/",
+  codeURI: "001/columnis/clients",
   oauthURI: '/oauth',
   userGroupsURI: '/columnis/user_groups',
   permissionsURI: '/columnis/permissions',
