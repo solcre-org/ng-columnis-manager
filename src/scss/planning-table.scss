@@ -1,0 +1,332 @@
+// bower: scss
+// endbower
+
+@import 'partials/mixins';
+@import 'partials/vars';
+
+
+/* PLANNING TABLE */
+
+.planning-table{
+
+    .td{
+        display: inline-block;
+        vertical-align: middle;
+        width: 14.2857%;
+        width: 15.2%;
+        padding: 0 5px;
+        box-sizing: border-box;
+
+        &.x2{
+            width: 28.5714%;
+            width: 30.4%;
+        }
+    }
+    .thead .td:first-child,
+        .tbody .tr .td:first-child{
+        padding-left: $spaceX;
+        width: 13%;
+    }
+    .thead .td:last-child,
+        .tbody .td:last-child{
+        padding-right: $spaceX;
+        width: 11%;
+    }
+
+    // Head
+
+    .thead{
+        background-color: $lgrey2;
+        box-shadow: inset 0px -1px 0px 0px rgba($black, 0.04);
+    }
+    .thead .holder{
+        background-color: $lgrey2;
+        box-shadow:
+            inset 0px -1px 0px 0px rgba($black, 0.06),
+            0px -2px 12px rgba($black, 0.1);
+    }
+    .thead .td{
+        text-align: center;
+        // padding-top: 13px;
+        // padding-bottom: 12px;
+        color: $grey3;
+    }
+
+    // body
+
+    .tbody{
+        .tr{
+            padding: 20px 0 23px;
+            border-top: 1px solid $lgrey2;
+            &:first-child{
+                border-top: none;
+            }
+            &:last-child{
+                border-bottom: 1px solid $lgrey2;
+            }
+
+            .td{
+                position: relative;
+                text-align: center;
+
+                &.bridge:before{
+                    content: "";
+                    display: block;
+                    width: 67.6%;
+                    height: 32px;
+                    position: absolute;
+                    left: 16.2% + 50;
+                    top: 50%;
+                    margin-top: -10px;
+                    @include img(contain);
+                    background-image: url(../assets/images/planning/bridge.svg);
+                }
+                &:last-child{
+                    text-align: right;
+                }
+
+                .title{
+                    @include strong(uppercase);
+                    font-size: 1.4em;
+                    color: $grey2;
+                    text-align: left;
+                }
+                .caption{
+                    display: block;
+                    font-size: 1.3em;
+                    color: inherit;
+                    font-style: inherit;
+                    margin-top: -2px;
+                }
+                .nums{
+                    display: inline-block;
+                    position: relative;
+                    margin-top: 10px;
+                    color: $grey2;
+
+                    .value{
+                        display: inline-block;
+                        @include strong();
+                        font-size: 4.4em;
+                        line-height: 1;
+                    }
+                    .diff{
+                        position: absolute;
+                        right: 130%;
+                        bottom: -2px;
+                        @include strong();
+                        font-size: 1.4em;
+                        line-height: 1;
+                        margin-top: 0;
+                    }
+                }
+            }
+            // Total
+            &.total{
+                background-color: $lgrey3;
+                .td{
+                    .title{
+                        font-size: 1.7em;
+                        color: $color1;
+                    }
+                }
+            }
+        }
+
+        // Positions
+        .positions{
+            display: none;
+
+            .table{
+                .row .cell{
+                    &:first-child{
+                        text-align: left !important;
+                    }
+                    &.border{
+                        border-right: 1px solid rgba($grey3, 0.35);
+                    }
+                }
+                // Head
+                .head{
+                    .row{
+                        .cell{
+                            padding-top: 7px;
+                            padding-bottom: 7px;
+                            color: $grey2;
+                            text-align: center;
+                            border-bottom: none;
+
+                            .text{
+                                display: inline-block;
+                                max-width: 100%;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                            }
+                        }
+                        &.dark{
+                            .cell{
+                                color: $grey3;
+                                background-color: rgba($grey3, 0.35);
+                            }
+                        }
+                    }
+                }
+                // Body
+                .body{
+                    .row{
+                        .cell{
+                            text-align: center;
+
+                            &.bg-success{
+                                background-color: #EBFAD7;
+                            }
+                            &.bg-error{
+                                background-color: #FCDEDF;
+                            }
+                            &.bg-info{
+                                background-color: #D8EBF4;
+                            }
+
+                            .warning{
+                                font-size: 21px;
+                            }
+                            .equivalence{
+                                margin: 6px 0 4px;
+                                font-size: 1.3em;
+
+                                &.styled-form{
+                                    margin: 10px 0 6px;
+                                    font-size: 1em;
+
+                                    &.input{
+                                        font-size: 1.3em;
+                                    }
+                                }
+                            }
+                            .input[type="number"]{
+                                padding-right: 6px;
+                                padding-left: 6px;
+                            }
+                            .submit-quote{
+                                padding-right: 30px;
+                                position: relative;
+
+                                .input{
+                                    &:not(:focus){
+                                        box-shadow: inset 0px 0px 0px 1px rgba($black, 0.08);
+                                    }
+                                    &.bg-success{
+                                        background-color: #EBFAD7;
+                                    }
+                                    &.bg-error{
+                                        background-color: #FCDEDF;
+                                    }
+                                    &.bg-info{
+                                        background-color: #D8EBF4;
+                                    }
+                                }
+                                .submit-btn{
+                                    display: block;
+                                    width: 36px;
+                                    height: 100%;
+                                    position: absolute;
+                                    right: -10px;
+                                    top: 0;
+                                    background-color: $info;
+                                    color: $white;
+                                    font-size: 15px;
+                                    border-radius: 4px;
+
+                                    &:not([disabled]):hover,
+                                        &:not([disabled]):focus{
+                                        opacity: 0.5;
+                                    }
+                                    &[disabled]{
+                                        background-color: $grey4;
+                                        cursor: default;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // On Equivalence
+    .equivalence{
+        display: none !important;
+    }
+
+} // .planning-table
+
+.planning-table.showEquivalences .equivalence{
+    display: block !important;
+}
+
+// Loader
+.planning-table{
+    .styled-table .table .row{
+        .loader{
+            margin-top: -2px;
+        }
+    }
+    &.showEquivalences{
+        .styled-table .table .row{
+            .loader{
+                margin-top: 10px;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+/* HIGH devices */
+
+@media (min-width: 1280px) and (min-height: 800px) {
+    // Loader
+    .planning-table{
+        .styled-table .table .row{
+            .loader{
+                margin-top: -3px;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+/* LONG devices */
+
+@media (min-width: 1600px){
+
+    $spaceX: 45px;
+    $spaceX-xl: 85px;
+
+    .planning-table{
+        .td{
+            padding: 0 20px;
+        }
+        .thead .td:first-child,
+            .tbody .tr .td:first-child{
+            padding-left: $spaceX;
+        }
+        .thead .td:last-child,
+            .tbody .td:last-child{
+            padding-right: $spaceX;
+        }
+    }
+
+}
+
+
+
+

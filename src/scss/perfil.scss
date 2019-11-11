@@ -1,0 +1,378 @@
+// bower:scss
+// endbower
+
+@import 'partials/mixins';
+@import 'partials/vars';
+
+
+
+/* VARS */
+
+$avatarSize: 80px;
+
+
+
+/* PROFILE HEAD */
+
+.profile-head{
+    position: relative;
+    padding: $spaceY $spaceX-xl;
+    padding-left: $spaceX-xl + $avatarSize + 20px;
+    background-color: $lgrey2;
+    box-sizing: border-box;
+
+    &:before{
+        height: $avatarSize;
+    }
+    .name{
+        display: block;
+        font-size: 1.6em;
+        @include strong(uppercase);
+        color: $grey2;
+    }
+    .avatar{
+        width: $avatarSize;
+        height: $avatarSize;
+        position: absolute;
+        left: $spaceX-xl;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: $lgrey3;
+        box-shadow: 0px 0px 0px 1px $white;
+        cursor: pointer;
+
+        &.placeholder{
+            background-image: url(../assets/images/profile/first-login-avatar-placeholder.svg);
+            background-color: transparent;
+        }
+        &.loading{
+            background-color: rgba($grey2, 0.5);
+
+            &:before{
+                width: 28px;
+                height: 28px;
+                margin: -14px 0 0 -14px;
+                border-width: 3px;
+            }
+        }
+        .input{
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 2;
+            border-radius: 50%;
+            opacity: 0;
+            cursor: pointer;
+        }
+    }
+    .dot-link{
+        margin-bottom: -2px;
+        font-size: 1.4em;
+    }
+}
+
+
+
+/* FIRST LOGIN */
+
+.first-login{
+    .holder{
+        padding-right: $spaceX-xl;
+        padding-left: $spaceX-xl;
+
+        .profile-head{
+            margin-top: -#{$spaceY};
+            margin-right: -#{$spaceX-xl};
+            margin-left: -#{$spaceX-xl};
+        }
+    }
+    .profile-head{
+        @extend .gradient-green;
+
+        .name{
+            color: $white;
+        }
+        .avatar{
+            &.placeholder{
+                &:after{
+                    @include icon("\e94d");
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    position: absolute;
+                    right: 3px;
+                    top: 3px;
+                    color: $color1;
+                    background-color: $white;
+                    border-radius: 50%;
+                    line-height: 20px;
+                    text-align: center;
+                    font-size: 16px;
+                    text-indent: 1px;
+                }
+            }
+        }
+    }
+    .styled-form{
+        .text{
+            font-size: 1.4em;
+            color: $grey2;
+            margin-top: 2px;
+        }
+        .submit-holder{
+            text-align: center;
+            padding-bottom: 10px;
+        }
+    }
+
+} // .first-login
+
+
+
+/* USER PROFILE */
+
+.user-profile{
+
+    // Profile head
+
+    .profile-head{
+        margin-top: -#{$spaceY};
+        margin-right: -#{$spaceX};
+        margin-left: -#{$spaceX};
+        padding-right: $spaceX;
+        padding-left: $spaceX + $avatarSize + 20px;
+
+        .avatar{
+            left: $spaceX;
+        }
+        .name{
+            font-size: 1.8em;
+        }
+    }
+
+    &.my-profile{
+        .profile-head{
+            @extend .gradient-green;
+
+            .name{
+                color: $white;
+            }
+        }
+    }
+
+} // .user-profile
+
+
+
+
+
+
+
+/* HIGH Devices */
+
+@media (min-height: 800px) and (min-width: 1280px){
+
+    /* VARS */
+
+    $header-height: 64px;
+    $spaceY: 30px;
+
+
+
+    /* PROFILE HEAD */
+
+    .profile-head{
+        padding-top: $spaceY;
+        padding-bottom: $spaceY;
+    }
+
+
+
+    /* FIRST LOGIN */
+
+    .first-login{
+        .holder{
+            .profile-head{
+                margin-top: -#{$spaceY};
+            }
+        }
+    } // .first-login
+
+
+
+    /* USER PROFILE */
+
+    .user-profile{
+        .profile-head{
+            margin-top: -#{$spaceY};
+        }
+    } // .user-profile
+
+
+} // High devices
+
+
+
+
+
+/* LONG devices */
+
+@media (min-width: 1600px){
+
+    /* VARS */
+
+    $spaceX: 45px;
+    $spaceX-xl: 85px;
+
+
+
+    /* PROFILE HEAD */
+
+    .profile-head{
+        padding-right: $spaceX-xl;
+        padding-left: $spaceX-xl + $avatarSize + 20px;
+
+        .avatar{
+            left: $spaceX-xl;
+        }
+    }
+
+
+
+    /* FIRST LOGIN */
+
+    .first-login{
+        .holder{
+            padding-right: $spaceX-xl;
+            padding-left: $spaceX-xl;
+
+            .profile-head{
+                margin-right: -#{$spaceX-xl};
+                margin-left: -#{$spaceX-xl};
+            }
+        }
+    } // .first-login
+
+
+
+    /* USER PROFILE */
+
+    .user-profile{
+        .profile-head{
+            margin-right: -#{$spaceX};
+            margin-left: -#{$spaceX};
+            padding-right: $spaceX;
+            padding-left: $spaceX + $avatarSize + 20px;
+
+            .avatar{
+                left: $spaceX;
+            }
+        }
+    } // .user-profile
+
+} // Long devices
+
+
+
+
+
+/* MOBILE */
+
+@media (max-width: 1279px){
+
+
+} // Mobile
+
+
+
+
+
+/* XS MOBILE */
+
+@media (max-width: 767px){
+
+    /* VARS */
+
+    $spaceX: 20px;
+    $avatarSize: 50px;
+
+
+
+    /* PROFILE HEAD */
+
+    .profile-head{
+        padding-right: $spaceX;
+        padding-left: $spaceX + $avatarSize + 13px;
+
+        &:before{
+            height: $avatarSize;
+        }
+        .avatar{
+            width: $avatarSize;
+            height: $avatarSize;
+            left: $spaceX;
+
+            &.placeholder{
+                background-size: 64px auto;
+
+                &:after{
+                    width: 16px;
+                    height: 16px;
+                    right: -2px;
+                    top: -2px;
+                    line-height: 16px;
+                    font-size: 14px;
+                    text-indent: 1px;
+                }
+            }
+        }
+    }
+
+
+
+    /* FIRST LOGIN */
+
+    .first-login{
+        .holder{
+            padding-right: $spaceX;
+            padding-left: $spaceX;
+
+            .profile-head{
+                margin-right: -#{$spaceX};
+                margin-left: -#{$spaceX};
+            }
+        }
+    } // .first-login
+
+
+
+    /* USER PROFILE */
+
+    .user-profile{
+        .profile-head{
+            padding-right: $spaceX;
+            padding-left: $spaceX + $avatarSize + 20px;
+
+            .avatar{
+                left: $spaceX;
+            }
+            .name{
+                font-size: 1.6em;
+            }
+        }
+    } // .user-profile
+
+} // Xs mobile
+
+
+
+
+
+
+
+
+
+

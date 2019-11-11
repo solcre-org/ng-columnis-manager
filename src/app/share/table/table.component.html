@@ -1,36 +1,63 @@
-<div class="container">
-    <div class="row">
-        <table *ngIf="tableModel.body">
-            <h2>{{ tableModel.title | translate }}</h2>
+<div class="table-viewport margin-t-3">
+	<div class="styled-table">
+        <table class="table" *ngIf="tableModel.body">
             <ng-content select=".add-button"></ng-content>
-            <tr>
-                <th *ngFor="let th of tableModel.header">
-                    <button (click)="onSortRows(th)">{{ th.display | translate }}</button>
-                </th>
-            </tr>
-            <div>
-                <input type="text" placeholder="{{ 'share.table.filter' | translate }}" [(ngModel)]="filteredStatus"><br>
-                <hr>
-            </div>
-            <tr *ngFor="let tr of tableModel.body | filter:filteredStatus:'data'">
-                <td *ngFor="let td of tr.data">
-                    {{ td }}
-                </td>
-                <div class="btn-group mr-2">
-                    <button class="btn btn-primary"
-                       *ngFor="let action of tr.extraActions"
-						type="button" 
-                        (click)="onExtraActionRow(action.key, tr)">{{ action.description }}
-                    </button>
-                </div>
-                <div class="btn-group mr-2">
-                    <button class="btn btn-primary" (click)="onModifiersRow(tr)">{{ "share.table.modify" | translate }}</button>
-                </div>
+            <thead class="head">
+                <tr class="row">
+                    <th class="cell" *ngFor="let th of tableModel.header">
+                        <button (click)="onSortRows(th)">{{ th.display | translate }}</button>
+                    </th>
+                </tr>
+                <!-- <div>
+                    <input type="text" placeholder="{{ 'share.table.filter' | translate }}" [(ngModel)]="filteredStatus"><br>
+                    <hr>
+                </div> -->
+            </thead>
+            <tbody class="body">
+                <tr class="row" *ngFor="let tr of tableModel.body | filter:filteredStatus:'data'">
+                    <td class="cell" *ngFor="let td of tr.data">
+                        {{ td }}
+                    </td>
+                    <td class="cell actions-holder">
+						<a 
+                            *ngFor="let action of tr.extraActions"
+							(click)="onExtraActionRow(action.key, tr)"
+							class="bold-link action">{{ action.description | translate }}</a>
+						<button 
+                            *ngFor="let action of tr.extraActions"
+							type="button" 
+							(click)="onExtraActionRow(tr, action)"
+							[title]="action.description | translate"
+							[disabled]="action.disabled"
+							class="action show-on-edit action-btn icon-btn text-info {{ action.classes }}"></button>
+						<button 
+							type="button" 
+                            (click)="onModifiersRow(tr)"							
+                            [title]="'share.table.modify'| translate"
+							class="action show-on-edit action-btn icon-btn icon-edit text-info"></button>
+						<button 
+							type="button" 
+							(click)="onDeleteRow(tr)"
+							[title]="'share.table.delete' | translate "
+							class="action show-on-edit action-btn icon-btn icon-delete text-error"></button>
+                    </td>
+                    
+                    <!-- <div class="btn-group mr-2">
+                        <button class="btn btn-primary"
+                        *ngFor="let action of tr.extraActions"
+                            type="button" 
+                            (click)="onExtraActionRow(action.key, tr)">{{ action.description }}
+                        </button>
+                    </div>
+                    <div class="btn-group mr-2">
+                        <button class="btn btn-primary" (click)="onModifiersRow(tr)">{{ "share.table.modify" | translate }}</button>
+                    </div>
 
-                <div class="btn-group mr-2">
-                    <button class="btn btn-primary" (click)="onDeleteRow(tr)">{{ "share.table.delete" | translate }}</button>
-                </div>
-            </tr>
+                    <div class="btn-group mr-2">
+                        <button class="btn btn-primary" (click)="onDeleteRow(tr)">{{ "share.table.delete" | translate }}</button>
+                    </div> -->
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

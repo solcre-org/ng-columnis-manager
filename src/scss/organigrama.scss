@@ -1,0 +1,247 @@
+@import 'partials/mixins';
+@import 'partials/vars';
+
+
+.organization-bg{
+    position: relative;
+    background-color: $lgrey3;
+
+    &:before{
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left:0;
+        top: 0;
+        background-color: $lgrey3;
+        z-index: -1;
+    }
+}
+
+.organization-bg.printing svg,
+.organization-bg.printing .node{
+    margin-top: 50px
+}
+.organization-bg .dashboard-info {
+    display: none;
+}
+.organization-bg.printing .dashboard-info {
+    padding-top: 20px;
+	display: inline-block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+.chart { 
+	background-color: $lgrey3;
+	//height: 1524px; 
+	height: 200px; 
+	width: 100%; 
+}
+
+.orgChartNode {
+	border: none;
+    border-radius:5px;
+	box-shadow: 1px 2px 8px rgba($black, 0.05);
+	text-align: center;
+	padding: 3px 5px 17px;
+    background:$white;
+    font-size: 12px;
+    height: auto;
+    line-height: 1;
+	color: $grey3;
+	width: 170px;
+    box-sizing: border-box;
+}
+.orgChartNode .node-name {
+    color: $color1;
+    height: auto;
+	font-size: 13px;
+	font-weight: bold;
+    line-height: 1.2;
+    padding-top: 15px;
+    box-sizing: border-box;
+}
+.orgChartNode .node-title,
+.orgChartNode .node-desc {
+	padding-top: 5px;
+    background: $white;
+    font-size: 12px;
+    line-height: 1;
+    color: $grey3;
+    box-sizing: border-box;
+}
+
+.orgChartNode .node-title{
+	font-weight: bold;
+}
+
+.orgChartNode .node-title:empty {
+    display: none;
+}
+
+.orgChartNode .node-group p{
+    font-size: 10px;
+}
+.orgChartNode .node-group + .node-group .node-name {
+    padding-top: 10px;
+}
+.orgChartNode .node-group:not(:last-of-type) .node-desc {
+    padding-bottom: 5px;
+}
+.orgChartNode .node-group:not(:last-of-type) {
+    border-bottom: 1px solid #ddd;
+}
+
+/* required LIB STYLES */
+/* .Treant se automatski dodaje na svaki chart conatiner */
+.Treant { position: relative; overflow: hidden; padding: 0 !important; }
+.Treant > .node,
+.Treant > .pseudo { position: absolute; display: block; visibility: hidden; }
+.Treant.Treant-loaded .node,
+.Treant.Treant-loaded .pseudo { visibility: visible; }
+.Treant > .pseudo { width: 0; height: 0; border: none; padding: 0; }
+.Treant .collapse-switch { width: 3px; height: 3px; display: block; border: 1px solid black; position: absolute; top: 1px; right: 1px; cursor: pointer; }
+.Treant .collapsed .collapse-switch { background-color: #868DEE; }
+.Treant > .node img {	border: none; float: left; }
+
+/*
+
+@import 'partials/mixins';
+@import 'partials/vars';
+
+
+.organization-bg{
+    position: relative;
+    background-color: $lgrey3;
+
+    &:before{
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left:0;
+        top: 0;
+        background-color: $lgrey3;
+        z-index: -1;
+    }
+}
+
+.orgchart{
+    background-color: $lgrey3;
+    transform: none !important;
+}
+.orgchart .node{
+    width: 170px;
+    border: none;
+    border-radius:5px;
+    padding:0;
+    margin:3px;
+    box-shadow: 1px 2px 8px rgba($black, 0.05);
+
+    &.focused,
+    &:hover{
+        background-color:rgba(2, 146, 68, 0.18)
+    }
+    .fa:before{
+        @include icon();
+    }
+}
+.orgchart .node .title{
+    background:$white;
+    color: $color1;
+    height: auto;
+    font-size: 13px;
+    line-height: 1.2;
+    padding: 2px 23px;
+    padding-top: 15px;
+    box-sizing:border-box;
+
+    .symbol{
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        opacity: .5;
+        margin-top: 0;
+        margin-left: 0;
+
+        &.fa.fa-users:before{
+            content: "\e931";
+        }
+    }
+}
+
+.orgchart .node .content{
+    padding: 3px 5px 17px;
+    background:$white;
+    font-size: 12px;
+    border: none;
+    height: auto;
+    line-height: 1;
+    color: $grey3;
+    box-sizing: border-box;
+}
+.orgchart .node .edge{
+    color: rgb(5, 93, 42);
+    font-size: 13px;
+}
+
+.orgchart .node .leftEdge:before{
+    left: -6px;
+}
+.orgchart .node .rightEdge:before{
+    right: -6px;
+}
+.orgchart .node .topEdge{
+    top: -9px;
+}
+.orgchart .node .bottomEdge{
+    bottom: -9px;
+}
+
+.orgchart .node .edge.fa-chevron-up:before{
+    content: "\e95a";
+}
+.orgchart .node .edge.fa-chevron-down:before{
+    content: "\e958";
+}
+.orgchart .node .edge.fa-chevron-right:before{
+    content: "\e958";
+    transform: rotate(-90deg);
+}
+.orgchart .node .edge.fa-chevron-left:before{
+    content: "\e958";
+    transform: rotate(90deg);
+}
+
+
+.orgchart .verticalNodes ul>li::after, 
+.orgchart .verticalNodes ul>li::before,
+.orgchart .verticalNodes>td::before,
+.orgchart tr.lines .rightLine,
+.orgchart tr.lines .topLine,
+.orgchart tr.lines .leftLine{
+    border-color: rgba($grey3,0.3);
+}
+.orgchart tr.lines .downLine{
+    background-color: rgba($grey3,0.3);
+}
+
+.orgchart .node .tooltip-holder{
+    position:absolute;
+    top:9px;
+    right:8px;
+}
+.orgchart .node .tooltip-holder .icon{
+    font-size:1.5em;
+    color:#008449;
+}
+
+#chart-container {
+	text-align: center;
+}
+
+*/

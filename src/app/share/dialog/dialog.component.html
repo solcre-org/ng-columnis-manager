@@ -1,18 +1,14 @@
-<div id="modal-ter" class="modal" [class.isActive]="isActive">
-	<div class="modal-background"></div>
-	<div class="modal-card">
-	  <header class="modal-card-head">
-		<p class="modal-card-title" *ngIf="model">{{ model.title }}</p>
-		<!-- <button class="delete" aria-label="close" (click)="onCancel()"></button> -->
-	  </header>
-	  <section class="modal-card-body">
-		<div class="content">
-		  <p *ngIf="model">{{ model.message }}</p>
+<div class="popup xs internal align-m" [class.active]="isActive">
+	<div class="holder align">
+		<div class="confirm-box">
+			<p *ngIf="model" class="text bold">
+				{{ model.message | translate}} <br class="hidden-mobile">
+			</p>
+			<div class="btns margin-t-6">
+				<button class="btn filled-btn error" (click)="onConfirm()">{{ "share.dialog.accept" | translate }}</button>
+				<button class="btn filled-btn" *ngIf="isCancel" (click)="onCancel()">{{ "share.dialog.cancel" | translate }}</button>
+			</div>
 		</div>
-	  </section>
-	  <footer class="modal-card-foot">
-		<button class="button is-success" (click)="onConfirm()">{{ "share.dialog.accept" | translate }}</button>
-		<button *ngIf="isCancel" (click)="onCancel()">{{ "share.dialog.cancel" | translate }}</button>
-	  </footer>
 	</div>
+	<div class="overlay" (click)="onCancel()"></div>
 </div>

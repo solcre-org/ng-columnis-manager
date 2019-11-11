@@ -1,0 +1,328 @@
+// bower:scss
+// endbower
+
+@import 'partials/mixins';
+@import 'partials/vars';
+
+
+/* LOGIN */
+
+.overlayed-screen{
+    @include fixed(100%, 100%, 900);
+    @extend .gradient-green;
+    color: $white;
+    
+    &:before{
+        content: "";
+        display: block;
+        position: absolute;
+        top: 15px;
+        bottom: 15px;
+        left: 52.2%;
+        right: 12.7%;
+        z-index: 0;
+        background: no-repeat left center/contain;
+        background-image: url(../assets/images/isotipo.svg);
+        opacity: 0.05;
+    }
+    .holder{
+        height: 100%;
+        position: relative;
+        z-index: 1;
+        padding: 0 10.5vw;
+        box-sizing: border-box;
+    }
+    .holder.align-m > .align{
+        width: 50%;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    .styled-form{
+        width: 100%;
+        max-width: 280px;
+        margin-top: 15px;
+
+        .input{
+            box-shadow: none;
+            &.error{
+                box-shadow: inset 0px 0px 0px 2px rgba($error, 0.5);
+            }
+        }
+        .submit-holder{
+            margin-top: 35px;
+        }
+        label.error{
+            color: #ee9899;
+            font-weight: $bold;
+        }
+    }
+
+    .avatar{
+        width: 92px;
+        height: 92px;
+        position: relative;
+        margin-top: -30px;
+        margin-bottom: 30px;
+        
+        &.loading{
+            background-color: rgba($grey2, 0.5);
+            
+            &:before{
+                width: 28px;
+                height: 28px;
+                margin: -14px 0 0 -14px;
+                border-width: 3px;
+            }
+        }
+    }
+    .logo{
+        // MegaPharma
+        //width: 203px;
+        //height: 20px;
+        //background-image: url(../assets/images/logo.svg);
+        margin-bottom: 35px;
+        background: no-repeat left center/ auto 55px;
+        
+        // Eva
+        width: 160px;
+        height: 55px;
+        background-image: url(../assets/images/logo.svg);
+        //animation: logo 1.5s steps(25);
+        animation: logo 5s steps(25) infinite; // wait x4
+        animation-fill-mode: forwards;
+    }
+    .subtitle{
+        opacity: 0.8;
+    }
+    .name{
+        @include strong();
+        font-size: 3.5em;
+        line-height: 0.9;
+    }
+    .text{
+        margin-top: 3px;
+        margin-bottom: 20px;
+    }
+
+    .links-holder{
+        margin-top: 60px;
+        a{
+            font-size: 1.5em;
+            font-weight: $bold;
+        }
+    }
+    
+    // Video    
+    .video-holder{
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        opacity: .15;
+        z-index: 0;
+        background-color: #ece9e6;
+        
+        video{
+            width: auto;
+            height: auto;
+            min-width: 100%;
+            min-height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            -webkit-transform: translate(-50%,-50%);
+            -moz-transform: translate(-50%,-50%);
+            -o-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+    }
+}
+
+// Video orientation
+
+.overlayed-screen .video-holder video{
+    height:100%;
+}
+@media (min-aspect-ratio: 16/10){
+    .overlayed-screen .video-holder video{
+        height:auto;
+        width:100%;
+    }
+}
+
+// Activate user
+
+.activate-user-screen{
+    .text{
+        max-width: 280px;
+        margin-top: 11px;
+    }
+}
+
+// Locked screen
+
+.locked-screen{
+    .user-info{
+        padding-left: 85px;
+        position: relative;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        
+        &:before{
+            min-height: 70px;
+        }
+        > .align{
+            width: 100%;
+        }
+        .avatar{
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            left: -2px;
+            top: 0;
+            margin: 0;
+        }
+    }
+}
+
+
+
+
+
+
+/* MOBILE */
+
+@media (max-width: 1279px){
+
+    /* LOGIN */
+
+    .overlayed-screen{
+        text-align: center;
+
+        &:before{
+            right: 10%;
+            left: 45%;
+            background-position: center;
+        }
+        .holder.align-m > .align{
+            width: 100%;
+            padding-top: $spaceY;
+            padding-bottom: $spaceY;
+            text-align: left;
+        }
+    }
+
+} // Mobile
+
+
+
+
+
+/* TABLET */
+
+@media (max-width: 979px){
+
+    .overlayed-screen{
+        &:before{
+            left: 10%;
+        }
+        .holder.align-m > .align{
+            width: 100%;
+            max-width: 280px;
+        }
+        .holder{
+            padding: 0 $spaceX + 10;
+        }
+    }
+
+} // Tablet
+
+
+
+
+
+/* XS MOBILE */
+
+@media (max-width: 767px){
+
+    .overlayed-screen{
+        &:before{
+            right: 15px;
+            left: 15px;
+        }
+        .align-m > .align{
+            width: 100%;
+            max-width: 280px;
+        }
+        .holder{
+            padding: 0 $spaceX + 10;
+        }
+        .logo{
+            margin-bottom: 20px;
+        }
+        .name{
+            font-size: 2.6em;
+            line-height: 1.1;
+        }
+        .links-holder{
+            margin-top: 30px;
+        }
+    }
+
+} // Xs mobile
+
+
+@media (max-width: 360px){
+
+    .overlayed-screen{
+        .logo{
+            width: 128px;
+            height: 44px;
+            background-size: auto 44px;
+            margin-bottom: 20px;
+        }
+    }
+
+} // Xs mobile
+
+
+
+
+
+/* SHORT DEVICES */
+
+@media (max-height: 430px){
+
+    .overlayed-screen .styled-form .submit-holder{
+        margin-top: 20px;
+    }
+
+}
+
+
+
+
+
+
+
+
+/* KEYFRAMES */
+
+@keyframes logo {
+    0%{
+        background-position:0% 0%;
+    }
+    25%{
+        background-position:100% 0%;
+    }
+    100%{
+        background-position:100% 0%;
+    }
+}
+
+
+
+

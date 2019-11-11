@@ -1,21 +1,23 @@
-<app-navbar></app-navbar>
-<app-header></app-header>
-
-<app-simple-panel 
-   *ngIf="tableModel" 
-   [simplePanelOptions]="simplePanelOptions"
-   [rowForm]="rowForm"
-   [tableModel]="tableModel"
-   [onParseRow]="onParseRow"
-   [onGetDataBaseModel]="onGetDataBaseModel">
-   <div class="row-form" [formGroup]="rowForm">
-      <input 
-         type="text" 
-         class="form-control" 
-         model="newRow"
-         id="newRow" 
-         formControlName="name" 
-         placeholder="{{ 'users.userGroup.name' | translate }}"
-         name="newRow"><br>
-   </div>
-</app-simple-panel>
+<div class="layout responsive">
+   <app-simple-panel 
+      *ngIf="tableModel" 
+      [simplePanelOptions]="simplePanelOptions"
+      [rowForm]="rowForm"
+      [tableModel]="tableModel"
+      [onParseRow]="onParseRow"
+      [onGetDataBaseModel]="onGetDataBaseModel">
+      <div class="primary-form styled-form" [formGroup]="rowForm">
+				<label 
+					class="label" 
+					for="newRow">{{ 'users.userGroup.name' | translate }}</label>
+            <input 
+               type="text" 
+               class="input" 
+               model="newRow"
+               id="newRow" 
+               formControlName="name" 
+               placeholder="{{ 'users.userGroup.name' | translate }}"
+               name="newRow"><br>
+      </div>
+   </app-simple-panel>
+</div>

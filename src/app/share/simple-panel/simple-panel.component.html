@@ -1,39 +1,75 @@
-<form class='test' *ngIf="onShowForm" [formGroup]="rowForm" (ngSubmit)="onSave()">
-   <ng-content select=".row-form"></ng-content>
-   <button *ngIf="!onShowSave" class="btn btn-primary" 
-      type="submit" 
-      [disabled]="!rowForm.valid">
-      {{ "share.simplePanel.add" | translate }}</button>
-   <button *ngIf="onShowSave" class="btn btn-primary" 
-      type="submit" 
-      [disabled]="!rowForm.valid">
-      {{ "share.simplePanel.save" | translate }}</button>
-   <button type="button" class="btn btn-primary" 
-      (click)="onHideForm()">
-      {{ "share.simplePanel.cancel"  | translate }}</button>
-</form>
+<div class="edit-available edit-view">
 
-<app-table 
-   *ngIf="tableModel" 
-   [tableModel]="tableModel"
-   (onAddRow)="onAddRow($event)" 
-   (onDelete)="onDelete($event)"
-   (onUpdate)="onUpdate($event)"
-   (onSort)="onSort($event)"
-   (onExtraActionClick)="onExtraActionClick($event)">
-   <div class="add-button">
-         <button 
-            class="btn btn-primary" 
-            *ngIf="!onShowForm" 
-            (click)="onShowAdd($event)">
-            +
-         </button>
+
+   <div class="wrapper">
+      <div class="section">
+         <app-table 
+            *ngIf="tableModel" 
+            [tableModel]="tableModel"
+            (onAddRow)="onAddRow($event)" 
+            (onDelete)="onDelete($event)"
+            (onUpdate)="onUpdate($event)"
+            (onSort)="onSort($event)"
+            (onExtraActionClick)="onExtraActionClick($event)">
+            <div class="add-button">
+                  <a 
+                     class="btn icon-btn icon-add text-info" 
+                     *ngIf="!onShowForm" 
+                     (click)="onShowAdd($event)"
+                     title="Agregar nuevo"></a>
+            </div>
+         </app-table>
+      </div>
    </div>
-</app-table>
+   <app-pager 
+      *ngIf="apiHalPagerModel.totalItems"
+      [pager]="apiHalPagerModel" 
+      (onChange)="onChangePage($event)">
+   </app-pager>
+   <div class="wrapper section">
+         <app-loader></app-loader>
+   </div>
+</div>
+<app-modal>
+   <div class="holder" *ngIf="onShowForm">
+      <div class="modal-head align-m">
+         <div class="align">
+            <button 
+               type="button"
+               class="link cancel">
+               Volver
+            </button>
+
+            <p class="text">
+               <span>
+                  Agregar nuevo
+               </span>
+            </p>
+
+            <button
+               type="button"
+               class="link confirm">
+               <span>
+                 Agregar
+               </span>
+            </button>
+         </div>
+
+      </div>
+      <form *ngIf="onShowForm" [formGroup]="rowForm" (ngSubmit)="onSave()">
+            <ng-content select=".primary-form"></ng-content>
+            <button *ngIf="!onShowSave" class="btn btn-primary" 
+               type="submit" 
+               [disabled]="!rowForm.valid">
+               {{ "share.simplePanel.add" | translate }}</button>
+            <button *ngIf="onShowSave" class="btn btn-primary" 
+               type="submit" 
+               [disabled]="!rowForm.valid">
+               {{ "share.simplePanel.save" | translate }}</button>
+            <button type="button" class="btn btn-primary" 
+               (click)="onHideForm()">
+               {{ "share.simplePanel.cancel"  | translate }}</button>
+         </form>
+   </div>
+</app-modal>
 <app-dialog></app-dialog>
-<app-pager 
-   *ngIf="apiHalPagerModel.totalItems"
-   [pager]="apiHalPagerModel" 
-   (onChange)="onChangePage($event)">
-</app-pager>
-<app-loader></app-loader>

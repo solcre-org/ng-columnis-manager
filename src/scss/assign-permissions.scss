@@ -1,0 +1,364 @@
+// bower:scss
+// endbower
+
+@import 'partials/mixins';
+@import 'partials/vars';
+
+
+/* ASSIGN PERMISSIONS */
+
+.assign-permissions{
+    .topbar{
+        &.workspace-info{
+            height: auto;
+
+            .holder{
+                height: auto;
+            }
+            .text{
+                padding-top: 10px;
+                padding-bottom: 10px;
+                overflow: visible;
+                white-space: initial;
+                text-overflow: initial;
+            }
+            .tag{
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                padding: 4px 8px 4px 12px;
+                margin: 4px 0px;
+                margin-right: 5px;
+                background: $lgrey2;
+                font-size: 0.8em;
+                font-weight: $bold;
+                border-radius: 15px;
+                cursor: pointer;
+                box-sizing:border-box;
+
+                .remove{
+                    display: inline-block;
+                    vertical-align: middle;
+                    position: relative;
+                    top: -1px;
+                    margin-left: 2px;
+
+                    &:before{
+                        @include icon("\e94e");
+                        display: inline-block;
+                        vertical-align: middle;
+                        font-size: 15px;
+                        color: $error;
+                    }
+                }
+            }
+        }
+
+        .dot-link{
+            top: auto;
+            margin-rigtht:0;
+            padding-top: 6px;
+        }
+    }
+
+
+    // Styled table
+
+    .styled-table{
+        overflow: visible;
+    }
+    .styled-table .table .cell{
+        text-align: center;
+    }
+    .styled-table .table .cell:first-child{
+        text-align: left;
+    }
+    .styled-table .table .cell:last-child{
+        width: 35px;
+        text-align: center;
+    }
+
+    .accordion-cell-btn{
+        display: block;
+        padding: 10px;
+        
+        &:after{
+            /*
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+            border: solid #262626;
+
+            transform: rotate(45deg);
+
+
+            position: absolute;
+            right:50%;
+            top: 50%;
+            margin-right: -2px;
+            margin-top: -6px;
+
+            transition: transform 200ms ease-out, margin 200ms ease-out;
+            */
+            @include arrow(bottom);
+            width: 10px;
+            height: 10px;
+            border-width: 0 3px 3px 0;
+            box-sizing: border-box;
+            transition:
+                transform 200ms ease-out,
+                top 200ms ease-out;
+        }
+        &.active:after{
+            transform: rotate(-135deg);
+            top: 0;
+        }
+        &:hover,
+        &:focus{
+            opacity: 0.5;
+        }
+    }
+
+    // Explainer
+
+    .table-viewport{
+        position: relative;
+    }
+
+    /* Nico : Agregar position 3 a base */
+    .explainer{
+        position: absolute;
+        text-align: center;
+        opacity: 0.7;
+
+        &.position-3{
+            left: 30px;
+            top: 45px;
+            text-align: left;
+
+            .arrow{
+                display: inline-block;
+                width: 64px;
+                @include img(contain);
+                background-image: url(../assets/images/dashboard/arrow-3.svg);
+
+                &:before{
+                    content: "";
+                    display: block;
+                    width: 100%;
+                    height: 0;
+                    padding-bottom: 110.34%;
+                }
+            }
+            .text{
+                margin-top: 10px;
+            }
+        }
+    }
+
+
+    /* Popup */
+
+    .popup .massive-actions{
+        padding-top: 5px;
+        padding-bottom: 5px;
+
+        .text {
+            font-size: 1.8em;
+        }
+        
+        .input-holder{
+            .select{
+                margin-top: 10px;
+            }
+        }
+        
+        .switches{
+            .switch-holder{
+                display: inline-block;
+                margin-right: 10px;
+                margin-left: 10px;
+
+                .caption{
+                    display: block !important;
+                    text-align: center;
+                    margin-bottom: 5px;
+                    font-size: 1.3em;
+                    margin-right: 0;
+                }
+            }
+        }
+
+    }
+
+
+}
+
+// PERMISSIONS LIST
+
+.permissions-list{
+
+    .pager{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 55px;
+        line-height: 55px;
+        text-align: center;
+    }
+
+}
+
+
+
+
+@media (min-width: 768px){
+
+    .assign-permissions{
+        .switch-holder .caption{
+            display: none;
+        }
+    }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 1279px){
+
+
+    /* ASSIGN PERMISSIONS */
+
+    .assign-permissions{
+        padding-left:0;
+
+        .fixed-top,
+        .fixed-bottom{
+            > .holder{
+                left: 0;
+            }
+        }
+
+        .topbar{
+            .selection{
+
+                &:after{
+                    position: absolute;
+                    top: 50%;
+                    width: 10px;
+                    height: 10px;
+                    margin-top: -8px;
+                    right: 30px;
+                }
+
+            }
+        }
+
+
+        .footer .main-footer .filled-btn {
+            height: 45px;
+            line-height: 45px;
+            padding: 0 25px;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+
+
+
+    }
+
+    /* PERMISSIONS LIST */
+
+    .permissions-list{
+        width: 100%;
+        position: relative;
+        top: 0;
+        box-shadow: none;
+    }
+
+
+} // Mobile
+
+
+/* XS MOBILE */
+
+@media (max-width: 767px){
+
+    /* VARS */
+
+    $spaceX: 20px;
+
+    /* ASSIGN PERMISSIONS */
+
+    .assign-permissions{
+        /* Styled table */
+
+        .styled-table thead{
+            display: none;
+        }
+        .styled-table .table,
+        .styled-table .table tbody,
+        .styled-table .table .row,
+        .styled-table .table .row .cell{
+            display: block;
+            width: auto;
+        }
+        .styled-table .table .row:not(:first-child){
+            border-top: 1px solid #eaeaea;
+        }
+        .styled-table .table .body > .row:not(:first-child) > .cell{
+            border-top: none;
+        }
+        .styled-table .table .row:not(.no-relative){
+            position: relative;
+            padding:15px 10px;
+
+            box-sizing: border-box;
+        }
+        .styled-table .table .row .cell{
+            display: inline-block;
+            padding: 5px 9px;
+            text-align: center;
+            height: auto;
+
+            &:first-child{
+                display: block;
+                text-align: left;
+            }
+
+            &:last-child{
+                position: absolute;
+                width: 35px;
+                height: 35px;
+                top:50%;
+                margin-top: -17px;
+                right: 10px;
+                padding: 0;
+                border-top: none;
+            }
+        }
+
+
+    }
+
+
+    
+
+
+} // Xs mobile
+
+
+
+
+
+
+
+
+
+

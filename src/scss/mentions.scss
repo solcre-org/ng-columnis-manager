@@ -1,0 +1,45 @@
+.tribute-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: auto;
+	max-height: 300px;
+	max-width: 500px;
+	overflow: auto;
+	display: block;
+	z-index: 999999;
+	box-shadow: 2px 2px 15px 4px rgba(0, 0, 0, 0.09)
+}
+.tribute-container ul {
+	margin: 0;
+	margin-top:0;
+    background:#fff;
+	padding: 0;
+	list-style: none;
+}
+.tribute-container li {
+	padding: 13px 10px;
+    font-size: 1.4em;
+    cursor: pointer;
+    border-bottom: 1px solid #efefef;
+}
+.tribute-container li.highlight, .tribute-container li:hover {
+	background: #eaeaea;
+}
+.tribute-container li span {
+	font-weight: bold;
+}
+.tribute-container li.no-match {
+	cursor: default;
+}
+.tribute-container .menu-highlighted {
+	font-weight: bold;
+}
+.employee-link{
+	display: inline!important;
+	border-bottom: 1px dotted #009245;
+	color: #009245;
+}
+.styled-form .input.text{
+	font-size: 1.5em;
+}

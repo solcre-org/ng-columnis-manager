@@ -1,0 +1,53 @@
+
+/* EXTENDED PROPERTIES */
+
+// Transitions
+
+.ns-transition{
+    transition:
+        color 200ms ease-out,
+        background-color 200ms ease-out,
+        border 200ms ease-out,
+        opacity 200ms ease-out,
+        box-shadow 200ms ease-out;
+}
+
+// Gradients
+
+.gradient-green{
+	@include linear-gradient(to right,$color1, $gradient-1a 27%, $gradient-1b 100%);
+}
+.gradient-blue{
+	@include linear-gradient(to right,$color2, $gradient-2a, $gradient-2b);
+}
+
+// Fonts
+
+.strong{
+	font-family: $font-strong;
+	font-weight: $bold;
+	line-height: 1.1;
+	text-transform: uppercase;
+}
+
+// Positions
+
+.fixed-fullscreen{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+}
+
+// Imgs
+
+.img{
+	background: no-repeat center/cover;
+}
+.img-contain{
+	background: no-repeat center/contain;
+}
+
+
+

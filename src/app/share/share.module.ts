@@ -10,6 +10,7 @@ import { DialogService } from './dialog/dialog.service';
 import { LoaderComponent } from './loader/loader.component';
 import { LoaderService } from './loader/loader.service';
 import { SimplePanelService } from './simple-panel/simple-panel.service';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { SimplePanelService } from './simple-panel/simple-panel.service';
         DialogComponent,
         LoaderComponent,
         LoaderService,
-        SimplePanelService
+        SimplePanelService,
+        ModalComponent
     ],
     exports: [
         FilterPipe,
@@ -34,7 +36,8 @@ import { SimplePanelService } from './simple-panel/simple-panel.service';
         DialogComponent,
         LoaderService,
         LoaderComponent, 
-        SimplePanelService
+        SimplePanelService,
+        ModalComponent
     ]
 
 })

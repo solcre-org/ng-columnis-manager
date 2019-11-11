@@ -1,0 +1,263 @@
+// bower: scss
+// endbower
+
+@import './partials/mixins';
+@import './partials/vars';
+
+
+/* NUMERIC */
+
+.widget-numeric{
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    color: $grey2;
+
+    // To em (based on font-size 172px - 1x1 square @ 1440px resolution)
+    display: block;
+    line-height: 0.073;
+    padding-bottom: 0.08em;
+
+    .info{
+        box-sizing: border-box;
+
+        // To em (based on font-size 172px - 1x1 square @ 1440px resolution)
+        display: block;
+        text-align: center;
+        padding: 0 0.058em; // 10px
+
+        .icon{
+            color: $color1;
+
+            // To em (based on font-size 172px - 1x1 square @ 1440px resolution)
+            display: block;
+            font-size: 0.15em; // 26px
+            margin-bottom: 6px;
+        }
+        .title{
+            display: block;
+            @include strong();
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            opacity: 0.6;
+
+            // To em (based on font-size 172px - 1x1 square @ 1440px resolution)
+            display: block;
+            font-size: 0.081em; // 1.4em
+            line-height: 0.9;
+        }
+    }
+
+    .num{
+        display: inline-block;
+        @include strong();
+
+        // To em (based on font-size 172px - 1x1 square @ 1440px resolution)
+        display: block;
+        font-size: 0.279em; // 4.8em
+        min-width: 0.093em; // 1.6em
+        line-height: 0.8;
+        margin-top: 0.09em; // 15px
+
+        &.characters-4{
+            font-size: 0.239em;
+        }
+        &.characters-5{
+            font-size: 0.2em;
+        }
+        &.characters-6{
+            font-size: 0.19em;
+        }
+        &.characters-7{
+            font-size: 0.17em;
+        }
+        &.characters-8{
+            font-size: 0.16em;
+        }
+        &.characters-9{
+            font-size: 0.14em;
+        }
+        &.characters-10{
+            font-size: 0.12em;
+        }
+        &.characters-11{
+            font-size: 0.11em;
+        }
+        &.characters-12{
+            font-size: 0.10em;
+        }
+        &.characters-13{
+            font-size: 0.09em;
+        }
+    }
+
+    // SIMPLE
+
+    &.simple{
+        padding-bottom: 0.04em;
+
+        .info{
+            .icon{
+                display: none;
+            }
+
+        }
+        .num{
+              
+                &.characters-6{
+                    font-size: 0.16em;
+                }
+                &.characters-7{
+                    font-size: 0.13em;
+                }
+                &.characters-8{
+                    font-size: 0.12em;
+                }
+                &.characters-9{
+                    font-size: 0.10em;
+                }
+                &.characters-10{
+                    font-size: 0.09em;
+                }
+                &.characters-11{
+                    font-size: 0.08em;
+                }
+                &.characters-12{
+                    font-size: 0.07em;
+                }
+                &.characters-13{
+                    font-size: 0.06em;
+                }
+            }
+    }
+}
+/*
+.with-filters .widget-numeric{
+    transform: translateY(10%);
+}
+*/
+
+// EDIT VIEW
+.edit-view{
+    /*
+    .widget-numeric{
+        .info{
+            padding-left: 24px;
+
+            .icon{
+                font-size: 20px;
+            }
+            .title{
+                font-size: 1.3em;
+            }
+        }
+        .num{
+            font-size: 4.1em;
+            margin-top: 2px;
+        }
+
+        // LG
+
+        &.lg{
+            .info{
+                padding-left: 57px;
+
+                .icon{
+                    font-size: 44px;
+                }
+                .title{
+                    font-size: 2.7em;
+                    line-height: 1;
+                }
+            }
+            .num{
+                font-size: 9.6em;
+            }
+        }
+    }
+    */
+}
+
+// Less than desktop
+@media (max-width: 1359px){
+    /*
+    .widget-numeric{
+        .info{
+            padding-left: 24px;
+
+            .icon{
+                font-size: 20px;
+            }
+            .title{
+                font-size: 1.3em;
+            }
+        }
+        .num{
+            font-size: 4.1em;
+            margin-top: 2px;
+        }
+
+        // LG
+
+        &.lg{
+            .info{
+                padding-left: 57px;
+
+                .icon{
+                    font-size: 44px;
+                }
+                .title{
+                    font-size: 2.7em;
+                    line-height: 1;
+                }
+            }
+            .num{
+                font-size: 9.6em;
+            }
+        }
+    }
+    // EDIT VIEW
+    .edit-view{
+    }
+    */
+}
+// HD
+@media (min-width: 1600px){
+    /*
+    .widget-numeric{
+        .info{
+            padding-left: 32px;
+
+            .icon{
+                font-size: 26px;
+            }
+            .title{
+                font-size: 1.5em;
+            }
+        }
+        .num{
+            font-size: 5.2em;
+            margin-top: 4px;
+        }
+
+        // LG
+
+        &.lg{
+            .info{
+                padding-left: 75px;
+
+                .icon{
+                    font-size: 60px;
+                }
+                .title{
+                    font-size: 3.5em;
+                }
+            }
+            .num{
+                font-size: 12.2em;
+            }
+        }
+    }
+    */
+}

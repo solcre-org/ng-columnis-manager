@@ -1,0 +1,336 @@
+@font-face {
+  font-family: 'eva-icons';
+  src:  url('../assets/fonts/eva-icons.eot?4v08jp');
+  src:  url('../assets/fonts/eva-icons.eot?4v08jp#iefix') format('embedded-opentype'),
+    url('../assets/fonts/eva-icons.woff2?4v08jp') format('woff2'),
+    url('../assets/fonts/eva-icons.ttf?4v08jp') format('truetype'),
+    url('../assets/fonts/eva-icons.woff?4v08jp') format('woff'),
+    url('../assets/fonts/eva-icons.svg?4v08jp#eva-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'eva-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-widget-horas-extra:before {
+  content: "\e933";
+}
+.icon-widget-unidades-persona-directa:before {
+  content: "\e96b";
+}
+.icon-notificaciones:before {
+  content: "\e934";
+}
+.icon-not-reportto:before {
+  content: "\e96a";
+}
+.icon-todolist:before {
+  content: "\e969";
+}
+.icon-home:before {
+  content: "\e968";
+}
+.icon-arrow-line:before {
+  content: "\e966";
+}
+.icon-report-to:before {
+  content: "\e965";
+}
+.icon-organigrama:before {
+  content: "\e964";
+}
+.icon-btn-png:before {
+  content: "\e963";
+}
+.icon-btn-pdf:before {
+  content: "\e967";
+}
+.icon-not-connection:before {
+  content: "\e962";
+}
+.icon-refresh:before {
+  content: "\e961";
+}
+.icon-action-lock-open:before {
+  content: "\e947";
+}
+.icon-action-lock:before {
+  content: "\e960";
+}
+.icon-check-all:before {
+  content: "\e95e";
+}
+.icon-collapse-all:before {
+  content: "\e95f";
+}
+.icon-rename:before {
+  content: "\e95d";
+}
+.icon-favorite:before {
+  content: "\e95c";
+}
+.icon-cross:before {
+  content: "\e95b";
+}
+.icon-worker-add:before {
+  content: "\e955";
+}
+.icon-worker-modify:before {
+  content: "\e956";
+}
+.icon-worker-downgrade:before {
+  content: "\e958";
+}
+.icon-worker-deleted:before {
+  content: "\e959";
+}
+.icon-worker-upgrade:before {
+  content: "\e95a";
+}
+.icon-save:before {
+  content: "\e957";
+}
+.icon-back:before {
+  content: "\e954";
+}
+.icon-move-tree:before {
+  content: "\e953";
+}
+.icon-menu-config:before {
+  content: "\e952";
+}
+.icon-toast-error:before {
+  content: "\e94e";
+}
+.icon-toast-info:before {
+  content: "\e94f";
+}
+.icon-toast-success:before {
+  content: "\e950";
+}
+.icon-toast-warning:before {
+  content: "\e951";
+}
+.icon-add:before {
+  content: "\e94d";
+}
+.icon-activity:before {
+  content: "\e94c";
+}
+.icon-folders:before {
+  content: "\e94b";
+}
+.icon-favorite-fill:before {
+  content: "\e948";
+}
+.icon-delete:before {
+  content: "\e949";
+}
+.icon-message:before {
+  content: "\e94a";
+}
+.icon-move:before {
+  content: "\e946";
+}
+.icon-config:before {
+  content: "\e945";
+}
+.icon-view:before {
+  content: "\e944";
+}
+.icon-widget-accidentabilidad:before {
+  content: "\e918";
+}
+.icon-widget-accidentes-dias:before {
+  content: "\e919";
+}
+.icon-widget-accidentes:before {
+  content: "\e91a";
+}
+.icon-widget-administracion:before {
+  content: "\e91b";
+}
+.icon-widget-antiguedad-cargo:before {
+  content: "\e91c";
+}
+.icon-widget-antiguedad:before {
+  content: "\e91d";
+}
+.icon-widget-apoyo:before {
+  content: "\e91e";
+}
+.icon-widget-ausentismo:before {
+  content: "\e91f";
+}
+.icon-widget-babyboomers:before {
+  content: "\e920";
+}
+.icon-widget-calendario:before {
+  content: "\e921";
+}
+.icon-widget-capacitacion-horas-persona:before {
+  content: "\e922";
+}
+.icon-widget-capacitacion-horas:before {
+  content: "\e923";
+}
+.icon-widget-capacitacion:before {
+  content: "\e924";
+}
+.icon-widget-colaboradores:before {
+  content: "\e925";
+}
+.icon-widget-costo-laboral-unidades:before {
+  content: "\e926";
+}
+.icon-widget-costo-laboral:before {
+  content: "\e927";
+}
+.icon-widget-dias-perdidos:before {
+  content: "\e928";
+}
+.icon-widget-edad:before {
+  content: "\e929";
+}
+.icon-widget-fatales-dias:before {
+  content: "\e92a";
+}
+.icon-widget-fatales:before {
+  content: "\e92b";
+}
+.icon-widget-frecuencia:before {
+  content: "\e92c";
+}
+.icon-widget-genx:before {
+  content: "\e92d";
+}
+.icon-widget-geny:before {
+  content: "\e92e";
+}
+.icon-widget-genz:before {
+  content: "\e92f";
+}
+.icon-widget-gravedad:before {
+  content: "\e930";
+}
+.icon-widget-headcount:before {
+  content: "\e931";
+}
+.icon-widget-hombre:before {
+  content: "\e932";
+}
+.icon-widget-horas:before {
+  content: "\e93a";
+}
+.icon-widget-incidentes:before {
+  content: "\e93b";
+}
+.icon-widget-mujer:before {
+  content: "\e93c";
+}
+.icon-widget-no-fatales:before {
+  content: "\e93d";
+}
+.icon-widget-produccion:before {
+  content: "\e93e";
+}
+.icon-widget-renuncias:before {
+  content: "\e93f";
+}
+.icon-widget-rotacion:before {
+  content: "\e940";
+}
+.icon-widget-siniestralidad:before {
+  content: "\e941";
+}
+.icon-widget-tercerizado:before {
+  content: "\e942";
+}
+.icon-widget-unidades-persona:before {
+  content: "\e943";
+}
+.icon-excel:before {
+  content: "\e916";
+}
+.icon-pdf:before {
+  content: "\e917";
+}
+.icon-public:before {
+  content: "\e915";
+}
+.icon-lock:before {
+  content: "\e914";
+}
+.icon-tick:before {
+  content: "\e913";
+}
+.icon-download:before {
+  content: "\e911";
+}
+.icon-upload:before {
+  content: "\e912";
+}
+.icon-equivalence:before {
+  content: "\e910";
+}
+.icon-menu-boletines:before {
+  content: "\e90a";
+}
+.icon-menu-compensaciones:before {
+  content: "\e90b";
+}
+.icon-menu-desarrollo:before {
+  content: "\e90c";
+}
+.icon-menu-estructura:before {
+  content: "\e90d";
+}
+.icon-menu-indicadores:before {
+  content: "\e90e";
+}
+.icon-menu-politicas:before {
+  content: "\e90f";
+}
+.icon-action-edit:before {
+  content: "\e908";
+}
+.icon-edit:before {
+  content: "\e909";
+}
+.icon-order:before {
+  content: "\e907";
+}
+.icon-options:before {
+  content: "\e906";
+}
+.icon-workspace:before {
+  content: "\e905";
+}
+.icon-info:before {
+  content: "\e903";
+}
+.icon-warning:before {
+  content: "\e904";
+}
+.icon-filter:before {
+  content: "\e901";
+}
+.icon-search:before {
+  content: "\e902";
+}
+.icon-header-msgs:before {
+  content: "\e900";
+}

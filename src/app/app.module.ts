@@ -19,6 +19,7 @@ import { UserComponent } from './users/user/user.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { ModalComponent } from './share/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     PagerComponent,
     TableComponent,
     SimplePanelComponent,
+    ModalComponent
   ],
   imports: [
     LocalStorageModule.forRoot({

@@ -1,0 +1,94 @@
+// bower:scss
+// endbower
+
+/* COLOR */
+
+$color1: #009245; // Green
+$color1-dark: #057a37; // Green
+$color2: #0a89c9; // Blue
+
+$gradient-1a: #009245; // Light green
+$gradient-1b: #00794e; // Dark green
+
+$gradient-2a: #5ab6cc; // Light blue
+$gradient-2b: #437ba9; // Dark blue
+
+$white: #fff;
+$black: #000;
+
+$grey1: #262626;
+$grey2: #494949;
+$grey3: #9b9b9b;
+$grey4: #878787;
+
+$lgrey1: #bcbcbc;
+$lgrey2: #eaeaea;
+$lgrey3: #f4f4f4;
+
+// Contextual
+
+$success: #5bb746; // Green
+// $error: #c62a2a; // Red
+$error: #dc2f2f; // Brighter Red
+$warning: #efbb3c; // Yellow
+$info: #0a89c9; // Blue
+
+$success-light: #ebfad7; // Light Green
+$error-light: #f7dede; // Light Red
+$info-light: #d8ebf4; // Light blue
+
+
+// GRADIENTS
+
+.gradient-green{
+    @include linear-gradient(to right,$color1, $gradient-1a 27%, $gradient-1b 100%);
+}
+.gradient-blue{
+    @include linear-gradient(to right,$color2, $gradient-2a, $gradient-2b);
+}
+
+
+/* FONT */
+
+$font: 'Open sans', sans-serif;
+$font-strong: 'Montserrat', 'Open sans', sans-serif;
+$regular:400;
+$bold:700;
+
+
+/* EASINGS */
+
+$easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easeInCubic: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+$easeInOutCirc: cubic-bezier(0.785, 0.135, 0.150, 0.860);
+
+
+/* STRUCTURE */
+
+$viewport-width: 1280px;
+$header-height: 50px;
+$spaceX: 30px;
+$spaceX-xl: 70px;
+$spaceY: 25px;
+$clickable: 36px;
+$subnavBtn: 42px;
+$topbar-height: 45px;
+$sidebar-width: 270px;
+
+// $header-height: 155px;
+// $top-height: 80px;
+// $nav-height: 70px;
+// $loader-width: 50px;
+
+
+
+
+
+
+
+
+
+
+
+
+

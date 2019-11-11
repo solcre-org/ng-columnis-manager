@@ -1,0 +1,222 @@
+// bower:scss
+// endbower
+
+
+/* MIXINS */
+
+// Transitions
+
+@mixin ns-transition(){
+    transition:
+        color 200ms ease-out,
+        background-color 200ms ease-out,
+        border 200ms ease-out,
+        opacity 200ms ease-out,
+        box-shadow 200ms ease-out;
+}
+
+// Fonts
+
+@mixin strong($uppercase: null){
+    font-family: $font-strong;
+    font-weight: $bold;
+    line-height: 1.1;
+    @if $uppercase {
+        text-transform: uppercase;
+    }
+}
+
+// Positions
+
+@mixin fixed($width: null, $height: null, $zindex: null){
+    @if $width {
+        width: $width;
+    } @else {
+        width: 100%;
+    }
+    @if $height {
+        height: $height;
+    } @else {
+        height: 100%;
+    }
+    position: fixed;
+    left: 0;
+    top: 0;
+    @if $zindex {
+        z-index: $zindex;
+    }
+}
+
+// Imgs
+
+@mixin img($size: null){
+    background: no-repeat center;
+    @if $size {
+        background-size: $size;
+    } @else {
+        background-size: cover;
+    }
+}
+
+// Arrow
+
+@mixin arrow($direction: null){
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border: solid $grey1;
+    transform: rotate(45deg);
+    box-sizing: border-box;
+    
+    @if $direction == "top"{
+        border-width: 2px 0 0 2px;
+    }
+    @else if $direction == "bottom"{
+        border-width: 0 2px 2px 0;
+        top: -3px;
+    }
+    @else if $direction == "left"{
+        border-width: 0 0 2px 2px;
+        top: -1px;
+    }
+    @else {
+        border-width: 2px 2px 0 0;
+        top: -1px;
+    }
+}
+
+// Dot link
+
+@mixin dot-link($color: null){
+    display: inline;
+    font-size: 1.5em;
+    border-bottom: 1px dotted $grey1;
+
+    &:hover,
+    &:focus{
+        opacity: 0.5;
+    }
+
+    @if $color == "light"{
+        color: $lgrey1;
+        border-color: $lgrey1;
+    } @else if $color == "color"{
+        color: $color1;
+        border-color: $color1;
+    } @else if $color == "white"{
+        color: $white;
+        border-color: $white;
+    } @else if $color == "error"{
+        color: $error;
+        border-color: $error;
+    } @else if $color == "warning"{
+        color: $warning;
+        border-color: $warning;
+    } @else {
+        color: $grey1;
+        border-color: $grey1;
+    }
+}
+@mixin dot-link-override($color: null){
+    @if $color == "light"{
+        color: $lgrey1;
+        border-color: $lgrey1;
+    } @else if $color == "color"{
+        color: $color1;
+        border-color: $color1;
+    } @else if $color == "white"{
+        color: $white;
+        border-color: $white;
+    } @else if $color == "error"{
+        color: $error;
+        border-color: $error;
+    } @else if $color == "warning"{
+        color: $warning;
+        border-color: $warning;
+    } @else {
+        color: $grey1;
+        border-color: $grey1;
+    }
+}
+
+// Ellipsis
+
+@mixin ellipsis($width: null){
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    @if $width {
+        width: $width;
+    } @else {
+        width: 100%;
+    }
+}
+
+// Icons
+
+@mixin icon($icon: null){
+    font-family: 'eva-icons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    @if $icon {
+        content: $icon;
+    }
+}
+
+
+
+
+// Gradients
+
+@mixin linear-gradient($direction, $color-fallback, $color-stops...) {
+  // Direction has been omitted and happens to be a color-stop
+  @if is-direction($direction) == false {
+    $color-stops: $direction, $color-stops;
+    $direction: 180deg;
+  }
+ 
+  background: $color-fallback;
+  background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+  background: linear-gradient($direction, $color-stops);
+}
+@function is-direction($value) {
+  $is-keyword: index((to top, to top right, to right top, to right, to bottom right, to right bottom, to bottom, to bottom left, to left bottom, to left, to left top, to top left), $value);
+  $is-angle: type-of($value) == 'number' and index('deg' 'grad' 'turn' 'rad', unit($value));
+ 
+  @return $is-keyword or $is-angle;
+}
+@function legacy-direction($value) {
+  @if is-direction($value) == false {
+    @error "Cannot convert `#{$value}` to legacy syntax because it doesn't seem to be a direction.";
+  }
+  $conversion-map: (
+    to top          : bottom,
+    to top right    : bottom left,
+    to right top    : left bottom,
+    to right        : left,
+    to bottom right : top left,
+    to right bottom : left top,
+    to bottom       : top,
+    to bottom left  : top right,
+    to left bottom  : right top,
+    to left         : right,
+    to left top     : right bottom,
+    to top left     : bottom right
+  );
+ 
+  @if map-has-key($conversion-map, $value) {
+    @return map-get($conversion-map, $value);
+  }
+ 
+  @return 90deg - $value;
+}
