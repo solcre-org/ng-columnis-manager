@@ -20,12 +20,13 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <select #language (change)="onLanguageChange(language.value)">
+      <div class="select">
+        <select class="input" #language (change)="onLanguageChange(language.value)">
           <option disabled selected value="">En/Es</option>
           <option value="es">{{ "common.spanish" | translate }}</option>
-        <option value="en">{{ "common.english" | translate }}</option>
-      </select>
-
+          <option value="en">{{ "common.english" | translate }}</option>
+        </select>
+      </div>
     </nav>
   </div>
   

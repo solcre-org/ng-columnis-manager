@@ -4,14 +4,16 @@
             <ng-content select=".add-button"></ng-content>
             <thead class="head">
                 <tr class="row">
-                    <th class="cell" *ngFor="let th of tableModel.header">
-                        <button (click)="onSortRows(th)">{{ th.display | translate }}</button>
+                    <th class="cell sortable desc"
+                        (click)="onSortRows(th)" *ngFor="let th of tableModel.header">
+                        <div class="content" [title]="th.display | translate">{{ th.display | translate }}</div>
+						<div class="sort-items">
+							<div class="loader"><div class="spinner"></div></div>
+                            <div class="arrows"></div>
+                        </div>
                     </th>
+                    <th class="cell show-on-edit"></th>
                 </tr>
-                <!-- <div>
-                    <input type="text" placeholder="{{ 'share.table.filter' | translate }}" [(ngModel)]="filteredStatus"><br>
-                    <hr>
-                </div> -->
             </thead>
             <tbody class="body">
                 <tr class="row" *ngFor="let tr of tableModel.body | filter:filteredStatus:'data'">

@@ -1,33 +1,33 @@
-<app-navbar></app-navbar>
-<app-header></app-header>
-
-<app-simple-panel 
-   *ngIf="tableModel" 
-   [simplePanelOptions]="simplePanelOptions"
-   [rowForm]="rowForm"
-   [tableModel]="tableModel"
-   [onParseRow]="onParseRow"
-   [onGetDataBaseModel]="onGetDataBaseModel"
-   (onExtraAction)="onExtraAction($event)">
-   <div class="primary-form" [formGroup]="rowForm">
-      <div>
-         <label for="newPermission"></label>
-         <input 
-            type="text" 
-            class="form-control"
-            id = "newPermission"
-            formControlName="name"
-            placeholder="{{ 'users.permission.name' | translate }}"
-            name="newPermission">
+<div class="layout responsive">
+   <app-simple-panel 
+      *ngIf="tableModel" 
+      [simplePanelOptions]="simplePanelOptions"
+      [rowForm]="rowForm"
+      [tableModel]="tableModel"
+      [onParseRow]="onParseRow"
+      [onGetDataBaseModel]="onGetDataBaseModel"
+      (onExtraAction)="onExtraAction($event)">
+      <div class="primary-form styled-form" [formGroup]="rowForm">
+         <div>
+            <label class="label" for="newPermission">{{ 'users.permission.name' | translate }}</label>
+            <input 
+               type="text" 
+               class="input"
+               id = "newPermission"
+               formControlName="name"
+               placeholder="{{ 'users.permission.name' | translate }}"
+               name="newPermission">
+         </div>
+         <div>
+            <label class="label" for="description">{{ 'users.permission.description' | translate }}</label>
+            <input 
+               type="text" 
+               class="input"
+               id="description"
+               formControlName="description"
+               placeholder="{{ 'users.permission.description' | translate }}"
+               name="newPermission">
+         </div>
       </div>
-
-      <div>
-         <input 
-            type="text" 
-            class="form-control"
-            formControlName="description"
-            placeholder="{{ 'users.permission.description' | translate }}"
-            name="newPermission">
-      </div>
-   </div>
-</app-simple-panel>
+   </app-simple-panel>
+</div>

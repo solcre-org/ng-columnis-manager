@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { LoaderService } from '../share/loader/loader.service';
 import { DialogService } from '../share/dialog/dialog.service';
 import { DialogModel } from '../share/dialog/dialog.model';
+import { TranslateService } from '@ngx-translate/core';
 
 export class AuthService {
 
@@ -12,6 +13,7 @@ export class AuthService {
 
     constructor(
         private dialogService: DialogService,
+        private translateService: TranslateService,
         private loaderService: LoaderService,
         private router: Router,
         private httpClient: HttpClient,
@@ -62,7 +64,13 @@ export class AuthService {
                 this.loaderService.done();
             },
             (error: HttpErrorResponse) => {
-                this.dialogService.open(new DialogModel(error.error.detail));
+                let message: string;
+                this.translateService.get('share.dialog.errorPassword').subscribe(response => {
+                    message = response;
+                });
+                console.log(message);
+                this.dialogService.open(new DialogModel(message));
+                console.log(error.error.detail);
                 this.loaderService.done();
             }
 

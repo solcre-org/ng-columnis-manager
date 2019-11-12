@@ -36,7 +36,8 @@
             "warning": "No ha confirmado los cambios. ¿Desea continuar y perder los cambios?",
             "message": "¿Estás seguro que deseas borrar el ítem: ",
             "accept": "Aceptar",
-            "cancel": "Cancelar"
+            "cancel": "Cancelar",
+            "errorPassword": "El usuario o la contraseña no son correctos."
         }
     },
     "common": {

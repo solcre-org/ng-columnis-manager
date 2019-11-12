@@ -150,6 +150,7 @@ export class SimplePanelComponent implements OnInit {
         if (response.hasSingleResponse()) {
           let row: TableRowModel = this.onParseRow(response.data);
           this.tableModel.addRow(row);
+          this.onShowForm = false;
         }
         this.loaderService.done();
       },
@@ -189,6 +190,7 @@ export class SimplePanelComponent implements OnInit {
             row.data = newRow.data;
             row.model = newRow.model;
             this.tableModel.updateRow(row);
+            this.onShowForm = false;
           }
         }
         this.loaderService.done();
@@ -210,13 +212,15 @@ export class SimplePanelComponent implements OnInit {
       this.translateService.get('share.dialog.message').subscribe(response => {
         message = response;
       });
+      this.loaderService.start();
       //row.data[1] is the name 
       this.dialogService.open(new DialogModel(message + row.data[1] + "?", () => {
-        this.loaderService.start();
         //Delete the usergroup
         this.apiService.deleteObj(this.domainCode + this.simplePanelOptions.URI, row.id).subscribe((response: any) => {
           this.tableModel.removeRow(row.id);
           this.loaderService.done();
+          this.onShowForm = false;
+
         },
           (error: HttpErrorResponse) => {
             this.dialogService.open(new DialogModel(error.error.detail));

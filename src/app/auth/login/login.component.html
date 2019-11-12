@@ -1,17 +1,19 @@
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-md-6 col-md-offset-3">
-            <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+<div class="overlayed-screen">
+    <div class="holder scrollable align-m">
+        <div class="align">
+            <h1 class="logo">
+                <span class="notVisible">Columnis</span>
+            </h1>
+            <form class="styled-form" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
                 <div>
-                    <input type="text" (blur)="onBlur($event)" class="form-control" id="email" formControlName="email" placeholder="{{ 'auth.login.user' | translate }}" name="email"><br>
+                    <input class="input" type="text" (blur)="onBlur($event)" id="email" formControlName="email" placeholder="{{ 'auth.login.user' | translate }}" name="email"><br>
                 </div>
                 <div>
-                    <input type="password" class="form-control" id="password" formControlName="password" name="password" placeholder="{{ 'auth.login.password' | translate }}"><br>
+                    <input class="input" type="password" id="password" formControlName="password" name="password" placeholder="{{ 'auth.login.password' | translate }}"><br>
                 </div>
-                <button class="btn btn-primary" type="submit" [disabled]="!signinForm.valid">{{ 'auth.login.enter' | translate }}</button>
+                <button class="rounded-btn" type="submit" [disabled]="!signinForm.valid">{{ 'auth.login.enter' | translate }}</button>
             </form>         
         </div>   
     </div>
-</div>
-<app-loader></app-loader>
 <app-dialog></app-dialog>
+<app-loader></app-loader>

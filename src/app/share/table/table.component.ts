@@ -1,10 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { TableModel } from './table.model';
 import { TableRowModel } from './table-row.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { DialogModel } from '../dialog/dialog.model';
 import { TableHeaderModel } from './table-header.model';
-import { TableRowActionModel } from './table-row-action.model';
 
 @Component({
   selector: 'app-table',
@@ -25,7 +24,6 @@ export class TableComponent implements OnInit {
   filteredStatus = '';
   updateGroupForm: FormGroup;
   constructor(
-    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -52,10 +50,12 @@ export class TableComponent implements OnInit {
   onSortRows(column: TableHeaderModel) {
     if (column instanceof TableHeaderModel) {
       this.onSort.emit(column);
+      console.log(column.key);
     }
   }
+
   onExtraActionRow(key: string, row: any) {
-    this.onExtraActionClick.emit({key, row});
+    this.onExtraActionClick.emit({ key, row });
   }
 
 }
