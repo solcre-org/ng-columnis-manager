@@ -2,22 +2,27 @@
    <app-simple-panel 
       *ngIf="tableModel" 
       [simplePanelOptions]="simplePanelOptions"
-      [rowForm]="rowForm"
+      [primaryForm]="primaryForm"
       [tableModel]="tableModel"
       [onParseRow]="onParseRow"
       [onGetDataBaseModel]="onGetDataBaseModel">
-      <div class="primary-form styled-form" [formGroup]="rowForm">
-				<label 
-					class="label" 
-					for="newRow">{{ 'users.userGroup.name' | translate }}</label>
+      <div class="primary-form styled-form" [formGroup]="primaryForm">
+         <app-input-holder
+            inputId="app-user-groups-name"
+            [control]="primaryForm.controls.name">
+            <label 
+                  class="label" 
+                  for="app-user-groups-name">{{ 'users.userGroup.name' | translate }}</label>
             <input 
-               type="text" 
-               class="input" 
-               model="newRow"
-               id="newRow" 
-               formControlName="name" 
-               placeholder="{{ 'users.userGroup.name' | translate }}"
-               name="newRow"><br>
-      </div>
+                  type="text"
+                  name="name" 
+                  class="input" 
+                  formControlName="name"
+                  id="app-user-groups-name"
+                  model="primaryForm"
+                  [class.error]="!primaryForm.get('name').valid && primaryForm.get('name').touched"
+                  placeholder="{{ 'users.userGroup.name' | translate }}"><br>
+         </app-input-holder>
+         </div>
    </app-simple-panel>
 </div>

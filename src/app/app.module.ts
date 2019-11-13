@@ -20,6 +20,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { ModalComponent } from './share/modal/modal.component';
+import { InputHolderComponent } from './share/input-holder/input-holder.component';
 
 @NgModule({
   declarations: [

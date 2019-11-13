@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavbarService } from '../navbar/navbar.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  constructor (
+    private navbarService: NavbarService
+  ) {}
   ngOnInit() {
   }
 
+	onOpen(): void{
+		//Emit event
+		this.navbarService.open();
+	}
 }

@@ -18,7 +18,7 @@ export class UserComponent implements OnInit {
 
   tableModel: TableModel;
   simplePanelOptions: SimplePanelOptions;
-  rowForm: FormGroup;
+  primaryForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder
@@ -38,7 +38,7 @@ export class UserComponent implements OnInit {
       environment.usersURI,
     );
 
-    this.rowForm = this.formBuilder.group({
+    this.primaryForm = this.formBuilder.group({
       'id': this.formBuilder.control(null, []),
       'user': this.formBuilder.control(null, [Validators.required])
     });

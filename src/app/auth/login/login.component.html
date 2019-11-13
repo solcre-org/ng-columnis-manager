@@ -4,13 +4,40 @@
             <h1 class="logo">
                 <span class="notVisible">Columnis</span>
             </h1>
-            <form class="styled-form" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
-                <div>
-                    <input class="input" type="text" (blur)="onBlur($event)" id="email" formControlName="email" placeholder="{{ 'auth.login.user' | translate }}" name="email"><br>
-                </div>
-                <div>
-                    <input class="input" type="password" id="password" formControlName="password" name="password" placeholder="{{ 'auth.login.password' | translate }}"><br>
-                </div>
+            <p class="subtitle">{{ "auth.login.title" | translate }}</p>
+
+            <form 
+                name="app-login-form"
+                id="app-login-form"
+                class="styled-form" 
+                [formGroup]="signinForm" 
+                (ngSubmit)="onSubmit()">
+                <!-- EMAIL -->
+                <app-input-holder
+                    inputId="app-login-email"
+                    [control]="signinForm.controls.email">
+                    <input 
+                        class="input" 
+                        type="text"
+                        (blur)="onBlur($event)"                         
+                        id="app-login-email" 
+                        formControlName="email" 
+                        placeholder="{{ 'auth.login.user' | translate }}" 
+                        name="email"><br>
+                </app-input-holder>
+
+                <!-- PASSWORD -->
+                <app-input-holder
+                    inputId="app-login-password"
+                    [control]="signinForm.controls.password">
+                    <input 
+                        class="input" 
+                        type="password" 
+                        id="app-login-password" 
+                        formControlName="password" 
+                        placeholder="{{ 'auth.login.password' | translate }}" 
+                        name="password"><br>
+                </app-input-holder>
                 <button class="rounded-btn" type="submit" [disabled]="!signinForm.valid">{{ 'auth.login.enter' | translate }}</button>
             </form>         
         </div>   

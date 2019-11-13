@@ -61,19 +61,19 @@
 
             <button *ngIf="!onShowSave" class="link confirm" 
                type="button" 
-               [disabled]="!rowForm.valid"
+               [disabled]="!primaryForm.valid"
                (click)="onSave()">
                {{ "share.simplePanel.add" | translate }}</button>
             <button *ngIf="onShowSave" class="link confirm" 
                type="button" 
-               [disabled]="!rowForm.valid"
+               [disabled]="!primaryForm.valid"
                (click)="onSave()">
                {{ "share.simplePanel.save" | translate }}</button>
          </div>
 
       </div>
       <div class="scrollable wrapper section">
-         <form *ngIf="onShowForm" [formGroup]="rowForm" (ngSubmit)="onSave()">
+         <form *ngIf="onShowForm" [formGroup]="primaryForm" (ngSubmit)="onSave()">
             <ng-content select=".primary-form"></ng-content>
          </form>
       </div>

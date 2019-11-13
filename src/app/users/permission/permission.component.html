@@ -2,22 +2,24 @@
    <app-simple-panel 
       *ngIf="tableModel" 
       [simplePanelOptions]="simplePanelOptions"
-      [rowForm]="rowForm"
+      [primaryForm]="primaryForm"
       [tableModel]="tableModel"
       [onParseRow]="onParseRow"
       [onGetDataBaseModel]="onGetDataBaseModel"
       (onExtraAction)="onExtraAction($event)">
-      <div class="primary-form styled-form" [formGroup]="rowForm">
-         <div>
-            <label class="label" for="newPermission">{{ 'users.permission.name' | translate }}</label>
+      <div class="primary-form styled-form" [formGroup]="primaryForm">
+         <app-input-holder
+            inputId="app-permission-name"
+            [control]="primaryForm.controls.name">
+            <label class="label" for="app-permission-name">{{ 'users.permission.name' | translate }}</label>
             <input 
                type="text" 
                class="input"
-               id = "newPermission"
                formControlName="name"
+               id = "app-permission-name"
                placeholder="{{ 'users.permission.name' | translate }}"
-               name="newPermission">
-         </div>
+               name="name">
+         </app-input-holder>
          <div>
             <label class="label" for="description">{{ 'users.permission.description' | translate }}</label>
             <input 

@@ -20,7 +20,7 @@ export class TableComponent implements OnInit {
   @Output() onExtraActionClick: EventEmitter<any> = new EventEmitter();
 
   dialog: DialogModel;
-  newRowForm: FormGroup;
+  newprimaryForm: FormGroup;
   filteredStatus = '';
   updateGroupForm: FormGroup;
   constructor(

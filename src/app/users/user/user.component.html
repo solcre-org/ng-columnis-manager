@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
-<div class="row-form" [formGroup]="rowForm">
+<div class="row-form" [formGroup]="primaryForm">
         <input 
            type="text" 
            class="form-control" 
@@ -13,7 +13,7 @@
 <app-simple-panel 
    *ngIf="tableModel" 
    [simplePanelOptions]="simplePanelOptions"
-   [rowForm]="rowForm"
+   [primaryForm]="primaryForm"
    [tableModel]="tableModel"
    [onParseRow]="onParseRow"
    [onGetDataBaseModel]="onGetDataBaseModel">

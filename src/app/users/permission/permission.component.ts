@@ -19,7 +19,7 @@ export class PermissionComponent implements OnInit {
 
   tableModel: TableModel;
   simplePanelOptions: SimplePanelOptions;
-  rowForm: FormGroup;
+  primaryForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,7 +35,7 @@ export class PermissionComponent implements OnInit {
       environment.permissionsURI,
     );
     //setup the form
-    this.rowForm = this.formBuilder.group({
+    this.primaryForm = this.formBuilder.group({
       'id': this.formBuilder.control(null, []),
       'name': this.formBuilder.control(null, [Validators.required]),
       'description': this.formBuilder.control(null, [])

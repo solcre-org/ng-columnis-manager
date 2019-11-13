@@ -10,12 +10,14 @@ import { LoaderComponent } from '../share/loader/loader.component';
 import { DialogService } from '../share/dialog/dialog.service';
 import { DialogComponent } from '../share/dialog/dialog.component';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { InputHolderComponent } from '../share/input-holder/input-holder.component';
 
 @NgModule({
     declarations: [
         LoginComponent,
         LoaderComponent,
-        DialogComponent
+        DialogComponent,
+        InputHolderComponent
     ], 
     imports: [
         LocalStorageModule,
@@ -29,7 +31,8 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
     exports: [
         LoginComponent,
         LoaderComponent,
-        DialogComponent
+        DialogComponent,
+        InputHolderComponent
     ],
     providers: [DialogService]
 })

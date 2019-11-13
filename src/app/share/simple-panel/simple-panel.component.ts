@@ -27,7 +27,7 @@ export class SimplePanelComponent implements OnInit {
 
   @Input() tableModel: TableModel;
   @Input() simplePanelOptions: SimplePanelOptions;
-  @Input() rowForm: FormGroup;
+  @Input() primaryForm: FormGroup;
 
   @Input() onParseRow: (row: any) => TableRowModel;
 
@@ -106,11 +106,11 @@ export class SimplePanelComponent implements OnInit {
 
   onSave() {
     //if null -> is a new row
-    if (this.rowForm.value.id == null) {
-      this.onAdd(this.rowForm.value);
+    if (this.primaryForm.value.id == null) {
+      this.onAdd(this.primaryForm.value);
       //else is modified row
     } else {
-      this.onUpdateRow(this.rowForm.value);
+      this.onUpdateRow(this.primaryForm.value);
     }
   }
 
@@ -120,19 +120,19 @@ export class SimplePanelComponent implements OnInit {
 
   onHideForm() {
     //check if the user change the input values
-    if (this.rowForm.dirty) {
+    if (this.primaryForm.dirty) {
       let warning: string;
       //get the translate message and save in let
       this.translateService.get('share.dialog.warning').subscribe(response => {
         warning = response;
       });
       this.dialogService.open(new DialogModel(warning, () => {
-        this.rowForm.reset();
+        this.primaryForm.reset();
         this.onShowForm = false;
         this.onShowSave = false;
       }));
     } else {
-      this.rowForm.reset();
+      this.primaryForm.reset();
       this.onShowForm = false;
       this.onShowSave = false;
     }
@@ -159,7 +159,7 @@ export class SimplePanelComponent implements OnInit {
           this.loaderService.done();
         });
     }
-    this.rowForm.reset();
+    this.primaryForm.reset();
   }
 
   onUpdate(row: TableRowModel) {
@@ -167,7 +167,7 @@ export class SimplePanelComponent implements OnInit {
     this.onShowSave = true;
     //parse the fields to input.
     if (row instanceof TableRowModel) {
-      this.rowForm.patchValue(row.model);
+      this.primaryForm.patchValue(row.model);
     }
   }
 
@@ -200,7 +200,7 @@ export class SimplePanelComponent implements OnInit {
           this.loaderService.done();
         })
     }
-    this.rowForm.reset();
+    this.primaryForm.reset();
     this.loaderService.done();
   }
 

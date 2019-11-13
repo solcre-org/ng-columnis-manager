@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   onBlur() {
-    if (this.signinForm.value.email.indexOf('@') > -1) {
+    if (this.signinForm.value.email && this.signinForm.value.email.indexOf('@') > -1) {
       let data: string = (this.signinForm.value.email).split("@", 2);
       let domain: string = data[1];
       this.authService.getCode(domain);

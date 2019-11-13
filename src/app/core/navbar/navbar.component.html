@@ -1,4 +1,41 @@
-<div class="navbar-left">
+<nav class="nav"
+  [class.active]="state">
+  <!-- CLOSE -->
+  <div class="overlay"></div>
+  <div class="top">
+    <button type=button class="close-btn"><span></span></button>
+    <a routerLink="/">
+      <h1 class="logo eva"></h1>
+    </a>
+  </div>
+
+  <div class="level level-1 show">
+    <ul class="menu scrollable desktop">
+      <li class="item">
+        <a routerLink="/user_groups" class="link align-m">
+          <span class="icon">
+          </span>
+          <span class="align">
+            Grupos
+          </span>
+        </a>
+      </li>
+      <li class="item">
+          <a routerLink="/permissions" class="link align-m">
+            <span class="icon">
+  
+            </span>
+            <span class="align">
+              Permisos
+            </span>
+          </a>
+        </li>
+    </ul>
+
+  </div>
+
+</nav>
+<!-- <div class="navbar-left">
     <div class="collapse" id="navbarToggleExternalContent">
       <div class="bg-dark p-4">
           <div class="col-xs-12">
@@ -29,4 +66,4 @@
       </div>
     </nav>
   </div>
-  
+   -->

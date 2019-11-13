@@ -11,6 +11,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { LoaderService } from './loader/loader.service';
 import { SimplePanelService } from './simple-panel/simple-panel.service';
 import { ModalComponent } from './modal/modal.component';
+import { InputHolderComponent } from './input-holder/input-holder.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { ModalComponent } from './modal/modal.component';
         LoaderComponent,
         LoaderService,
         SimplePanelService,
-        ModalComponent
+        ModalComponent,
+        InputHolderComponent
     ],
     exports: [
         FilterPipe,
@@ -37,7 +39,8 @@ import { ModalComponent } from './modal/modal.component';
         LoaderService,
         LoaderComponent, 
         SimplePanelService,
-        ModalComponent
+        ModalComponent,
+        InputHolderComponent
     ]
 
 })
