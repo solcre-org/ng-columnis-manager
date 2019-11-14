@@ -5,7 +5,6 @@
                 <span class="notVisible">Columnis</span>
             </h1>
             <p class="subtitle">{{ "auth.login.title" | translate }}</p>
-
             <form 
                 name="app-login-form"
                 id="app-login-form"
@@ -24,6 +23,7 @@
                         formControlName="email" 
                         placeholder="{{ 'auth.login.user' | translate }}" 
                         name="email"><br>
+                        <label *ngIf="searchingCode" for="">Buscando codigo...</label>
                 </app-input-holder>
 
                 <!-- PASSWORD -->
@@ -38,9 +38,8 @@
                         placeholder="{{ 'auth.login.password' | translate }}" 
                         name="password"><br>
                 </app-input-holder>
-                <button class="rounded-btn" type="submit" [disabled]="!signinForm.valid">{{ 'auth.login.enter' | translate }}</button>
-            </form>         
-        </div>   
+                <button class="rounded-btn" type="submit" [disabled]="!signinForm.valid || searchingCode">{{ 'auth.login.enter' | translate }}</button>
+            </form>  
+        </div>
     </div>
 <app-dialog></app-dialog>
-<app-loader></app-loader>

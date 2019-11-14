@@ -35,4 +35,8 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  onCloseNav() {
+    this.state = false;
+  }
+
 }

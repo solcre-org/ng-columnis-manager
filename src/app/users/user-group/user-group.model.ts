@@ -1,4 +1,4 @@
-import { DataBaseModelInterface } from 'src/app/share/apiService/data-base-model.interface';
+import { DataBaseModelInterface } from 'src/app/shared/api/data-base-model.interface';
 
 export class UserGroup implements DataBaseModelInterface {
 

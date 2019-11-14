@@ -6,18 +6,16 @@ import { AppRoutingModule } from '../app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { LocalStorageModule } from 'angular-2-local-storage';
-import { LoaderComponent } from '../share/loader/loader.component';
-import { DialogService } from '../share/dialog/dialog.service';
-import { DialogComponent } from '../share/dialog/dialog.component';
+import { LoaderComponent } from '../shared/loader/loader.component';
+import { DialogService } from '../shared/dialog/dialog.service';
+import { DialogComponent } from '../shared/dialog/dialog.component';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
-import { InputHolderComponent } from '../share/input-holder/input-holder.component';
+import { InputHolderComponent } from '../shared/input-holder/input-holder.component';
+import { ShareModule } from '../shared/share.module';
 
 @NgModule({
     declarations: [
         LoginComponent,
-        LoaderComponent,
-        DialogComponent,
-        InputHolderComponent
     ], 
     imports: [
         LocalStorageModule,
@@ -26,13 +24,12 @@ import { InputHolderComponent } from '../share/input-holder/input-holder.compone
         FormsModule,
         HttpClientModule,
         ReactiveFormsModule,
-        TranslateModule
+        TranslateModule,
+        ShareModule,
+
     ],
     exports: [
-        LoginComponent,
-        LoaderComponent,
-        DialogComponent,
-        InputHolderComponent
+        LoginComponent
     ],
     providers: [DialogService]
 })

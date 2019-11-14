@@ -3,19 +3,20 @@ import { TableModel } from '../table/table.model';
 import { TableRowModel } from '../table/table-row.model';
 import { SimplePanelService } from './simple-panel.service';
 import { SimplePanelOptions } from './simple-panel-options.model';
-import { ApiResponseModel } from '../apiService/api-response.model';
-import { ApiService } from '../apiService/api.service';
+import { ApiResponseModel } from '../api/api-response.model';
+import { ApiService } from '../api/api.service';
 import { DialogService } from '../dialog/dialog.service';
 import { DialogModel } from '../dialog/dialog.model';
 import { LoaderService } from '../loader/loader.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApiHalPagerModel } from '../apiService/api-hal-pager.model';
+import { ApiHalPagerModel } from '../api/api-hal-pager.model';
 import { FormGroup } from '@angular/forms';
-import { DataBaseModelInterface } from '../apiService/data-base-model.interface';
+import { DataBaseModelInterface } from '../api/data-base-model.interface';
 import { TableHeaderModel } from '../table/table-header.model';
 import { TableSortEnum } from '../table/table-sort.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-simple-panel',
@@ -42,8 +43,8 @@ export class SimplePanelComponent implements OnInit {
   currentSorting: any = {};
   currentKeySorting: string; // clicked column
 
-  onShowForm: boolean = false;
-  onShowSave: boolean = false;
+  showForm: boolean = false;
+  showSave: boolean = false;
 
   domainCode: string;
 
@@ -53,12 +54,13 @@ export class SimplePanelComponent implements OnInit {
     private dialogService: DialogService,
     private loaderService: LoaderService,
     private translateService: TranslateService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     if (this.tableModel instanceof TableModel) {
-      this.domainCode = this.localStorageService.get('code');
+      this.domainCode = this.authService.getCode();
       this.onGetRows();
     }
   }
@@ -115,7 +117,7 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onShowAdd() {
-    this.onShowForm = true;
+    this.showForm = true;
   }
 
   onHideForm() {
@@ -128,13 +130,13 @@ export class SimplePanelComponent implements OnInit {
       });
       this.dialogService.open(new DialogModel(warning, () => {
         this.primaryForm.reset();
-        this.onShowForm = false;
-        this.onShowSave = false;
+        this.showForm = false;
+        this.showSave = false;
       }));
     } else {
       this.primaryForm.reset();
-      this.onShowForm = false;
-      this.onShowSave = false;
+      this.showForm = false;
+      this.showSave = false;
     }
   }
 
@@ -150,7 +152,7 @@ export class SimplePanelComponent implements OnInit {
         if (response.hasSingleResponse()) {
           let row: TableRowModel = this.onParseRow(response.data);
           this.tableModel.addRow(row);
-          this.onShowForm = false;
+          this.showForm = false;
         }
         this.loaderService.done();
       },
@@ -163,8 +165,8 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onUpdate(row: TableRowModel) {
-    this.onShowForm = true;
-    this.onShowSave = true;
+    this.showForm = true;
+    this.showSave = true;
     //parse the fields to input.
     if (row instanceof TableRowModel) {
       this.primaryForm.patchValue(row.model);
@@ -190,7 +192,7 @@ export class SimplePanelComponent implements OnInit {
             row.data = newRow.data;
             row.model = newRow.model;
             this.tableModel.updateRow(row);
-            this.onShowForm = false;
+            this.showForm = false;
           }
         }
         this.loaderService.done();
@@ -219,7 +221,7 @@ export class SimplePanelComponent implements OnInit {
         this.apiService.deleteObj(this.domainCode + this.simplePanelOptions.URI, row.id).subscribe((response: any) => {
           this.tableModel.removeRow(row.id);
           this.loaderService.done();
-          this.onShowForm = false;
+          this.showForm = false;
 
         },
           (error: HttpErrorResponse) => {

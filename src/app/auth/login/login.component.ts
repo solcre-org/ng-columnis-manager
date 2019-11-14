@@ -10,6 +10,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
 
   signinForm: FormGroup;
+  searchingCode: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -20,7 +21,10 @@ export class LoginComponent implements OnInit {
     this.signinForm = this.formBuilder.group({
       'email': this.formBuilder.control(null, [Validators.required, Validators.email]),
       'password': this.formBuilder.control(null, Validators.required)
-    })
+    });
+    this.authService.searchingCode.subscribe((state: boolean) => {
+      this.searchingCode = state;
+    });
   }
 
   onSubmit() {
@@ -28,11 +32,11 @@ export class LoginComponent implements OnInit {
   }
 
   onBlur() {
+    this.signinForm.invalid;
     if (this.signinForm.value.email && this.signinForm.value.email.indexOf('@') > -1) {
       let data: string = (this.signinForm.value.email).split("@", 2);
       let domain: string = data[1];
-      this.authService.getCode(domain);
+      this.authService.setCode(domain);
     }
   }
-
 }

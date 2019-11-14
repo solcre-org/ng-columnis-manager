@@ -21,7 +21,6 @@
             </app-table>
          </div>
       </div>
-
       <div class="footer fixed-bottom"> 
 			<div class="fixed-holder holder">
 				<div class="content desktop">
@@ -36,15 +35,12 @@
 					</div> 
 				</div> 
 			</div> 
-		</div> 
-      <div class="wrapper section">
-            <app-loader></app-loader>
-      </div>
+		</div>       
    </div>
 </div>
 <app-modal
-   [(state)]="onShowForm">
-   <div class="holder" *ngIf="onShowForm">
+   [(state)]="showForm">
+   <div class="holder" *ngIf="showForm">
       <div class="modal-head align-m">
          <div class="align">
             <button 
@@ -73,10 +69,12 @@
 
       </div>
       <div class="scrollable wrapper section">
-         <form *ngIf="onShowForm" [formGroup]="primaryForm" (ngSubmit)="onSave()">
+         <form *ngIf="showForm" [formGroup]="primaryForm" (ngSubmit)="onSave()">
             <ng-content select=".primary-form"></ng-content>
          </form>
       </div>
    </div>
+   <div class="overlay" (click)="onHideForm()"></div>
+
 </app-modal>
 <app-dialog></app-dialog>

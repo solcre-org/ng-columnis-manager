@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserGroup } from './user-group.model';
-import { TableModel } from 'src/app/share/table/table.model';
-import { TableHeaderModel } from 'src/app/share/table/table-header.model';
-import { TableRowModel } from 'src/app/share/table/table-row.model';
-import { SimplePanelOptions } from 'src/app/share/simple-panel/simple-panel-options.model';
-import { SimplePanelService } from 'src/app/share/simple-panel/simple-panel.service';
+import { TableModel } from 'src/app/shared/table/table.model';
+import { TableHeaderModel } from 'src/app/shared/table/table-header.model';
+import { TableRowModel } from 'src/app/shared/table/table-row.model';
+import { SimplePanelOptions } from 'src/app/shared/simple-panel/simple-panel-options.model';
+import { SimplePanelService } from 'src/app/shared/simple-panel/simple-panel.service';
 
 @Component({
   selector: 'app-user-group',

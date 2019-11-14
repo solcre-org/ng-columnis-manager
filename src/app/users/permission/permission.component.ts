@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Permission } from './permission.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
-import { TableHeaderModel } from 'src/app/share/table/table-header.model';
-import { TableModel } from 'src/app/share/table/table.model';
-import { TableRowModel } from 'src/app/share/table/table-row.model';
-import { SimplePanelOptions } from 'src/app/share/simple-panel/simple-panel-options.model';
-import { SimplePanelService } from 'src/app/share/simple-panel/simple-panel.service';
-import { TableRowActionModel } from 'src/app/share/table/table-row-action.model';
+import { TableHeaderModel } from 'src/app/shared/table/table-header.model';
+import { TableModel } from 'src/app/shared/table/table.model';
+import { TableRowModel } from 'src/app/shared/table/table-row.model';
+import { SimplePanelOptions } from 'src/app/shared/simple-panel/simple-panel-options.model';
+import { SimplePanelService } from 'src/app/shared/simple-panel/simple-panel.service';
+import { TableRowActionModel } from 'src/app/shared/table/table-row-action.model';
 
 @Component({
   selector: 'app-permission',

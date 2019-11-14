@@ -2,14 +2,16 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { LoaderService } from '../share/loader/loader.service';
-import { DialogService } from '../share/dialog/dialog.service';
-import { DialogModel } from '../share/dialog/dialog.model';
+import { LoaderService } from '../shared/loader/loader.service';
+import { DialogService } from '../shared/dialog/dialog.service';
+import { DialogModel } from '../shared/dialog/dialog.model';
 import { TranslateService } from '@ngx-translate/core';
+import { EventEmitter } from '@angular/core';
 
 export class AuthService {
 
     codeDomain: string;
+	public searchingCode: EventEmitter<boolean> = new EventEmitter();
 
     constructor(
         private dialogService: DialogService,
@@ -60,7 +62,7 @@ export class AuthService {
                 this.localStorageService.set('access_token', response['access_token']);
                 this.localStorageService.set('refresh_token', response['refresh_token']);
                 console.log("Logged in", response);
-                this.router.navigate(['/user_groups']);
+                this.router.navigate(['/']);
                 this.loaderService.done();
             },
             (error: HttpErrorResponse) => {
@@ -88,13 +90,25 @@ export class AuthService {
         return this.localStorageService.get('access_token');
     }
 
-    getCode(domain: string) {
+    setCode(domain: string) {
+        this.searchingCode.emit(true);
+        console.log("Start");
+        this.loaderService.start();
         let params = new HttpParams().set('domain', domain);
         this.httpClient.get(environment.apiURL + environment.codeURI, { params }).subscribe((response: any) => {
             this.codeDomain = response.code;
+            if (!((this.codeDomain) == '000')) {
+                this.searchingCode.emit(false);
+            } else {
+                //avisar que el dominio es invalido
+            }
         }, (error: HttpErrorResponse) => {
             console.log(error);
         });
+    }
+
+    getCode(): string {
+        return this.localStorageService.get('code');
     }
 
 }

@@ -1,18 +1,18 @@
 <nav class="nav"
   [class.active]="state">
   <!-- CLOSE -->
-  <div class="overlay"></div>
+  <div class="overlay" (click)="onCloseNav()"></div>
   <div class="top">
-    <button type=button class="close-btn"><span></span></button>
+    <button type="button" (click)="onCloseNav()"class="close-btn"><span></span></button>
     <a routerLink="/">
-      <h1 class="logo eva"></h1>
+      <h1 class="logo eva" (click)="onCloseNav()"></h1>
     </a>
   </div>
 
   <div class="level level-1 show">
-    <ul class="menu scrollable desktop">
+    <ul (click)="onCloseNav()" class="menu scrollable desktop">
       <li class="item">
-        <a routerLink="/user_groups" class="link align-m">
+        <a routerLink="/users/groups" class="link align-m">
           <span class="icon">
           </span>
           <span class="align">
@@ -21,12 +21,21 @@
         </a>
       </li>
       <li class="item">
-          <a routerLink="/permissions" class="link align-m">
+          <a routerLink="/users/permissions" class="link align-m">
             <span class="icon">
   
             </span>
             <span class="align">
               Permisos
+            </span>
+          </a>
+        </li>
+        <li class="item">
+          <a (click)="onLogout()" class="link align-m">
+            <span class="icon">
+            </span>
+            <span class="align">
+              Cerrar sesión
             </span>
           </a>
         </li>

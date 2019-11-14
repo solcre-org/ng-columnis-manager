@@ -14,4 +14,8 @@ export class ModalComponent implements OnInit {
   ngOnInit() {
   }
 
+  onCloseModal(){
+    this.state = false;
+  }
+
 }

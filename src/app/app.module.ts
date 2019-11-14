@@ -6,33 +6,18 @@ import { AppComponent } from './app.component';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
-import { UserGroupComponent } from './users/user-group/user-group.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth-guard-service';
-import { PermissionComponent } from './users/permission/permission.component';
-import { FilterPipe } from './share/fiter.pipe';
-import { PagerComponent } from './share/apiService/pager/pager.component';
-import { TableComponent } from './share/table/table.component';
-import { LoaderService } from './share/loader/loader.service';
-import { SimplePanelComponent } from './share/simple-panel/simple-panel.component';
-import { UserComponent } from './users/user/user.component';
+import { LoaderService } from './shared/loader/loader.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import { ModalComponent } from './share/modal/modal.component';
-import { InputHolderComponent } from './share/input-holder/input-holder.component';
+import { ShareModule } from './shared/share.module';
+import { UsersModule } from './users/users.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    UserGroupComponent,
-    PermissionComponent,
-    UserComponent,
-    FilterPipe,
-    PagerComponent,
-    TableComponent,
-    SimplePanelComponent,
-    ModalComponent
+    AppComponent,    
   ],
   imports: [
     LocalStorageModule.forRoot({
@@ -50,10 +35,11 @@ import { InputHolderComponent } from './share/input-holder/input-holder.componen
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule,
     ReactiveFormsModule,
     AuthModule,
-    CoreModule
+    CoreModule,
+    ShareModule,
+    UsersModule
   ],
   providers: [AuthService, AuthGuard, LoaderService],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-import { DataBaseModelInterface } from '../apiService/data-base-model.interface';
+import { DataBaseModelInterface } from '../api/data-base-model.interface';
 import { TableRowActionModel } from './table-row-action.model';
 
 export class TableRowModel {

@@ -5,17 +5,22 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NavbarService } from './navbar/navbar.service';
+import { ShareModule } from '../shared/share.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
-    imports: [
-        RouterModule,
-        TranslateModule
-    ],
     declarations: [
         HeaderComponent,
         FooterComponent,
-        NavbarComponent
+        NavbarComponent,
+        DashboardComponent
+    ],
+    imports: [
+        RouterModule,
+        TranslateModule,
+        ShareModule,
+
     ],
     exports: [
         HeaderComponent,
