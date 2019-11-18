@@ -15,7 +15,6 @@ import { DataBaseModelInterface } from '../api/data-base-model.interface';
 import { TableHeaderModel } from '../table/table-header.model';
 import { TableSortEnum } from '../table/table-sort.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -54,7 +53,6 @@ export class SimplePanelComponent implements OnInit {
     private dialogService: DialogService,
     private loaderService: LoaderService,
     private translateService: TranslateService,
-    private localStorageService: LocalStorageService,
     private authService: AuthService
   ) { }
 
@@ -99,7 +97,7 @@ export class SimplePanelComponent implements OnInit {
             this.tableModel.addRow(row);
           });
           //BasicSort by name
-          // this.basicSort();
+          //  this.tableModel.basicSort();
         }
         this.loaderService.done();
       })
@@ -255,22 +253,4 @@ export class SimplePanelComponent implements OnInit {
     this.onGetRows();
   }
 
-  basicSort() { //Sorting without api request
-    for (let row in this.tableModel.body) {
-      for (let rowToComprare in this.tableModel.body) {
-        let compare = this.compare(this.tableModel.body[row].data[1], this.tableModel.body[rowToComprare].data[1], true);
-        if (compare == -1) {
-          let temp = this.tableModel.body[row];
-          this.tableModel.body[row] = this.tableModel.body[rowToComprare];
-          this.tableModel.body[rowToComprare] = temp;
-        }
-      }
-    }
-  }
-
-  compare(a: string, b: string, isAsc: boolean) {
-    a = a.toUpperCase();
-    b = b.toUpperCase();
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
 }

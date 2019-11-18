@@ -23,7 +23,9 @@
                         formControlName="email" 
                         placeholder="{{ 'auth.login.user' | translate }}" 
                         name="email"><br>
-                        <label *ngIf="searchingCode" for="">Buscando codigo...</label>
+                        <label *ngIf="searchingCode" for="email">Buscando dominio...</label>
+                        <label *ngIf="codeNotFound" for="email">*Error al encontrar dominio</label>
+
                 </app-input-holder>
 
                 <!-- PASSWORD -->
@@ -38,7 +40,7 @@
                         placeholder="{{ 'auth.login.password' | translate }}" 
                         name="password"><br>
                 </app-input-holder>
-                <button class="rounded-btn" type="submit" [disabled]="!signinForm.valid || searchingCode">{{ 'auth.login.enter' | translate }}</button>
+                <button class="rounded-btn" type="submit" [disabled]="!signinForm.valid || searchingCode || codeNotFound">{{ 'auth.login.enter' | translate }}</button>
             </form>  
         </div>
     </div>

@@ -63,7 +63,7 @@ module.exports = "<p>footer works!</p>\n"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"header\">\n  <div class=\"fixed-holder\">\n        <a routerLink=\"/\">\n            <h1 class=\"logo eva\"><span class=\"notVisible\">EVA</span></h1>\n        </a>\n    </div>\n</header>\n"
+module.exports = "<header class=\"header\">\n  <div class=\"fixed-holder\">\n        <a routerLink=\"/\">\n            <h1 class=\"logo columnis\"><span class=\"notVisible\">COLUMNIS</span></h1>\n        </a>\n    </div>\n</header>\n"
 
 /***/ }),
 

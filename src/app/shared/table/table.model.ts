@@ -40,4 +40,23 @@ export class TableModel {
 		}).indexOf(row.id);
 		this.body[index] = row;
 	}
+
+	public basicSort() { //Sorting without api request
+		for (let row in this.body) {
+		  for (let rowToComprare in this.body) {
+			let compare = this.compare(this.body[row].data[1], this.body[rowToComprare].data[1], true);
+			if (compare == -1) {
+			  let temp = this.body[row];
+			  this.body[row] = this.body[rowToComprare];
+			  this.body[rowToComprare] = temp;
+			}
+		  }
+		}
+	  }
+
+	compare(a: string, b: string, isAsc: boolean) {
+		a = a.toUpperCase();
+		b = b.toUpperCase();
+		return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+	  }
 }

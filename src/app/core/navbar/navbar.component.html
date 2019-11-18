@@ -5,12 +5,62 @@
   <div class="top">
     <button type="button" (click)="onCloseNav()"class="close-btn"><span></span></button>
     <a routerLink="/">
-      <h1 class="logo eva" (click)="onCloseNav()"></h1>
+      <h1 class="logo columnis" (click)="onCloseNav()"></h1>
     </a>
   </div>
 
-  <div class="level level-1 show">
+  <div class="level level-1 show lastActive">
+
+      <ul (click)="onCloseNav()" class="menu scrollable mobile">
+          <li class="item">
+              <a routerLink="/" class="link align-m active">
+                <span class="icon">
+                </span>
+                <span class="align">
+                  Inicio
+                </span>
+            </a>
+          </li>
+          <li class="item">
+            <a routerLink="/users/groups" class="link align-m">
+              <span class="icon">
+              </span>
+              <span class="align">
+                Grupos
+              </span>
+            </a>
+          </li>
+          <li class="item">
+              <a routerLink="/users/permissions" class="link align-m">
+                <span class="icon">
+      
+                </span>
+                <span class="align">
+                  Permisos
+                </span>
+              </a>
+            </li>
+            <li class="item">
+              <a (click)="onLogout()" class="link align-m">
+                <span class="icon">
+                </span>
+                <span class="align">
+                  Cerrar sesión
+                </span>
+              </a>
+            </li>
+        </ul>
+        
     <ul (click)="onCloseNav()" class="menu scrollable desktop">
+       <li class="item">
+          <a routerLink="/" class="link align-m active">
+            <span class="icon">
+            </span>
+            <span class="align">
+              Inicio
+            </span>
+        </a>
+      </li>
       <li class="item">
         <a routerLink="/users/groups" class="link align-m">
           <span class="icon">

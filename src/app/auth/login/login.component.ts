@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
 
   signinForm: FormGroup;
   searchingCode: boolean;
+  codeNotFound: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,16 +23,21 @@ export class LoginComponent implements OnInit {
       'email': this.formBuilder.control(null, [Validators.required, Validators.email]),
       'password': this.formBuilder.control(null, Validators.required)
     });
+    this.authService.codeNotFound.subscribe((state: boolean) => {
+      this.codeNotFound = state;
+    });
     this.authService.searchingCode.subscribe((state: boolean) => {
       this.searchingCode = state;
     });
   }
 
   onSubmit() {
-    this.authService.signIn(this.signinForm.value.email, this.signinForm.value.password);
+    this.authService.login(this.signinForm.value.email, this.signinForm.value.password);
   }
 
   onBlur() {
+    this.codeNotFound = false;
+    this.searchingCode = false;
     this.signinForm.invalid;
     if (this.signinForm.value.email && this.signinForm.value.email.indexOf('@') > -1) {
       let data: string = (this.signinForm.value.email).split("@", 2);

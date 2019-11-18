@@ -1,18 +1,18 @@
 @font-face {
-  font-family: 'eva-icons';
-  src:  url('../assets/fonts/eva-icons.eot?4v08jp');
-  src:  url('../assets/fonts/eva-icons.eot?4v08jp#iefix') format('embedded-opentype'),
-    url('../assets/fonts/eva-icons.woff2?4v08jp') format('woff2'),
-    url('../assets/fonts/eva-icons.ttf?4v08jp') format('truetype'),
-    url('../assets/fonts/eva-icons.woff?4v08jp') format('woff'),
-    url('../assets/fonts/eva-icons.svg?4v08jp#eva-icons') format('svg');
+  font-family: 'columnis-icons';
+  src:  url('../assets/fonts/columnis-icons.eot?4v08jp');
+  src:  url('../assets/fonts/columnis-icons.eot?4v08jp#iefix') format('embedded-opentype'),
+    url('../assets/fonts/columnis-icons.woff2?4v08jp') format('woff2'),
+    url('../assets/fonts/columnis-icons.ttf?4v08jp') format('truetype'),
+    url('../assets/fonts/columnis-icons.woff?4v08jp') format('woff'),
+    url('../assets/fonts/columnis-icons.svg?4v08jp#columnis-icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'eva-icons' !important;
+  font-family: 'columnis-icons' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
