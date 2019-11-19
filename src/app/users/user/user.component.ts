@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SimplePanelService } from 'src/app/shared/simple-panel/simple-panel.service';
+import { SimplePanelService } from 'src/app/shared/panel/simple-panel/simple-panel.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TableModel } from 'src/app/shared/table/table.model';
-import { SimplePanelOptions } from 'src/app/shared/simple-panel/simple-panel-options.model';
+import { SimplePanelOptions } from 'src/app/shared/panel/simple-panel/simple-panel-options.model';
 import { TableHeaderModel } from 'src/app/shared/table/table-header.model';
 import { environment } from 'src/environments/environment';
 import { TableRowModel } from 'src/app/shared/table/table-row.model';

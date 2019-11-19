@@ -4,10 +4,13 @@
             <ng-content select=".add-button"></ng-content>
             <thead class="head">
                 <tr class="row">
-                    <th class="cell sortable desc"
-                        (click)="onSortRows(th)" *ngFor="let th of tableModel.header">
+                    <th class="cell sortable"
+                        (click)="onSortRows(th)"
+                        [class.asc]="currentSorting[th.key] === 'ASC'"
+						[class.desc]="currentSorting[th.key] === 'DESC'"
+                        *ngFor="let th of tableModel.header">
                         <div class="content" [title]="th.display | translate">{{ th.display | translate }}</div>
-						<div class="sort-items">
+						<div *ngIf="th.sortable" class="sort-items">
 							<div class="loader"><div class="spinner"></div></div>
                             <div class="arrows"></div>
                         </div>

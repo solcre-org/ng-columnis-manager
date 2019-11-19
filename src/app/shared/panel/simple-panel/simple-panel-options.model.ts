@@ -1,4 +1,4 @@
-import { TableRowModel } from '../table/table-row.model';
+import { TableRowModel } from '../../table/table-row.model';
 
 export class SimplePanelOptions {
 

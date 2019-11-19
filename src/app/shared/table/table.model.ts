@@ -5,7 +5,8 @@ export class TableModel {
 	constructor(
 		public title?: string,
 		public header?: TableHeaderModel[],
-		public body?: TableRowModel[]
+		public body?: TableRowModel[],
+		public sortable?: boolean,
 	) { }
 
 	public removeBody(): void {

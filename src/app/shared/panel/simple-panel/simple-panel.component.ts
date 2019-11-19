@@ -1,21 +1,22 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { TableModel } from '../table/table.model';
-import { TableRowModel } from '../table/table-row.model';
+import { TableModel } from '../../table/table.model';
+import { TableRowModel } from '../../table/table-row.model';
 import { SimplePanelService } from './simple-panel.service';
 import { SimplePanelOptions } from './simple-panel-options.model';
-import { ApiResponseModel } from '../api/api-response.model';
-import { ApiService } from '../api/api.service';
+import { ApiResponseModel } from '../../api/api-response.model';
+import { ApiService } from '../../api/api.service';
 import { DialogService } from '../dialog/dialog.service';
 import { DialogModel } from '../dialog/dialog.model';
-import { LoaderService } from '../loader/loader.service';
+import { LoaderService } from '../../loader/loader.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApiHalPagerModel } from '../api/api-hal-pager.model';
+import { ApiHalPagerModel } from '../../api/api-hal-pager.model';
 import { FormGroup } from '@angular/forms';
-import { DataBaseModelInterface } from '../api/data-base-model.interface';
-import { TableHeaderModel } from '../table/table-header.model';
-import { TableSortEnum } from '../table/table-sort.enum';
+import { DataBaseModelInterface } from '../../api/data-base-model.interface';
+import { TableHeaderModel } from '../../table/table-header.model';
+import { TableSortEnum } from '../../table/table-sort.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
+import { UiEventsService } from '../../ui-events.service';
 
 @Component({
   selector: 'app-simple-panel',
@@ -45,7 +46,10 @@ export class SimplePanelComponent implements OnInit {
   showForm: boolean = false;
   showSave: boolean = false;
 
+  placeHolderText: string = "Esta sección aún está vacía";
+
   domainCode: string;
+  isEmpty: boolean = false;
 
   constructor(
     private simplePanelService: SimplePanelService,
@@ -53,7 +57,9 @@ export class SimplePanelComponent implements OnInit {
     private dialogService: DialogService,
     private loaderService: LoaderService,
     private translateService: TranslateService,
-    private authService: AuthService
+    private authService: AuthService,
+    private uiEvents: UiEventsService,
+
   ) { }
 
   ngOnInit() {
@@ -61,6 +67,8 @@ export class SimplePanelComponent implements OnInit {
       this.domainCode = this.authService.getCode();
       this.onGetRows();
     }
+
+
   }
 
   onChangePage(page) {
@@ -72,6 +80,7 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onGetRows() {
+    this.isEmpty = false;
     //set the query paramaters 
     let params: any = {};
     if (this.simplePanelOptions instanceof SimplePanelOptions) {
@@ -88,6 +97,7 @@ export class SimplePanelComponent implements OnInit {
       };
 
       this.apiService.fetchData(this.domainCode + this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
+
         if (response.hasCollectionResponse()) {
           this.apiHalPagerModel = response.pager;
           response.data.forEach((response: any) => {
@@ -99,9 +109,14 @@ export class SimplePanelComponent implements OnInit {
           //BasicSort by name
           //  this.tableModel.basicSort();
         }
+        if (this.tableModel.body.length == 0) {
+          this.isEmpty = true;
+        }
         this.loaderService.done();
+
       })
     }
+
   }
 
   onSave() {
@@ -115,10 +130,13 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onShowAdd() {
+    this.uiEvents.internalModalStateChange.emit(true);
     this.showForm = true;
   }
 
   onHideForm() {
+    this.uiEvents.internalModalStateChange.emit(false);
+
     //check if the user change the input values
     if (this.primaryForm.dirty) {
       let warning: string;
@@ -163,6 +181,7 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onUpdate(row: TableRowModel) {
+    this.uiEvents.internalModalStateChange.emit(true);
     this.showForm = true;
     this.showSave = true;
     //parse the fields to input.
@@ -235,21 +254,10 @@ export class SimplePanelComponent implements OnInit {
     this.onExtraAction.emit(data);
   }
 
-  onSort(column: TableHeaderModel) {
+  onSort(event: { key: string, value: string }): void {
     this.loaderService.start();
-    const current: string = this.currentSorting[column.key];
-    //Switch between states   
-    if (!current) {
-      this.currentSorting[column.key] = TableSortEnum.ASC;
-      this.currentKeySorting = column.key
-    } else if (current === TableSortEnum.ASC) {
-      this.currentSorting[column.key] = TableSortEnum.DESC;
-      this.currentKeySorting = column.key
-    } else {
-      delete this.currentSorting[column.key];
-      this.currentKeySorting = null;
-    }
-    console.log(this.currentSorting);
+    this.currentKeySorting = event.key;
+    this.currentSorting[event.key] = event.value;
     this.onGetRows();
   }
 

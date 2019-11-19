@@ -3,8 +3,8 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { LoaderService } from '../shared/loader/loader.service';
-import { DialogService } from '../shared/dialog/dialog.service';
-import { DialogModel } from '../shared/dialog/dialog.model';
+import { DialogService } from '../shared/panel/dialog/dialog.service';
+import { DialogModel } from '../shared/panel/dialog/dialog.model';
 import { TranslateService } from '@ngx-translate/core';
 import { EventEmitter } from '@angular/core';
 import { AccessTokenModel } from './access-token.model';
@@ -14,7 +14,7 @@ export class AuthService {
     codeDomain: string;
     public searchingCode: EventEmitter<boolean> = new EventEmitter();
     public codeNotFound: EventEmitter<boolean> = new EventEmitter();
-    
+
     private accessToken: AccessTokenModel;
 
     constructor(
@@ -72,8 +72,6 @@ export class AuthService {
         // this.localStorageService.clearAll();
         this.localStorageService.remove('access_token');
         this.localStorageService.remove('code');
-
-        console.log("Logged out");
         this.router.navigate(['/oauth']);
     }
 
@@ -84,10 +82,8 @@ export class AuthService {
 
     public setCode(domain: string) {
         this.searchingCode.emit(true);
-        console.log("Start");
         this.loaderService.start();
         if (this.localStorageService.get(domain)) {
-            console.log("desde LS");
             this.searchingCode.emit(false);
             this.codeDomain = this.localStorageService.get(domain);
         } else {
@@ -113,24 +109,24 @@ export class AuthService {
         return this.localStorageService.get('code');
     }
 
-    private parseAccessToken(obj: any): AccessTokenModel{
-		let accessToken: AccessTokenModel = null;
+    private parseAccessToken(obj: any): AccessTokenModel {
+        let accessToken: AccessTokenModel = null;
 
-		//Check access token
-		if(obj && obj.access_token){
-			//parse expiration date
-			let expiration = new Date();
-			expiration.setMinutes(expiration.getMinutes() + (obj.expires_in / 60));
+        //Check access token
+        if (obj && obj.access_token) {
+            //parse expiration date
+            let expiration = new Date();
+            expiration.setMinutes(expiration.getMinutes() + (obj.expires_in / 60));
 
-			//Creates the access token model
-			accessToken = new AccessTokenModel(
-				obj.access_token,
-				obj.refresh_token,
-				expiration
-			);
+            //Creates the access token model
+            accessToken = new AccessTokenModel(
+                obj.access_token,
+                obj.refresh_token,
+                expiration
+            );
         }
         console.log(accessToken);
-		return accessToken;
-	}
+        return accessToken;
+    }
 
 }

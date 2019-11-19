@@ -5,8 +5,8 @@ import { environment } from 'src/environments/environment';
 import { TableHeaderModel } from 'src/app/shared/table/table-header.model';
 import { TableModel } from 'src/app/shared/table/table.model';
 import { TableRowModel } from 'src/app/shared/table/table-row.model';
-import { SimplePanelOptions } from 'src/app/shared/simple-panel/simple-panel-options.model';
-import { SimplePanelService } from 'src/app/shared/simple-panel/simple-panel.service';
+import { SimplePanelOptions } from 'src/app/shared/panel/simple-panel/simple-panel-options.model';
+import { SimplePanelService } from 'src/app/shared/panel/simple-panel/simple-panel.service';
 import { TableRowActionModel } from 'src/app/shared/table/table-row-action.model';
 
 @Component({
