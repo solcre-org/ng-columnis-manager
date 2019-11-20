@@ -14,7 +14,6 @@ import { InputHolderComponent } from './input-holder/input-holder.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UiEventsService } from './ui-events.service';
 import { PlaceholderComponent } from './panel/placeholder/placeholder.component';
 
 @NgModule({

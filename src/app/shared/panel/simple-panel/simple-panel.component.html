@@ -31,17 +31,30 @@
       </div>
       <div class="footer fixed-bottom"> 
 			<div class="fixed-holder holder">
-				<div class="content desktop">
+            
+            <div class="content desktop">
 					<div class="wrapper align-m">
 						<div class="align">
-                     <app-pager 
+                     <app-pager
                         *ngIf="apiHalPagerModel.totalItems"
                         [pager]="apiHalPagerModel" 
                         (onChange)="onChangePage($event)">
                      </app-pager>
 					   </div> 
 					</div> 
-				</div> 
+            </div> <!-- content desktop -->
+            
+            <div class="content mobile">
+               <div class="align-m">
+                  <div class="align">
+                     <app-pager
+                     *ngIf="apiHalPagerModel.totalItems"
+                     [pager]="apiHalPagerModel" 
+                     (onChange)="onChangePage($event)">
+                     </app-pager>
+                  </div>
+               </div>
+            </div> <!-- Content mobile -->
 			</div> 
 		</div>       
    </div> <!-- Panel-content -->
@@ -59,16 +72,15 @@
                </button>
 
                <p class="text">
-                  <span *ngIf="!onShowSave">Agregar nuevo</span>
-                  <span *ngIf="onShowSave">Modificar</span>
+                  <span *ngIf="!showSave">{{ "share.simplePanel.addNew" | translate }}</span>
+                  <span *ngIf="showSave">{{ "share.simplePanel.modify" | translate }}</span>
                </p>
 
-               <button *ngIf="!onShowSave" class="link confirm" 
+               <button *ngIf="!showSave" class="link confirm" 
                   type="button" 
-                  [disabled]="!primaryForm.valid"
                   (click)="onSave()">
                   {{ "share.simplePanel.add" | translate }}</button>
-               <button *ngIf="onShowSave" class="link confirm" 
+               <button *ngIf="showSave" class="link confirm" 
                   type="button" 
                   [disabled]="!primaryForm.valid"
                   (click)="onSave()">

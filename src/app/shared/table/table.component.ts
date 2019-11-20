@@ -54,6 +54,7 @@ export class TableComponent implements OnInit {
   onSortRows(column: TableHeaderModel) {
     if (column instanceof TableHeaderModel) {
       const current: string = this.currentSorting[column.key];
+      this.currentSorting = {}; //Warning! remove the last sort
       //Switch between states   
       if (!current) {
         this.currentSorting[column.key] = TableSortEnum.ASC;

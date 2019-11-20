@@ -12,8 +12,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ApiHalPagerModel } from '../../api/api-hal-pager.model';
 import { FormGroup } from '@angular/forms';
 import { DataBaseModelInterface } from '../../api/data-base-model.interface';
-import { TableHeaderModel } from '../../table/table-header.model';
-import { TableSortEnum } from '../../table/table-sort.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UiEventsService } from '../../ui-events.service';
@@ -46,7 +44,7 @@ export class SimplePanelComponent implements OnInit {
   showForm: boolean = false;
   showSave: boolean = false;
 
-  placeHolderText: string = "Esta sección aún está vacía";
+  placeHolderText: string;
 
   domainCode: string;
   isEmpty: boolean = false;
@@ -63,19 +61,20 @@ export class SimplePanelComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.translateService.get('placeholder.empty').subscribe(response => {
+      this.placeHolderText = response;
+    });
     if (this.tableModel instanceof TableModel) {
       this.domainCode = this.authService.getCode();
       this.onGetRows();
     }
-
-
   }
 
   onChangePage(page) {
+    this.loaderService.start();
     //Save the new page number 
     this.apiHalPagerModel.currentPage = page;
     this.tableModel.removeBody();
-    this.loaderService.start();
     this.onGetRows();
   }
 
@@ -84,44 +83,56 @@ export class SimplePanelComponent implements OnInit {
     //set the query paramaters 
     let params: any = {};
     if (this.simplePanelOptions instanceof SimplePanelOptions) {
-      this.tableModel.removeBody();
-      if (this.currentKeySorting) {
-        params = {
-          page: this.apiHalPagerModel.currentPage,
-          ["sort[" + this.currentKeySorting + "]"]: this.currentSorting[this.currentKeySorting]
-        };
-      } else {
-        params = {
-          page: this.apiHalPagerModel.currentPage
-        };
-      };
-
-      this.apiService.fetchData(this.domainCode + this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
-
-        if (response.hasCollectionResponse()) {
-          this.apiHalPagerModel = response.pager;
-          response.data.forEach((response: any) => {
-
-            // Send each row to the corresponding model
-            let row: TableRowModel = this.onParseRow(response);
-            this.tableModel.addRow(row);
-          });
-          //BasicSort by name
-          //  this.tableModel.basicSort();
-        }
+      if (this.apiHalPagerModel.totalPages == 1) { //If is one page -> basicSort
+        this.tableModel.basicSort(this.currentKeySorting, this.currentSorting[this.currentKeySorting]);
         if (this.tableModel.body.length == 0) {
           this.isEmpty = true;
         }
         this.loaderService.done();
+      } else {
+        this.tableModel.removeBody();
+        if (this.currentKeySorting) {
+          params = {
+            page: this.apiHalPagerModel.currentPage,
+            ["sort[" + this.currentKeySorting + "]"]: this.currentSorting[this.currentKeySorting]
+          };
+        } else {
+          params = {
+            page: this.apiHalPagerModel.currentPage
+          };
+        };
 
-      })
+        this.apiService.fetchData(this.domainCode + this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
+
+          if (response.hasCollectionResponse()) {
+            this.apiHalPagerModel = response.pager;
+            response.data.forEach((response: any) => {
+
+              // Send each row to the corresponding model
+              let row: TableRowModel = this.onParseRow(response);
+              this.tableModel.addRow(row);
+            });
+
+          }
+          if (this.tableModel.body.length == 0) {
+            this.isEmpty = true;
+          }
+          this.loaderService.done();
+
+        })
+      }
     }
-
   }
 
   onSave() {
     //if null -> is a new row
     if (this.primaryForm.value.id == null) {
+      if (!this.primaryForm.valid) { //If input is empty show the input holder
+        Object.keys(this.primaryForm.controls).forEach(field => {
+          const control = this.primaryForm.get(field);
+          control.markAsTouched();
+        });
+      }
       this.onAdd(this.primaryForm.value);
       //else is modified row
     } else {
@@ -163,12 +174,13 @@ export class SimplePanelComponent implements OnInit {
       rowToAdd = this.onGetDataBaseModel(model);
     }
     if (rowToAdd) {
+      this.showForm = false;
+
       let json: any = rowToAdd.toJSON();
       this.apiService.createObj(this.domainCode + this.simplePanelOptions.URI, json).subscribe((response: ApiResponseModel) => {
         if (response.hasSingleResponse()) {
           let row: TableRowModel = this.onParseRow(response.data);
           this.tableModel.addRow(row);
-          this.showForm = false;
         }
         this.loaderService.done();
       },
@@ -191,7 +203,6 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onUpdateRow(model: any) {
-    this.loaderService.start();
     let rowToAdd: DataBaseModelInterface;
     //Parse inputs value to model to update
     if (model) {
@@ -201,18 +212,21 @@ export class SimplePanelComponent implements OnInit {
       let json: any = rowToAdd.toJSON();
       //save the model
       this.apiService.updateObj(this.domainCode + this.simplePanelOptions.URI, json).subscribe((response: any) => {
+        this.loaderService.start();
         if (response.hasSingleResponse()) {
           let newRow: TableRowModel = this.onParseRow(response.data);
           let row: TableRowModel = this.tableModel.findRow(model.id);
           if (row instanceof TableRowModel) {
+            this.showForm = false;
+
             //update the data and model 
             row.data = newRow.data;
             row.model = newRow.model;
             this.tableModel.updateRow(row);
-            this.showForm = false;
+            this.loaderService.done();
+
           }
         }
-        this.loaderService.done();
       },
         (error: HttpErrorResponse) => {
           this.dialogService.open(new DialogModel(error.error.detail));
@@ -220,7 +234,7 @@ export class SimplePanelComponent implements OnInit {
         })
     }
     this.primaryForm.reset();
-    this.loaderService.done();
+    // this.loaderService.done();
   }
 
   onDelete(row: TableRowModel) {
@@ -231,14 +245,17 @@ export class SimplePanelComponent implements OnInit {
       this.translateService.get('share.dialog.message').subscribe(response => {
         message = response;
       });
-      this.loaderService.start();
       //row.data[1] is the name 
       this.dialogService.open(new DialogModel(message + row.data[1] + "?", () => {
+        this.loaderService.start();
         //Delete the usergroup
         this.apiService.deleteObj(this.domainCode + this.simplePanelOptions.URI, row.id).subscribe((response: any) => {
           this.tableModel.removeRow(row.id);
-          this.loaderService.done();
           this.showForm = false;
+
+          if (!this.showForm) {
+            this.loaderService.done();
+          }
 
         },
           (error: HttpErrorResponse) => {
@@ -246,7 +263,9 @@ export class SimplePanelComponent implements OnInit {
             this.loaderService.done();
           }
         )
+
       }));
+
     }
   }
 

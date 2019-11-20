@@ -1,5 +1,6 @@
 import { TableHeaderModel } from './table-header.model';
 import { TableRowModel } from './table-row.model';
+import { TableSortEnum } from './table-sort.enum';
 
 export class TableModel {
 	constructor(
@@ -42,22 +43,30 @@ export class TableModel {
 		this.body[index] = row;
 	}
 
-	public basicSort() { //Sorting without api request
-		for (let row in this.body) {
-		  for (let rowToComprare in this.body) {
-			let compare = this.compare(this.body[row].data[1], this.body[rowToComprare].data[1], true);
-			if (compare == -1) {
-			  let temp = this.body[row];
-			  this.body[row] = this.body[rowToComprare];
-			  this.body[rowToComprare] = temp;
-			}
-		  }
+	public basicSort(key: string, sorting: string) { //Sorting without api request
+		let isAsc: boolean;
+		if (sorting == TableSortEnum.ASC) {
+			isAsc = true;
+		} else {
+			isAsc = false;
 		}
-	  }
+		for (let row in this.body) {
+			for (let rowToComprare in this.body) {
+				let compare = this.compare(this.body[row].model[key], this.body[rowToComprare].model[key], isAsc);
+				if (compare == -1) {
+					let temp = this.body[row];
+					this.body[row] = this.body[rowToComprare];
+					this.body[rowToComprare] = temp;
+				}
+			}
+		}
+	}
 
-	compare(a: string, b: string, isAsc: boolean) {
-		a = a.toUpperCase();
-		b = b.toUpperCase();
+	compare(a: any, b: any, isAsc: boolean) {
+		if (typeof a === 'string' && typeof b === 'string') {
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+		}
 		return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-	  }
+	}
 }
