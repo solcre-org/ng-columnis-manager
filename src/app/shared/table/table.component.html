@@ -4,10 +4,11 @@
             <ng-content select=".add-button"></ng-content>
             <thead class="head">
                 <tr class="row">
-                    <th class="cell sortable"
+                    <th class="cell sortable last-hide-edit"
                         (click)="onSortRows(th)"
                         [class.asc]="currentSorting[th.key] === 'ASC'"
-						[class.desc]="currentSorting[th.key] === 'DESC'"
+                        [class.desc]="currentSorting[th.key] === 'DESC'"
+                        [class.loading]="th.loading"
                         *ngFor="let th of tableModel.header">
                         <div class="content" [title]="th.display | translate">{{ th.display | translate }}</div>
 						<div *ngIf="th.sortable" class="sort-items">
@@ -21,8 +22,10 @@
             <tbody class="body">
                 <tr class="row" *ngFor="let tr of tableModel.body | filter:filteredStatus:'data'">
                     <td class="cell" *ngFor="let td of tr.data">
+                        <!-- <div class="loader"><span class="spinner"></span></div> -->
                         {{ td }}
                     </td>
+                
                     <td class="cell actions-holder">
 						<a 
                             *ngFor="let action of tr.extraActions"

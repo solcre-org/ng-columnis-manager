@@ -3,6 +3,7 @@ export class TableHeaderModel {
         public display: string,
         public key: string,
         public sortable?: boolean,
+        public loading?: boolean
     ) { }
 
 }

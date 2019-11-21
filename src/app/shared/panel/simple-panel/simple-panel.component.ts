@@ -15,6 +15,7 @@ import { DataBaseModelInterface } from '../../api/data-base-model.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UiEventsService } from '../../ui-events.service';
+import { TableHeaderModel } from '../../table/table-header.model';
 
 @Component({
   selector: 'app-simple-panel',
@@ -43,11 +44,13 @@ export class SimplePanelComponent implements OnInit {
 
   showForm: boolean = false;
   showSave: boolean = false;
+  globalLoading: boolean = true;
 
   placeHolderText: string;
 
   domainCode: string;
   isEmpty: boolean = false;
+  column: TableHeaderModel;
 
   constructor(
     private simplePanelService: SimplePanelService,
@@ -71,6 +74,7 @@ export class SimplePanelComponent implements OnInit {
   }
 
   onChangePage(page) {
+    this.globalLoading = true;
     this.loaderService.start();
     //Save the new page number 
     this.apiHalPagerModel.currentPage = page;
@@ -117,8 +121,11 @@ export class SimplePanelComponent implements OnInit {
           if (this.tableModel.body.length == 0) {
             this.isEmpty = true;
           }
+          this.globalLoading = false;
+          if (this.column) {
+            this.column.loading = false;
+          }
           this.loaderService.done();
-
         })
       }
     }
@@ -273,11 +280,13 @@ export class SimplePanelComponent implements OnInit {
     this.onExtraAction.emit(data);
   }
 
-  onSort(event: { key: string, value: string }): void {
-    this.loaderService.start();
-    this.currentKeySorting = event.key;
-    this.currentSorting[event.key] = event.value;
+  onSort(event: { column: TableHeaderModel, value: string }): void {
+    // this.loaderService.start();
+    this.currentKeySorting = event.column.key;
+    this.currentSorting[event.column.key] = event.value;
+    this.column = event.column;
     this.onGetRows();
+
   }
 
 }

@@ -1,6 +1,10 @@
 <div class="edit-available edit-view">
    <div class="panel-content hideOnInternalModal">
-      <div class="wrapper">
+      		<!-- SHOW WHEN LOADING-->
+		<div class="wrapper section">
+            <app-loader></app-loader>
+      </div>
+      <div *ngIf="!globalLoading" class="wrapper">
          <div class="section">
             <p class="subtitle display-inline-block margin-r-4">
                {{ tableModel.title | translate}}
@@ -100,4 +104,3 @@
    </app-modal>
    <app-dialog></app-dialog>
 </div>
-<app-loader></app-loader>

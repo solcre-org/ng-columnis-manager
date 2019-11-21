@@ -31,6 +31,7 @@ export class TableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.currentSorting = {};
 
   }
 
@@ -67,8 +68,9 @@ export class TableComponent implements OnInit {
         this.currentKeySorting = null;
       }
       column.sortable = true;
+      column.loading = true;
       this.onSort.emit({
-        key: this.currentKeySorting,
+        column: column,
         value: this.currentSorting[this.currentKeySorting]
       });
     }
