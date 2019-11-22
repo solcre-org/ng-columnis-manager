@@ -52,6 +52,13 @@ export class SimplePanelComponent implements OnInit {
   isEmpty: boolean = false;
   column: TableHeaderModel;
 
+  //Loaders 
+  pagerLoading: boolean;
+  primaryFormLoading: boolean;
+  dialogLoading: boolean;
+
+  dialogActive: boolean;
+
   constructor(
     private simplePanelService: SimplePanelService,
     private apiService: ApiService,
@@ -75,6 +82,7 @@ export class SimplePanelComponent implements OnInit {
 
   onChangePage(page) {
     this.globalLoading = true;
+    this.pagerLoading = true;
     this.loaderService.start();
     //Save the new page number 
     this.apiHalPagerModel.currentPage = page;
@@ -107,7 +115,7 @@ export class SimplePanelComponent implements OnInit {
         };
 
         this.apiService.fetchData(this.domainCode + this.simplePanelOptions.URI, params).subscribe((response: ApiResponseModel) => {
-
+          this.pagerLoading = false;
           if (response.hasCollectionResponse()) {
             this.apiHalPagerModel = response.pager;
             response.data.forEach((response: any) => {
@@ -139,11 +147,22 @@ export class SimplePanelComponent implements OnInit {
           const control = this.primaryForm.get(field);
           control.markAsTouched();
         });
+      } else {
+        this.primaryFormLoading = true;
+        this.onAdd(this.primaryForm.value);
+
       }
-      this.onAdd(this.primaryForm.value);
       //else is modified row
     } else {
-      this.onUpdateRow(this.primaryForm.value);
+      if (!this.primaryForm.valid) {
+        Object.keys(this.primaryForm.controls).forEach(field => {
+          const control = this.primaryForm.get(field);
+          control.markAsTouched();
+        });
+      } else {
+        this.primaryFormLoading = true;
+        this.onUpdateRow(this.primaryForm.value);
+      }
     }
   }
 
@@ -166,6 +185,8 @@ export class SimplePanelComponent implements OnInit {
         this.primaryForm.reset();
         this.showForm = false;
         this.showSave = false;
+        this.dialogActive = false;
+        this.dialogLoading = false;
       }));
     } else {
       this.primaryForm.reset();
@@ -181,10 +202,10 @@ export class SimplePanelComponent implements OnInit {
       rowToAdd = this.onGetDataBaseModel(model);
     }
     if (rowToAdd) {
-      this.showForm = false;
-
       let json: any = rowToAdd.toJSON();
       this.apiService.createObj(this.domainCode + this.simplePanelOptions.URI, json).subscribe((response: ApiResponseModel) => {
+        this.primaryFormLoading = false;
+        this.showForm = false;
         if (response.hasSingleResponse()) {
           let row: TableRowModel = this.onParseRow(response.data);
           this.tableModel.addRow(row);
@@ -220,6 +241,7 @@ export class SimplePanelComponent implements OnInit {
       //save the model
       this.apiService.updateObj(this.domainCode + this.simplePanelOptions.URI, json).subscribe((response: any) => {
         this.loaderService.start();
+        this.primaryFormLoading = false;
         if (response.hasSingleResponse()) {
           let newRow: TableRowModel = this.onParseRow(response.data);
           let row: TableRowModel = this.tableModel.findRow(model.id);
@@ -259,6 +281,8 @@ export class SimplePanelComponent implements OnInit {
         this.apiService.deleteObj(this.domainCode + this.simplePanelOptions.URI, row.id).subscribe((response: any) => {
           this.tableModel.removeRow(row.id);
           this.showForm = false;
+          this.dialogLoading = false;
+          this.dialogActive = false;
 
           if (!this.showForm) {
             this.loaderService.done();
@@ -266,6 +290,8 @@ export class SimplePanelComponent implements OnInit {
 
         },
           (error: HttpErrorResponse) => {
+            this.dialogLoading = false;
+            this.dialogActive = false;
             this.dialogService.open(new DialogModel(error.error.detail));
             this.loaderService.done();
           }

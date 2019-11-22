@@ -1,4 +1,4 @@
-import { OnInit, Component } from '@angular/core';
+import { OnInit, Component, Input } from '@angular/core';
 import { DialogModel } from './dialog.model';
 import { DialogService } from './dialog.service';
 
@@ -11,8 +11,9 @@ import { DialogService } from './dialog.service';
 export class DialogComponent implements OnInit {
 	//Models
 	model: DialogModel;
-	isActive: boolean;
 	isCancel: boolean;
+	@Input() isActive: boolean;
+	@Input() loading: boolean;
 	//Inject services
 	constructor(
 		private dialogService: DialogService
@@ -36,8 +37,11 @@ export class DialogComponent implements OnInit {
 	//Custom events
 	onConfirm(){
 		//Close
-		this.isActive = false;
-
+		if (this.model.confirmCallback) {
+			this.loading = true;
+		} else {
+			this.isActive = false;
+		}
 		if(this.model instanceof DialogModel){
 			this.model.doConfirm();
 		}

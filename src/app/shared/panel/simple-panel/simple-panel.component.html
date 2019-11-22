@@ -40,6 +40,7 @@
 					<div class="wrapper align-m">
 						<div class="align">
                      <app-pager
+                        [(loading)]="pagerLoading"
                         *ngIf="apiHalPagerModel.totalItems"
                         [pager]="apiHalPagerModel" 
                         (onChange)="onChangePage($event)">
@@ -80,13 +81,14 @@
                   <span *ngIf="showSave">{{ "share.simplePanel.modify" | translate }}</span>
                </p>
 
-               <button *ngIf="!showSave" class="link confirm" 
+               <button *ngIf="!showSave" class="link confirm"
+                  [class.loading]="primaryFormLoading" 
                   type="button" 
                   (click)="onSave()">
                   {{ "share.simplePanel.add" | translate }}</button>
-               <button *ngIf="showSave" class="link confirm" 
+               <button *ngIf="showSave" class="link confirm"
+                  [class.loading]="primaryFormLoading" 
                   type="button" 
-                  [disabled]="!primaryForm.valid"
                   (click)="onSave()">
                   {{ "share.simplePanel.save" | translate }}</button>
             </div> <!-- align -->
@@ -102,5 +104,8 @@
       <div class="overlay" (click)="onHideForm()"></div>
 
    </app-modal>
-   <app-dialog></app-dialog>
+   <app-dialog
+      [(loading)]="dialogLoading"
+      [(isActive)]="dialogActive">
+   </app-dialog>
 </div>

@@ -10,10 +10,11 @@ import { ApiHalPagerModel } from '../api-hal-pager.model';
 export class PagerComponent implements OnInit {
 	//Inputs
 	@Input() pager: ApiHalPagerModel;
+	@Input() loading: boolean;
 
 	//Outputs
 	@Output() onChange: EventEmitter<number> = new EventEmitter<number>();
-
+	
 	//Properties
 	first: number;
 	last: number;
