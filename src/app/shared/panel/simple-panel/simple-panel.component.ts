@@ -210,11 +210,13 @@ export class SimplePanelComponent implements OnInit {
           let row: TableRowModel = this.onParseRow(response.data);
           this.tableModel.addRow(row);
         }
+        this.uiEvents.internalModalStateChange.emit(false);
         this.loaderService.done();
       },
         (error: HttpErrorResponse) => {
           this.dialogService.open(new DialogModel(error.error.detail));
           this.loaderService.done();
+          this.primaryFormLoading = false;
         });
     }
     this.primaryForm.reset();
@@ -274,31 +276,24 @@ export class SimplePanelComponent implements OnInit {
       this.translateService.get('share.dialog.message').subscribe(response => {
         message = response;
       });
+
+      let dialog = 
       //row.data[1] is the name 
       this.dialogService.open(new DialogModel(message + row.data[1] + "?", () => {
-        this.loaderService.start();
+        // this.loaderService.start();
         //Delete the usergroup
         this.apiService.deleteObj(this.domainCode + this.simplePanelOptions.URI, row.id).subscribe((response: any) => {
-          this.tableModel.removeRow(row.id);
-          this.showForm = false;
-          this.dialogLoading = false;
-          this.dialogActive = false;
-
-          if (!this.showForm) {
-            this.loaderService.done();
-          }
-
+            this.tableModel.removeRow(row.id);
+            this.dialogService.close();
+            this.loaderService.done();   
         },
           (error: HttpErrorResponse) => {
-            this.dialogLoading = false;
-            this.dialogActive = false;
-            this.dialogService.open(new DialogModel(error.error.detail));
+            this.dialogService.close(); //close the old dialog
+            this.dialogService.open(new DialogModel(error.error.detail)); //open the error dialog
             this.loaderService.done();
           }
         )
-
       }));
-
     }
   }
 

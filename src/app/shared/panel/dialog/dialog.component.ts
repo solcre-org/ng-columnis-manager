@@ -44,6 +44,10 @@ export class DialogComponent implements OnInit {
 		}
 		if(this.model instanceof DialogModel){
 			this.model.doConfirm();
+			this.dialogService.onClose.subscribe(() => {
+				this.isActive = false;
+				this.loading = false;
+			})
 		}
 	}
 
