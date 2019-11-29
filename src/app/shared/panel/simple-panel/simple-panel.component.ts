@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { TableModel } from '../../table/table.model';
 import { TableRowModel } from '../../table/table-row.model';
-import { SimplePanelService } from './simple-panel.service';
 import { SimplePanelOptions } from './simple-panel-options.model';
 import { ApiResponseModel } from '../../api/api-response.model';
 import { ApiService } from '../../api/api.service';
@@ -60,7 +59,6 @@ export class SimplePanelComponent implements OnInit {
   dialogActive: boolean;
 
   constructor(
-    private simplePanelService: SimplePanelService,
     private apiService: ApiService,
     private dialogService: DialogService,
     private loaderService: LoaderService,

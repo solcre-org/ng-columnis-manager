@@ -8,7 +8,6 @@ import { DialogComponent } from './panel/dialog/dialog.component';
 import { DialogService } from './panel/dialog/dialog.service';
 import { LoaderComponent } from './loader/loader.component';
 import { LoaderService } from './loader/loader.service';
-import { SimplePanelService } from './panel/simple-panel/simple-panel.service';
 import { ModalComponent } from './panel/modal/modal.component';
 import { InputHolderComponent } from './input-holder/input-holder.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -48,8 +47,7 @@ import { PlaceholderComponent } from './panel/placeholder/placeholder.component'
     providers: [
         ApiService,
         DialogService,
-        LoaderService,
-        SimplePanelService,
+        LoaderService
     ]
 
 })

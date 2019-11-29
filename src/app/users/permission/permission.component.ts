@@ -6,14 +6,13 @@ import { TableHeaderModel } from 'src/app/shared/table/table-header.model';
 import { TableModel } from 'src/app/shared/table/table.model';
 import { TableRowModel } from 'src/app/shared/table/table-row.model';
 import { SimplePanelOptions } from 'src/app/shared/panel/simple-panel/simple-panel-options.model';
-import { SimplePanelService } from 'src/app/shared/panel/simple-panel/simple-panel.service';
 import { TableRowActionModel } from 'src/app/shared/table/table-row-action.model';
 
 @Component({
   selector: 'app-permission',
   templateUrl: './permission.component.html',
   styleUrls: ['./permission.component.css'],
-  providers: [SimplePanelService]
+  providers: []
 })
 export class PermissionComponent implements OnInit {
 

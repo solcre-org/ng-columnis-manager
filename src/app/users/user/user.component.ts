@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SimplePanelService } from 'src/app/shared/panel/simple-panel/simple-panel.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TableModel } from 'src/app/shared/table/table.model';
 import { SimplePanelOptions } from 'src/app/shared/panel/simple-panel/simple-panel-options.model';
@@ -12,7 +11,7 @@ import { User } from './user.model';
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
-  providers: [SimplePanelService]
+  providers: []
 })
 export class UserComponent implements OnInit {
 

@@ -1,12 +1,12 @@
-import { ApiService } from '../../api/api.service';
-import { TableModel } from '../../table/table.model';
+// import { ApiService } from '../../api/api.service';
+// import { TableModel } from '../../table/table.model';
 
-export class SimplePanelService {
+// export class SimplePanelService {
 
-    tableModel: TableModel;
+//     tableModel: TableModel;
 
-    constructor(
-        private apiService: ApiService
-    ) { }
+//     constructor(
+//         private apiService: ApiService
+//     ) { }
 
-}
+// }

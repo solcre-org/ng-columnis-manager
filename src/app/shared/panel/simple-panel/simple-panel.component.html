@@ -11,13 +11,12 @@
             </p>
                   <!-- ADD ITEM -->
                <a class="bold-link" 
-                     (click)="onShowAdd($event)"
+                     (click)="onShowAdd()"
                      >{{ "share.simplePanel.add"  | translate}}</a>
                   
                <app-table 
                *ngIf="tableModel" 
                [tableModel]="tableModel"
-               (onAddRow)="onAddRow($event)" 
                (onDelete)="onDelete($event)"
                (onUpdate)="onUpdate($event)"
                (onSort)="onSort($event)"
@@ -28,7 +27,7 @@
 				<app-placeholder 
                [text]="placeHolderText"
                [large]="true"
-               (onAdd)="onShowAdd($event)"
+               (onAdd)="onShowAdd()"
                *ngIf="isEmpty">
             </app-placeholder>
          </div>

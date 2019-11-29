@@ -6,13 +6,12 @@ import { TableModel } from 'src/app/shared/table/table.model';
 import { TableHeaderModel } from 'src/app/shared/table/table-header.model';
 import { TableRowModel } from 'src/app/shared/table/table-row.model';
 import { SimplePanelOptions } from 'src/app/shared/panel/simple-panel/simple-panel-options.model';
-import { SimplePanelService } from 'src/app/shared/panel/simple-panel/simple-panel.service';
 
 @Component({
   selector: 'app-user-group',
   templateUrl: './user-group.component.html',
   styleUrls: ['./user-group.component.css'],
-  providers: [SimplePanelService]
+  providers: []
 })
 export class UserGroupComponent implements OnInit {
 
