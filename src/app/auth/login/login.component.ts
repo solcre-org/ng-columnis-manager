@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.authService.login(this.signinForm.value.email, this.signinForm.value.password);
+    this.authService.me();
   }
 
   onBlur() {

@@ -1,5 +1,5 @@
 import { LocalStorageService } from 'angular-2-local-storage';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { LoaderService } from '../shared/loader/loader.service';
@@ -107,6 +107,21 @@ export class AuthService {
 
     public getCode(): string {
         return this.localStorageService.get('code');
+    }
+
+    public me() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+              'Authorization': 'Bearer ' + this.localStorageService.get('access_token')
+            })
+          };
+        this.httpClient.get(environment.apiURL + this.codeDomain + '/me', httpOptions).subscribe(
+            (response: any) => {
+                console.log(response);
+            },
+            (error: HttpErrorResponse) => {
+            
+            })
     }
 
     private parseAccessToken(obj: any): AccessTokenModel {
